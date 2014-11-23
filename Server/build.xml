@@ -1,0 +1,47 @@
+<project name="TDSServer" default="create">
+
+	<target name="build" depends="movefelix">
+		<ant antfile="../IWebService/build.xml" dir="../IWebService"/>
+		<ant antfile="../IOBDService/build.xml" dir="../IOBDService"/>
+		<ant antfile="../ICameraService/build.xml" dir="../ICameraService"/>
+		
+		<ant antfile="../TestService/build.xml" dir="../TestService"/>
+		
+		<ant antfile="../WebService/build.xml" dir="../WebService"/>
+		<ant antfile="../CameraService/build.xml" dir="../CameraService"/>
+		<ant antfile="../GUIBundle/build.xml" dir="../GUIBundle"/>
+		
+	</target>
+
+	<target name="clean">
+		<delete dir="server"/>
+		<mkdir dir="server"/>
+	</target>
+
+	<target name="movefelix" depends="clean">
+		<copy todir="server">
+			<fileset dir="felix"/>
+		</copy>
+	</target>
+
+	<target name="create" depends="build">
+		<copy todir="server/bundle" >
+
+			<fileset dir="../ICameraService/target"/>
+			<fileset dir="../IEventDetectorService/target"/>
+			<fileset dir="../IGPSService/target"/>
+			<fileset dir="../IImageProcessingService/target"/>
+			<fileset dir="../IInertialMeasurementService/target"/>
+			<fileset dir="../IWebService/target"/>
+			<fileset dir="../IOBDService/target"/>
+			
+			
+			<fileset dir="../WebService/target"/>
+			<fileset dir="../CameraService/target"/>
+			<fileset dir="../GUIBundle/target"/>
+			
+			<fileset dir="../TestService/target"/>
+		</copy>
+	</target>
+
+</project>

@@ -1,0 +1,26 @@
+<project name="ICameraService" default="build">
+
+	<path id="classpath">
+		<fileset dir="."/>
+		<fileset file="../Server/felix/bin/felix.jar" />
+	</path>
+	
+	<target name="build" depends="clean">
+		<javac srcdir="src"
+         	destdir="bin"
+			classpathref="classpath"
+         	debug="on"
+			includeantruntime="false"
+		/>
+		<jar destfile="target/${ant.project.name}.jar" basedir="bin" manifest="META-INF/MANIFEST.MF" />
+	</target>
+
+	<target name="clean">
+		<delete dir="target"/>
+		<mkdir dir="target"/>
+		
+		<delete dir="bin"/>
+		<mkdir dir="bin"/>
+	</target>
+
+</project>

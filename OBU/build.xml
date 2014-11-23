@@ -1,0 +1,45 @@
+<project default="create">
+
+	<target name="build" depends="movefelix">
+		<!--<ant antfile="../TestService/build.xml" dir="../TestService"/>-->
+		
+		<ant antfile="../IOBDService/build.xml" dir="../IOBDService"/>
+		<ant antfile="../OBDService/build.xml" dir="../OBDService"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="obu"/>
+		<mkdir dir="obu"/>
+	</target>
+
+	<target name="movefelix" depends="clean">
+		<copy todir="obu">
+			<fileset dir="felix"/>
+		</copy>
+	</target>
+
+	<target name="create" depends="build">
+		<copy todir="obu/bundle" >
+			<fileset dir="../CameraService/target"/>
+			<fileset dir="../ICameraService/target"/>
+
+			<fileset dir="../EventDetectorService/target"/>
+			<fileset dir="../IEventDetectorService/target"/>
+
+			<fileset dir="../GPSService/target"/>
+			<fileset dir="../IGPSService/target"/>
+
+			<fileset dir="../ImageProcessingService/target"/>
+			<fileset dir="../IImageProcessingService/target"/>
+
+			<fileset dir="../InertialMeasurementService/target"/>
+			<fileset dir="../IInertialMeasurementService/target"/>
+
+			<fileset dir="../OBDService/target"/>
+			<fileset dir="../IOBDService/target"/>
+			
+			<!--<fileset dir="../TestService/target"/>-->
+		</copy>
+	</target>
+
+</project>

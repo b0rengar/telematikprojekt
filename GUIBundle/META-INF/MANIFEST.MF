@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GUIBundle
+Bundle-SymbolicName: GUIBundle
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.tds.gui.Activator
+Bundle-Vendor: TM13
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.tds.camera,
+ javax.swing,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.3.1"

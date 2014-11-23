@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ImageProcessingService
+Bundle-SymbolicName: ImageProcessingService
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.tds.imgprocImpl.Activator
+Bundle-Vendor: TM13
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.tds.imgproc,
+ org.osgi.framework;version="1.3.0"
