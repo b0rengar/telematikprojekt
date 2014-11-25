@@ -1,8 +1,10 @@
-<project name="ICameraService" default="build">
+<project name="InertialMeasurementService" default="build">
 
 	<path id="classpath">
 		<fileset dir="."/>
 		<fileset file="../Server/felix/bin/felix.jar" />
+		<fileset dir="../IInertialMeasurementService/target" includes="**/*.jar"/>
+		<fileset dir="../Server/felix/bundle" />
 	</path>
 	
 	<target name="build" depends="clean">

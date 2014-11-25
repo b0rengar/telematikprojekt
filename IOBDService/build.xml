@@ -12,7 +12,7 @@
          	debug="on"
 			includeantruntime="false"
 		/>
-		<jar destfile="target/${ant.project.name}.jar" basedir="bin" manifest="META-INF/MANIFEST.MF" />
+		<jar destfile="target/tds.${ant.project.name}.jar" basedir="bin" manifest="META-INF/MANIFEST.MF" />
 	</target>
 
 	<target name="clean">

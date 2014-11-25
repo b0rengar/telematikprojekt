@@ -1,10 +1,25 @@
 <project default="create">
 
 	<target name="build" depends="movefelix">
-		<!--<ant antfile="../TestService/build.xml" dir="../TestService"/>-->
-		
+		<ant antfile="../ICameraService/build.xml" dir="../ICameraService"/>
+		<ant antfile="../IEventDetectorService/build.xml" dir="../IEventDetectorService"/>
+		<ant antfile="../IGPSService/build.xml" dir="../IGPSService"/>
+		<ant antfile="../IImageProcessingService/build.xml" dir="../IImageProcessingService"/>
+		<ant antfile="../IInertialMeasurementService/build.xml" dir="../IInertialMeasurementService"/>
 		<ant antfile="../IOBDService/build.xml" dir="../IOBDService"/>
+		<ant antfile="../IWebService/build.xml" dir="../IWebService" />
+
+
+		<ant antfile="../CameraService/build.xml" dir="../CameraService"/>
+		<ant antfile="../EventDetectorService/build.xml" dir="../EventDetectorService"/>
+		<ant antfile="../GPSService/build.xml" dir="../GPSService"/>
+		<ant antfile="../GUIBundle/build.xml" dir="../GUIBundle"/>
+		<ant antfile="../ImageProcessingService/build.xml" dir="../ImageProcessingService"/>
+		<ant antfile="../InertialMeasurementService/build.xml" dir="../InertialMeasurementService"/>
 		<ant antfile="../OBDService/build.xml" dir="../OBDService"/>
+		<ant antfile="../WebService/build.xml" dir="../WebService"/>
+
+		<ant antfile="../TestService/build.xml" dir="../TestService"/>
 	</target>
 
 	<target name="clean">
@@ -20,25 +35,26 @@
 
 	<target name="create" depends="build">
 		<copy todir="obu/bundle" >
-			<fileset dir="../CameraService/target"/>
-			<fileset dir="../ICameraService/target"/>
-
-			<fileset dir="../EventDetectorService/target"/>
-			<fileset dir="../IEventDetectorService/target"/>
-
-			<fileset dir="../GPSService/target"/>
-			<fileset dir="../IGPSService/target"/>
-
-			<fileset dir="../ImageProcessingService/target"/>
-			<fileset dir="../IImageProcessingService/target"/>
-
-			<fileset dir="../InertialMeasurementService/target"/>
-			<fileset dir="../IInertialMeasurementService/target"/>
-
-			<fileset dir="../OBDService/target"/>
-			<fileset dir="../IOBDService/target"/>
 			
+			<fileset dir="../ICameraService/target"/>
+			<fileset dir="../IEventDetectorService/target"/>
+			<fileset dir="../IGPSService/target"/>
+			<fileset dir="../IImageProcessingService/target"/>
+			<fileset dir="../IInertialMeasurementService/target"/>
+			<fileset dir="../IOBDService/target"/>
+			<fileset dir="../IWebService/target"/>
+			
+			
+			<fileset dir="../CameraService/target"/>
+			<fileset dir="../EventDetectorService/target"/>
+			<fileset dir="../GPSService/target"/>
+			<fileset dir="../ImageProcessingService/target"/>
+			<fileset dir="../InertialMeasurementService/target"/>
+			<fileset dir="../OBDService/target"/>
+			<!--<fileset dir="../WebService/target"/>-->
+			<!--<fileset dir="../GUIBundle/target"/>-->
 			<!--<fileset dir="../TestService/target"/>-->
+
 		</copy>
 	</target>
 

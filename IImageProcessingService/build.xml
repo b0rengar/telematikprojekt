@@ -1,4 +1,4 @@
-<project name="ICameraService" default="build">
+<project name="IImageProcessingService" default="build">
 
 	<path id="classpath">
 		<fileset dir="."/>

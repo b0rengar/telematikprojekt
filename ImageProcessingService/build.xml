@@ -1,8 +1,10 @@
-<project name="ICameraService" default="build">
+<project name="ImageProcessingService" default="build">
 
 	<path id="classpath">
 		<fileset dir="."/>
 		<fileset file="../Server/felix/bin/felix.jar" />
+		<fileset dir="../IImageProcessingService/target" includes="**/*.jar"/>
+		<fileset dir="../Server/felix/bundle" />
 	</path>
 	
 	<target name="build" depends="clean">
