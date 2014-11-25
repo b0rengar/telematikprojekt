@@ -10,8 +10,8 @@
 
 #project specific ignore
 tds.*.jar
-/OBU/obu/**
-/Server/server/**
+OBU/obu/
+Server/server/
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
