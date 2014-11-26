@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ICamera
+Bundle-Name: ICameraService
 Bundle-SymbolicName: ICameraService
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: TM13
