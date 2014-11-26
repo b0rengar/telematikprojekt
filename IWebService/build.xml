@@ -1,7 +1,6 @@
 <project name="IWebService" default="build">
 
 	<path id="classpath">
-	    <fileset dir="libs" includes="**/*.jar"/>
 		<fileset file="../Server/felix/bin/felix.jar" />
 	</path>
 	
