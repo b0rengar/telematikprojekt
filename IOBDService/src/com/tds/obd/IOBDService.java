@@ -4,7 +4,8 @@ package com.tds.obd;
  * 
  * <b>IOBDService <br />
  * com.tds.obd <br />
- * IOBDService <br /></b>
+ * IOBDService <br />
+ * </b>
  *
  * Description.
  *
@@ -14,5 +15,5 @@ package com.tds.obd;
  */
 public interface IOBDService {
 
-	public double getSpeed();
+    public double getSpeed();
 }

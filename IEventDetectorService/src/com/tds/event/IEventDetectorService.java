@@ -6,7 +6,8 @@ package com.tds.event;
 /**
  * <b>IEventDetectorService <br />
  * com.tds.event <br />
- * IEventDetectorService <br /></b>
+ * IEventDetectorService <br />
+ * </b>
  *
  * Description.
  *

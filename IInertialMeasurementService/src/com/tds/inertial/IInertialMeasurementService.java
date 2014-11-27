@@ -6,7 +6,8 @@ package com.tds.inertial;
 /**
  * <b>IInertialMeasurementService <br />
  * com.tds.inertial <br />
- * IInertialMeasurementService <br /></b>
+ * IInertialMeasurementService <br />
+ * </b>
  *
  * Description.
  *

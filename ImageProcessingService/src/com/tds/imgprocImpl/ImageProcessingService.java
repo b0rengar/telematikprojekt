@@ -8,7 +8,8 @@ import com.tds.imgproc.IImageProcessingService;
 /**
  * <b>ImageProcessingService <br />
  * com.tds.imgproc <br />
- * ImageProcessingService <br /></b>
+ * ImageProcessingService <br />
+ * </b>
  *
  * Description.
  *

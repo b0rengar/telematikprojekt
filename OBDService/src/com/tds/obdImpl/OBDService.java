@@ -8,7 +8,8 @@ import com.tds.obd.IOBDService;
 /**
  * <b>OBDService <br />
  * com.tds.obd <br />
- * OBDService <br /></b>
+ * OBDService <br />
+ * </b>
  *
  * Description.
  *
@@ -18,14 +19,14 @@ import com.tds.obd.IOBDService;
  */
 public class OBDService implements IOBDService {
 
-	@Override
-	public double getSpeed() {
-		// TODO Auto-generated method stub
-		double speed = Math.random()*180;
-		
-		System.out.println("Service called: Speed = " + speed);
-		
-		return speed;
-	}
+    @Override
+    public double getSpeed() {
+        // TODO Auto-generated method stub
+        double speed = Math.random() * 180;
+
+        System.out.println("Service called: Speed = " + speed);
+
+        return speed;
+    }
 
 }

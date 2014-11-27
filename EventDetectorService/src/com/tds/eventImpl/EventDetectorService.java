@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tds.eventImpl;
 
@@ -8,7 +8,8 @@ import com.tds.event.IEventDetectorService;
 /**
  * <b>EventDetectorService <br />
  * com.tds.event <br />
- * EventDetectorService <br /></b>
+ * EventDetectorService <br />
+ * </b>
  *
  * Description.
  *
