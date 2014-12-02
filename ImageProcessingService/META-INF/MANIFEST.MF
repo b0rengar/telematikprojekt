@@ -8,3 +8,5 @@ Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.tds.imgproc,
  org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: opencv-249.jar,
+ .

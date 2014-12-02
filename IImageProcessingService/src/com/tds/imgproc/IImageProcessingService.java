@@ -3,6 +3,8 @@
  */
 package com.tds.imgproc;
 
+import org.opencv.core.Mat;
+
 /**
  * <b>IImageProcessingService <br />
  * com.tds.imgproc <br />
@@ -17,4 +19,6 @@ package com.tds.imgproc;
  */
 public interface IImageProcessingService {
 
+	 public Mat detect(Mat inputframe);
+	
 }

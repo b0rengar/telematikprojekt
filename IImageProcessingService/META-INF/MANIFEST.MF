@@ -6,3 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: com.tds.imgproc
+Bundle-ClassPath: opencv-249.jar,
+ .
