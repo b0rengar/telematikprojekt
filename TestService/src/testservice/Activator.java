@@ -21,15 +21,25 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
+<<<<<<< HEAD
      * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
+=======
+     *
+     * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+     */
+>>>>>>> refs/remotes/origin/master
     public void start(BundleContext context) throws Exception {
         System.out.println("Hello TDS!!");
 
         Dictionary<String, String[]> topics = new Hashtable<>();
+<<<<<<< HEAD
         topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/obd2/speed", "obu/*" });
+=======
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/obd2/speed", "obu.event.*" });
+>>>>>>> refs/remotes/origin/master
         context.registerService(EventHandler.class.getName(), new EventHandler() {
 
             @Override
@@ -70,10 +80,16 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
+<<<<<<< HEAD
      * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
+=======
+     *
+     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     */
+>>>>>>> refs/remotes/origin/master
     public void stop(BundleContext context) throws Exception {
         System.out.println("Goodbye TDS!!");
     }

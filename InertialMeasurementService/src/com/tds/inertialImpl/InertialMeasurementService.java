@@ -8,7 +8,8 @@ import com.tds.inertial.IInertialMeasurementService;
 /**
  * <b>InertialMeasurementService <br />
  * com.tds.inertial <br />
- * InertialMeasurementService <br /></b>
+ * InertialMeasurementService <br />
+ * </b>
  *
  * Description.
  *

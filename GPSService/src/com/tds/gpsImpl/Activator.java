@@ -10,10 +10,11 @@ import org.osgi.framework.Constants;
 import com.tds.gps.IGPSService;
 
 /**
- * 
+ *
  * <b>GPSService <br />
  * com.tds.gps <br />
- * Activator <br /></b>
+ * Activator <br />
+ * </b>
  *
  * Description.
  *
@@ -23,35 +24,37 @@ import com.tds.gps.IGPSService;
  */
 public class Activator implements BundleActivator {
 
-	private static BundleContext context;
-	
-	private IGPSService service;
+    private static BundleContext context;
 
-	static BundleContext getContext() {
-		return context;
-	}
+    private IGPSService service;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
-		service = new GPSService();
-		
-		Dictionary<String, Object> params = new Hashtable<>();
-		params.put(Constants.SERVICE_PID, IGPSService.class.getName());
-		params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the gps navigation information.");
-		context.registerService(IGPSService.class.getName(), service, params);
-		
-	}
+    static BundleContext getContext() {
+        return context;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+     */
+    public void start(BundleContext bundleContext) throws Exception {
+        Activator.context = bundleContext;
+        service = new GPSService();
+
+        Dictionary<String, Object> params = new Hashtable<>();
+        params.put(Constants.SERVICE_PID, IGPSService.class.getName());
+        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the gps navigation information.");
+        context.registerService(IGPSService.class.getName(), service, params);
+
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     */
+    public void stop(BundleContext bundleContext) throws Exception {
+        Activator.context = null;
+    }
 
 }

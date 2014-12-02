@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tds.web.IWebService;
+
 /**
  * <b>WebService <br />
  * com.tds.web <br />
- * WebService <br /></b>
+ * WebService <br />
+ * </b>
  *
  * Description.
  *
@@ -26,17 +28,17 @@ import com.tds.web.IWebService;
  */
 public class WebService extends HttpServlet implements IWebService {
 
-	 /**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	    resp.getWriter().write("Hello TDS Servlet!\n");
-	    resp.getWriter().write(new Date().toString()); 
-	    resp.getWriter().write("\n---------------------------------");
-	    resp.getWriter().flush();
-	  }
-	
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.getWriter().write("Hello TDS Servlet!\n");
+        resp.getWriter().write(new Date().toString());
+        resp.getWriter().write("\n---------------------------------");
+        resp.getWriter().flush();
+    }
+
 }

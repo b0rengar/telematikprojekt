@@ -6,7 +6,8 @@ package com.tds.gps;
 /**
  * <b>IGPSService <br />
  * com.tds.gps <br />
- * IGPSService <br /></b>
+ * IGPSService <br />
+ * </b>
  *
  * Description.
  *

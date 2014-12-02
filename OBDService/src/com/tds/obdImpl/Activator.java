@@ -30,10 +30,9 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
-    @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
         service = new OBDService();
@@ -64,16 +63,15 @@ public class Activator implements BundleActivator {
         };
         System.out.println("start timer");
         t = new Timer();
-// t.scheduleAtFixedRate(tt, 1000, 1000);
+        t.scheduleAtFixedRate(tt, 1000, 1000);
 
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
-    @Override
     public void stop(BundleContext bundleContext) throws Exception {
         Activator.context = null;
         t.cancel();

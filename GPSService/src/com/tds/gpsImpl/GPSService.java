@@ -8,7 +8,8 @@ import com.tds.gps.IGPSService;
 /**
  * <b>GPSService <br />
  * com.tds.gps <br />
- * GPSService <br /></b>
+ * GPSService <br />
+ * </b>
  *
  * Description.
  *

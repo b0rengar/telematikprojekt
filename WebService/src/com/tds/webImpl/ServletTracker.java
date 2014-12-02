@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tds.webImpl;
 
@@ -19,7 +19,8 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 /**
  * <b>WebService <br />
  * com.tds.web <br />
- * ServletTracker <br /></b>
+ * ServletTracker <br />
+ * </b>
  *
  * Description.
  *
@@ -29,58 +30,57 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
  */
 public class ServletTracker extends ServiceTracker<HttpService, HttpService> {
 
-	
-	private Map<String, HttpServlet> map = new HashMap<>();
-	
-	
-	public void addServlet(String path, HttpServlet servlet){
-		map.put(path, servlet);
-	}
-	
-	public void removeServlet(String path){
-		map.remove(path);
-	}
-	
-	public ServletTracker(BundleContext context) {
-		super(context, HttpService.class, null);
-	}
+    private Map<String, HttpServlet> map = new HashMap<>();
 
-	/* (non-Javadoc)
-	 * @see org.osgi.util.tracker.ServiceTracker#addingService(org.osgi.framework.ServiceReference)
-	 */
-	@Override
-	public HttpService addingService(ServiceReference<HttpService> reference) {
-		System.out.println("adding Service");
-		 // HTTP service is available, register our servlet...
+    public void addServlet(String path, HttpServlet servlet) {
+        map.put(path, servlet);
+    }
+
+    public void removeServlet(String path) {
+        map.remove(path);
+    }
+
+    public ServletTracker(BundleContext context) {
+        super(context, HttpService.class, null);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.osgi.util.tracker.ServiceTracker#addingService(org.osgi.framework.ServiceReference)
+     */
+    @Override
+    public HttpService addingService(ServiceReference<HttpService> reference) {
+        System.out.println("adding Service");
+        // HTTP service is available, register our servlet...
         HttpService httpService = (HttpService) this.context.getService(reference);
         try {
-        	for(Entry<String, HttpServlet> entry : map.entrySet()){
-        		httpService.registerServlet(entry.getKey(), entry.getValue(), null, null);
-        	}
+            for (Entry<String, HttpServlet> entry : map.entrySet()) {
+                httpService.registerServlet(entry.getKey(), entry.getValue(), null, null);
+            }
         } catch (Exception exception) {
-          exception.printStackTrace();
+            exception.printStackTrace();
         }
         return httpService;
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.osgi.util.tracker.ServiceTracker#removedService(org.osgi.framework.ServiceReference, java.lang.Object)
-	 */
-	@Override
-	public void removedService(ServiceReference<HttpService> reference,
-			HttpService service) {
-		System.out.println("removed Service");
-		HttpService httpService = (HttpService) this.context.getService(reference);
-		// HTTP service is no longer available, unregister our servlet...
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.osgi.util.tracker.ServiceTracker#removedService(org.osgi.framework.ServiceReference, java.lang.Object)
+     */
+    @Override
+    public void removedService(ServiceReference<HttpService> reference, HttpService service) {
+        System.out.println("removed Service");
+        HttpService httpService = (HttpService) this.context.getService(reference);
+        // HTTP service is no longer available, unregister our servlet...
         try {
-        	for(Entry<String, HttpServlet> entry : map.entrySet()){
-        		httpService.unregister(entry.getKey());
-        	}
+            for (Entry<String, HttpServlet> entry : map.entrySet()) {
+                httpService.unregister(entry.getKey());
+            }
         } catch (IllegalArgumentException exception) {
-           // Ignore; servlet registration probably failed earlier on...
+            // Ignore; servlet registration probably failed earlier on...
         }
-	}
-
-	
+    }
 
 }

@@ -6,7 +6,8 @@ package com.tds.imgproc;
 /**
  * <b>IImageProcessingService <br />
  * com.tds.imgproc <br />
- * IImageProcessingService <br /></b>
+ * IImageProcessingService <br />
+ * </b>
  *
  * Description.
  *
