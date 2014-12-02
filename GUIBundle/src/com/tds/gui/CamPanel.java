@@ -41,7 +41,12 @@ public class CamPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         System.out.println("draw cam image");
-        g.drawImage(camSevice.getCamImage(camID, BufferedImage.TYPE_3BYTE_BGR), 0, 0, null);
+        BufferedImage img = camSevice.getRemoteCamImage(camID).getBufferedImage();
+        if (img != null) {
+            g.drawImage(img, 0, 0, null);
+        } else {
+            System.out.println("img == null");
+        }
     }
 
 }

@@ -2,19 +2,79 @@ package com.tds.cameraImpl;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 
 import com.github.sarxos.webcam.Webcam;
 import com.tds.camera.ICameraService;
+import com.tds.camera.IPicture;
+import com.tds.camera.Picture;
 
 public class CameraService implements ICameraService {
 
-    private static List<Webcam> cams;
+    private final class CameraEventTask extends TimerTask {
+        private ICameraService service;
+        private int camID;
+        private String topic;
+        private int interval;
 
-    public CameraService() {
-        cams = Webcam.getWebcams();
+        private BundleContext context;
+
+        public CameraEventTask(BundleContext context, ICameraService service, int camID, String topic, int fps) {
+            this.context = context;
+            this.service = service;
+            this.camID = camID;
+            this.topic = topic;
+            this.interval = 1000 / fps;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public void run() {
+            ServiceReference<EventAdmin> ref = (ServiceReference<EventAdmin>) context.getServiceReference(EventAdmin.class.getName());
+            if (ref != null) {
+                EventAdmin eventAdmin = context.getService(ref);
+
+                Dictionary<String, Object> properties = new Hashtable<>();
+                properties.put("camID", camID);
+                properties.put("interval", interval);
+                properties.put("image", service.getRemoteCamImage(camID));
+
+                Event event = new Event(topic, properties);
+// eventAdmin.postEvent(event);
+            }
+
+        }
     }
 
+    private List<Webcam> cams;
+
+    private HashMap<Integer, Timer> timers;
+
+    private BundleContext context;
+
+    public CameraService(BundleContext context) {
+        this.context = context;
+        timers = new HashMap<Integer, Timer>();
+
+        cams = Webcam.getWebcams();
+
+        int i = 0;
+        for (Webcam c : cams) {
+            timers.put(i++, new Timer());
+        }
+    }
+
+    @Override
     public void destroyService() {
         if (cams == null) {
             return;
@@ -24,23 +84,28 @@ public class CameraService implements ICameraService {
             if (cam.isOpen()) {
                 cam.close();
             }
+            timers.get(cam).cancel();
+            timers.get(cam).purge();
         }
     }
 
+    @Override
     public int getCameraCount() {
         return cams.size();
     }
 
+    @Override
     public String getCamName(int camID) {
-        if (camID <= 0 && camID >= getCameraCount()) {
+        if (camID < 0 && camID >= getCameraCount()) {
             return "";
         }
         return cams.get(camID).getName();
 
     }
 
-    public BufferedImage getCamImage(int camID, int imageType) {
-        if (camID <= 0 && camID >= getCameraCount()) {
+    @Override
+    public BufferedImage getLocalCamImage(int camID, int imageType) {
+        if (camID < 0 && camID >= getCameraCount()) {
             return null;
         }
 
@@ -54,6 +119,25 @@ public class CameraService implements ICameraService {
 
         return convertToType(img, imageType);
 
+    }
+
+    @Override
+    public IPicture getRemoteCamImage(int camID) {
+        if (camID < 0 && camID >= getCameraCount()) {
+            return null;
+        }
+
+        Webcam cam = cams.get(camID);
+        if (!cam.isOpen()) {
+            cam.setViewSize(new Dimension(640, 480));
+            cam.open();
+        }
+
+        BufferedImage img = cam.getImage();
+        if (img == null) {
+            return null;
+        }
+        return new Picture(img);
     }
 
     private static BufferedImage convertToType(BufferedImage sourceImage, int targetType) {
@@ -73,4 +157,16 @@ public class CameraService implements ICameraService {
         return image;
 
     }
+
+    @Override
+    public void startCameraEvents(int camID, String topic, int fps) {
+
+        TimerTask tt = new CameraEventTask(this.context, this, camID, topic, fps);
+        System.out.println("start timer");
+        Timer t = timers.get(camID);
+
+        t = new Timer();
+        t.scheduleAtFixedRate(tt, 1000, 1000);
+    }
+
 }

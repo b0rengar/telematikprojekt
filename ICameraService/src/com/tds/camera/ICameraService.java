@@ -26,5 +26,9 @@ public interface ICameraService {
 
     public String getCamName(int camID);
 
-    public BufferedImage getCamImage(int camID, int imageType);
+    public BufferedImage getLocalCamImage(int camID, int imageType);
+
+    public IPicture getRemoteCamImage(int camID);
+
+    public void startCameraEvents(int camID, String topic, int fps);
 }

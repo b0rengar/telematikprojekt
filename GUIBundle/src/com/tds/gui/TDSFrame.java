@@ -71,7 +71,7 @@ public class TDSFrame extends JFrame implements ServiceTrackerCustomizer<ICamera
                 instance.repaint();
 
             }
-        }, 500, 500);
+        }, 1000 / 20, 1000 / 20);
 
     }
 
