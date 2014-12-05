@@ -6,15 +6,12 @@ package com.tds.webImpl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.jar.Attributes;
-
 import javax.servlet.http.HttpServlet;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpService;
 import org.osgi.util.tracker.ServiceTracker;
-import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
  * <b>WebService <br />
@@ -53,7 +50,7 @@ public class ServletTracker extends ServiceTracker<HttpService, HttpService> {
     public HttpService addingService(ServiceReference<HttpService> reference) {
         System.out.println("adding Service");
         // HTTP service is available, register our servlet...
-        HttpService httpService = (HttpService) this.context.getService(reference);
+        HttpService httpService = this.context.getService(reference);
         try {
             for (Entry<String, HttpServlet> entry : map.entrySet()) {
                 httpService.registerServlet(entry.getKey(), entry.getValue(), null, null);
@@ -72,7 +69,7 @@ public class ServletTracker extends ServiceTracker<HttpService, HttpService> {
     @Override
     public void removedService(ServiceReference<HttpService> reference, HttpService service) {
         System.out.println("removed Service");
-        HttpService httpService = (HttpService) this.context.getService(reference);
+        HttpService httpService = this.context.getService(reference);
         // HTTP service is no longer available, unregister our servlet...
         try {
             for (Entry<String, HttpServlet> entry : map.entrySet()) {

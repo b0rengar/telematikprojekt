@@ -12,17 +12,17 @@ import ch.ethz.iks.r_osgi.RemoteOSGiService;
 import com.tds.camera.ICameraService;
 
 /**
- * 
+ *
  * <b>CameraService <br />
  * com.tds.camera <br />
  * Activator <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:13:36
- * 
+ *
  */
 public class Activator implements BundleActivator {
 
@@ -32,7 +32,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
@@ -53,7 +53,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override

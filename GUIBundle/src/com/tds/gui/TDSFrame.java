@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tds.gui;
 
@@ -21,12 +21,12 @@ import com.tds.camera.ICameraService;
  * <b>GUIBundle <br />
  * com.tds.gui - TDSFrame <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 20.11.2014 22:43:16
- * 
+ *
  */
 public class TDSFrame extends JFrame implements ServiceTrackerCustomizer<ICameraService, ICameraService> {
 

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tds.camera;
 
@@ -14,17 +14,17 @@ import javax.imageio.ImageIO;
  * <b>CameraService <br />
  * com.tds.cameraImpl - Picture <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 27.11.2014 17:55:46
- * 
+ *
  */
 public class Picture implements IPicture {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     private byte[] pixels;
@@ -50,12 +50,12 @@ public class Picture implements IPicture {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tds.camera.IPicture#getBufferedImage()
      */
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tds.cameraImpl.IPicture#getBufferedImage()
      */
     @Override

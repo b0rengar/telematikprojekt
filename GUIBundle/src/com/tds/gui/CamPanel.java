@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tds.gui;
 
@@ -14,17 +14,17 @@ import com.tds.camera.ICameraService;
  * <b>GUIBundle <br />
  * com.tds.gui - CamPanel <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 20.11.2014 23:31:21
- * 
+ *
  */
 public class CamPanel extends JPanel {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 

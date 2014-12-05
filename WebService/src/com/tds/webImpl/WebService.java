@@ -1,12 +1,10 @@
 /**
- * 
+ *
  */
 package com.tds.webImpl;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +27,8 @@ import com.tds.web.IWebService;
 public class WebService extends HttpServlet implements IWebService {
 
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     @Override

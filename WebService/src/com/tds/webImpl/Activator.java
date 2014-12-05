@@ -5,15 +5,9 @@ import java.util.Hashtable;
 
 import javax.servlet.http.HttpServlet;
 
-import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.http.HttpContext;
-import org.osgi.service.http.HttpService;
-import org.osgi.util.tracker.*;
-
 import com.tds.web.IWebService;
 
 public class Activator implements BundleActivator {
@@ -33,6 +27,7 @@ public class Activator implements BundleActivator {
      *
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void start(BundleContext bundleContext) throws Exception {
 
@@ -55,6 +50,7 @@ public class Activator implements BundleActivator {
      *
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
+    @Override
     public void stop(BundleContext bundleContext) throws Exception {
         Activator.context = null;
         st.removeServlet("/Web");
