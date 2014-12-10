@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 /**
- * 
+ *
  */
 package com.tds.imgproc;
 
@@ -23,35 +22,12 @@ import org.opencv.core.Mat;
  */
 public interface IImageProcessingService {
 
-	 public void detectSleep(BufferedImage inputframe);
-	 public BufferedImage getbufferedImgae(Mat frame);
-	 public Enumeration getType();
-	 public void detectObject(BufferedImage input, BufferedImage compare);
-	
-}
-=======
-/**
- *
- */
-package com.tds.imgproc;
+    public void detectSleep(BufferedImage inputframe);
 
-import org.opencv.core.Mat;
+    public BufferedImage getbufferedImgae(Mat frame);
 
-/**
- * <b>IImageProcessingService <br />
- * com.tds.imgproc <br />
- * IImageProcessingService <br />
- * </b>
- *
- * Description.
- *
- * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
- * @created 12.11.2014 20:33:30
- *
- */
-public interface IImageProcessingService {
+    public Enumeration getType();
 
-    public Mat detect(Mat inputframe);
+    public void detectObject(BufferedImage input, BufferedImage compare);
 
 }
->>>>>>> 90ddb0f23332b23e27af5a98253a141fff894fd8
