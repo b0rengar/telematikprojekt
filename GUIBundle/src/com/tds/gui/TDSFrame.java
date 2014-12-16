@@ -5,6 +5,8 @@ package com.tds.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,6 +15,9 @@ import javax.swing.JPanel;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import com.tds.camera.ICameraService;
@@ -57,21 +62,6 @@ public class TDSFrame extends JFrame implements ServiceTrackerCustomizer<ICamera
         panel_3.setBackground(Color.RED);
         getContentPane().add(panel_3, BorderLayout.SOUTH);
 
-        ServiceReference<ICameraService> ref = (ServiceReference<ICameraService>) context.getServiceReference(ICameraService.class.getName());
-
-        this.addingService(ref);
-
-        final JFrame instance = this;
-
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-
-            @Override
-            public void run() {
-                instance.repaint();
-
-            }
-        }, 1000 / 20, 1000 / 20);
 
     }
 
@@ -89,6 +79,12 @@ public class TDSFrame extends JFrame implements ServiceTrackerCustomizer<ICamera
         }
 
         JPanel panel = new CamPanel(cameraService, 0);
+        
+        Dictionary<String, String[]> topics = new Hashtable<>();
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/camera/driver" });
+        context.registerService(EventHandler.class.getName(), panel, topics);
+        
+       
         getContentPane().add(panel, BorderLayout.CENTER);
         return cameraService;
     }

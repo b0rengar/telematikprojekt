@@ -43,10 +43,11 @@ public class Picture implements IPicture {
         }
 
     }
-
-    public Picture() {
-
+    
+    public Picture(byte[] jpg){
+    	this.pixels = jpg;
     }
+
 
     /*
      * (non-Javadoc)
@@ -73,5 +74,10 @@ public class Picture implements IPicture {
         return img;
 
     }
+
+	@Override
+	public byte[] getJPEG() {
+		return this.pixels;
+	}
 
 }

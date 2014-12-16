@@ -9,4 +9,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.tds.camera,
  javax.swing,
  org.osgi.framework;version="1.3.0",
+ org.osgi.service.event;version="1.3.0",
  org.osgi.util.tracker;version="1.3.1"

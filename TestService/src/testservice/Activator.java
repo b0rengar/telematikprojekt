@@ -29,7 +29,7 @@ public class Activator implements BundleActivator {
         System.out.println("Hello TDS!!");
 
         Dictionary<String, String[]> topics = new Hashtable<>();
-        topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/obd2/speed", "obu.event.*" });
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { "!obu/obd2/speed", "!obu/camera/*" });
         context.registerService(EventHandler.class.getName(), new EventHandler() {
 
             @Override

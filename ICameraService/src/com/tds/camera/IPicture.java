@@ -10,6 +10,8 @@ public interface IPicture extends Serializable {
      *
      * @see com.tds.camera.IPicture#getBufferedImage()
      */
-    public abstract BufferedImage getBufferedImage();
+    public BufferedImage getBufferedImage();
+    
+    public byte[] getJPEG();
 
 }

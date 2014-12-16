@@ -21,40 +21,6 @@ import com.tds.camera.Picture;
 
 public class CameraService implements ICameraService {
 
-    private final class CameraEventTask extends TimerTask {
-        private ICameraService service;
-        private int camID;
-        private String topic;
-        private int interval;
-
-        private BundleContext context;
-
-        public CameraEventTask(BundleContext context, ICameraService service, int camID, String topic, int fps) {
-            this.context = context;
-            this.service = service;
-            this.camID = camID;
-            this.topic = topic;
-            this.interval = 1000 / fps;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public void run() {
-            ServiceReference<EventAdmin> ref = (ServiceReference<EventAdmin>) context.getServiceReference(EventAdmin.class.getName());
-            if (ref != null) {
-                EventAdmin eventAdmin = context.getService(ref);
-
-                Dictionary<String, Object> properties = new Hashtable<>();
-                properties.put("camID", camID);
-                properties.put("interval", interval);
-                properties.put("image", service.getRemoteCamImage(camID));
-
-                Event event = new Event(topic, properties);
-// eventAdmin.postEvent(event);
-            }
-
-        }
-    }
 
     private List<Webcam> cams;
 
@@ -161,12 +127,12 @@ public class CameraService implements ICameraService {
     @Override
     public void startCameraEvents(int camID, String topic, int fps) {
 
-        TimerTask tt = new CameraEventTask(this.context, this, camID, topic, fps);
+        TimerTask tt = new CamPublisher(this.context, this, camID, topic, fps);
         System.out.println("start timer");
         Timer t = timers.get(camID);
 
         t = new Timer();
-        t.scheduleAtFixedRate(tt, 1000, 1000);
+        t.scheduleAtFixedRate(tt, 1000/fps, 1000/fps);
     }
 
 }
