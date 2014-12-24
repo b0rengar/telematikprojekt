@@ -17,6 +17,7 @@ package com.tds.gps;
  */
 public interface IGPSService {
 
-	String getGpsPosition();
+    String getGpsPosition();
 
+    void openSP();
 }
