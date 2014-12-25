@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: IPersistenceService
+Bundle-SymbolicName: IPersistenceService
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: TM13
+Bundle-RequiredExecutionEnvironment: OSGi/Minimum-1.2
+Export-Package: com.tds.persistence
