@@ -65,7 +65,7 @@ public class GPSService implements IGPSService {
                 if (event.getEventValue() > 0) {
                     try {
                         String tmp = serialPort.readString();
-                        gpsString = gpsParser.parse(tmp).toString();
+                        gpsString = gpsParser.parse(tmp).getPosition();
                     } catch (SerialPortException ex) {
                         // TODO LOGGER
                         System.out.println(ex);
