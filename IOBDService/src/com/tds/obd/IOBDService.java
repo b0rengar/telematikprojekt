@@ -15,5 +15,22 @@ package com.tds.obd;
  */
 public interface IOBDService {
 
-    public double getSpeed();
+    public void openSP();
+
+    public float getSpeed();
+
+    public float getFuelConsumptionRate();
+
+    public int getEngineRPM();
+
+    public float getEngineTemperature();
+
+// public float getSteerAngle();
+// public boolean getABSActive();
+// public boolean getESPActive();
+    public float getCarIndoorTemperature();
+
+    public float getCarOutdoorTemperature();
+// public float getOutdoorBrightness();
+
 }
