@@ -1,10 +1,8 @@
-<project name="PersistenceService" default="build">
+<project name="IOBUPersistenceService" default="build">
 
 	<path id="classpath">
 		<fileset dir="."/>
 		<fileset file="../Server/felix/bin/felix.jar" />
-		<fileset dir="../Server/felix/bundle" />
-		<fileset dir="../IPersistenceService/target" includes="**/*.jar"/>
 	</path>
 	
 	<target name="build" depends="clean">
@@ -14,9 +12,7 @@
          	debug="on"
 			includeantruntime="false"
 		/>
-		<jar destfile="target/tds.${ant.project.name}.jar" basedir="bin" manifest="META-INF/MANIFEST.MF">
-			<zipgroupfileset dir="libs" includes="**/*.jar" />
-		</jar>
+		<jar destfile="target/tds.${ant.project.name}.jar" basedir="bin" manifest="META-INF/MANIFEST.MF" />
 	</target>
 
 	<target name="clean">
