@@ -56,7 +56,7 @@ public class Activator implements BundleActivator {
                     properties.put("speed", Math.round(Math.random() * 180));
 
                     Event event = new Event("obu/obd2/speed", properties);
-                    System.out.println("send event");
+//                    System.out.println("send event");
                     eventAdmin.postEvent(event);
                 }
 
