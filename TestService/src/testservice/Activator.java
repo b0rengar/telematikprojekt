@@ -11,17 +11,17 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
-import com.tds.obd.IOBDService;
-
 import ch.ethz.iks.r_osgi.RemoteOSGiService;
 import ch.ethz.iks.r_osgi.RemoteServiceReference;
 import ch.ethz.iks.r_osgi.URI;
+
+import com.tds.obd.IOBDService;
 
 public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
@@ -61,6 +61,11 @@ public class Activator implements BundleActivator {
             if (remote.getRemoteService(rsr[i]) instanceof IOBDService) {
                 IOBDService obd = (IOBDService) remote.getRemoteService(rsr[i]);
                 System.out.println("R-OSGI-Speed: " + obd.getSpeed());
+                System.out.println("R-OSGI-EngineRPM: " + obd.getEngineRPM());
+                System.out.println("R-OSGI-EngineTemp: " + obd.getEngineTemperature());
+                System.out.println("R-OSGI-Fuel: " + obd.getFuelConsumptionRate());
+                System.out.println("R-OSGI-InTemp: " + obd.getCarIndoorTemperature());
+                System.out.println("R-OSGI-OutTemp: " + obd.getCarOutdoorTemperature());
             }
         }
 
@@ -70,7 +75,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
