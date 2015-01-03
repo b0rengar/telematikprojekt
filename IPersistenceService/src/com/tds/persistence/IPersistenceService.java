@@ -6,8 +6,6 @@ package com.tds.persistence;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.mongodb.BasicDBObject;
-
 /**
  *
  * @author fibu
@@ -29,7 +27,7 @@ public interface IPersistenceService {
 
     public void setEvent(int evnetid, String filename, long timestamp, String gps);
 
-    public void setData(String tableName, BasicDBObject data);
+    public void setData(String tableName, Object data) throws Exception;
 
     public void setStreamData(String filename, Calendar timestamp, String gps);
 

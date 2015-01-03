@@ -8,6 +8,7 @@
 		<ant antfile="../IInertialMeasurementService/build.xml" dir="../IInertialMeasurementService" />
 		<ant antfile="../IOBDService/build.xml" dir="../IOBDService" />
 		<ant antfile="../IPersistenceService/build.xml" dir="../IPersistenceService" />
+		<ant antfile="../IOBUPersistenceService/build.xml" dir="../IOBUPersistenceService" />
 		<ant antfile="../IWebService/build.xml" dir="../IWebService" />
 
 
@@ -19,6 +20,7 @@
 		<ant antfile="../InertialMeasurementService/build.xml" dir="../InertialMeasurementService" />
 		<ant antfile="../OBDService/build.xml" dir="../OBDService" />
 		<ant antfile="../PersistenceService/build.xml" dir="../PersistenceService" />
+		<ant antfile="../OBUPersistenceService/build.xml" dir="../OBUPersistenceService" />
 		<ant antfile="../WebService/build.xml" dir="../WebService" />
 
 		<ant antfile="../TestService/build.xml" dir="../TestService" />
@@ -46,6 +48,7 @@
 			<fileset dir="../IInertialMeasurementService/target" />
 			<fileset dir="../IOBDService/target" />
 			<fileset dir="../IPersistenceService/target" />
+			<fileset dir="../IOBUPersistenceService/target" />
 			<fileset dir="../IWebService/target" />
 
 
@@ -56,6 +59,7 @@
 			<!--<fileset dir="../InertialMeasurementService/target" />-->
 			<fileset dir="../PersistenceService/target" />
 			<!--<fileset dir="../OBDService/target" />-->
+			<!--<fileset dir="../OBUPersistenceService/target" />-->
 			<fileset dir="../WebService/target" />
 			<fileset dir="../GUIBundle/target" />
 			<fileset dir="../TestService/target" />
