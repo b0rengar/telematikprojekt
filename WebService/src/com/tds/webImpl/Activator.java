@@ -36,7 +36,7 @@ public class Activator implements BundleActivator {
 
         Dictionary<String, Object> params = new Hashtable<>();
         params.put(Constants.SERVICE_PID, IWebService.class.getName());
-        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the OBD2 interface.");
+        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the Webservices.");
         context.registerService(IWebService.class.getName(), service, params);
 
         st = new ServletTracker(bundleContext);

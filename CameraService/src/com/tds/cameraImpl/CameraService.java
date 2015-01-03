@@ -2,17 +2,12 @@ package com.tds.cameraImpl;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
 
 import com.github.sarxos.webcam.Webcam;
 import com.tds.camera.ICameraService;
@@ -36,6 +31,8 @@ public class CameraService implements ICameraService {
 
         int i = 0;
         for (Webcam c : cams) {
+        	System.out.println(c.getName());
+        	System.out.println(i);
             timers.put(i++, new Timer());
         }
     }
@@ -127,12 +124,12 @@ public class CameraService implements ICameraService {
     @Override
     public void startCameraEvents(int camID, String topic, int fps) {
 
-        TimerTask tt = new CamPublisher(this.context, this, camID, topic, fps);
+//        TimerTask tt = (TimerTask)new com.tds.cameraImpl.CamPublisher(this.context, this, camID, topic, fps);
         System.out.println("start timer");
         Timer t = timers.get(camID);
 
         t = new Timer();
-        t.scheduleAtFixedRate(tt, 1000/fps, 1000/fps);
+//        t.scheduleAtFixedRate(tt, 1000/fps, 1000/fps);
     }
 
 }
