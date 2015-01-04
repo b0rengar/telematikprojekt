@@ -22,7 +22,9 @@ import org.opencv.core.Mat;
  */
 public interface IImageProcessingService {
 
-    public void detectSleep(BufferedImage inputframe);
+	public boolean detectSleep(BufferedImage inputframe);
+	
+	public boolean detectHuman(BufferedImage inputframe);
 
     public BufferedImage getbufferedImgae(Mat frame);
 
