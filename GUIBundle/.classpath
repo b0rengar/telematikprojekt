@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="libs/servlet.jar"/>
 	<classpathentry kind="lib" path="libs/swtgraphics2d.jar"/>
 	<classpathentry kind="lib" path="libs/remote-1.0.0.RC4.jar"/>
+	<classpathentry kind="lib" path="libs/mongo-java-driver-2.12.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

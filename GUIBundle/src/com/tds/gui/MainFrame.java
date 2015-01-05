@@ -33,12 +33,14 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import com.tds.camera.ICameraService;
+import com.tds.persistence.IPersistenceService;
 
-public class MainFrame implements ServiceTrackerCustomizer<ICameraService, ICameraService> {
+public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
     private static final long serialVersionUID = 1L;
     private BundleContext context;
     private ICameraService cameraService;
+    private IPersistenceService persistenceService;
 
     private JFrame frmMainWindow;
 
@@ -232,7 +234,8 @@ public class MainFrame implements ServiceTrackerCustomizer<ICameraService, ICame
         ifBetriebsparameter.add(chartPanel2);
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 
-        JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
+// JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
+        JInternalFrame ifMeldungen = new JInternalFrame("Size = " + persistenceService.getTdsEventsFromDB().size());
         ifMeldungen.setBounds(0, 328, 445, 315);
         frmMainWindow.getContentPane().add(ifMeldungen);
 
@@ -302,34 +305,43 @@ public class MainFrame implements ServiceTrackerCustomizer<ICameraService, ICame
     }
 
     @Override
-    public ICameraService addingService(ServiceReference<ICameraService> ref) {
-        if (ref == null) {
-            System.out.println("ref gleich null");
-            return null;
+    public Object addingService(ServiceReference<Object> ref) {
+        if (ref instanceof ICameraService) {
+
+            cameraService = (ICameraService) this.context.getService(ref);
+
+            JPanel panel = new CamPanel(cameraService, 0);
+
+            Dictionary<String, String[]> topics = new Hashtable<>();
+            topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/camera/driver" });
+            context.registerService(EventHandler.class.getName(), panel, topics);
+
+            ifFrontKamera.getContentPane().add(panel, BorderLayout.CENTER);
+            ifFrontKamera.setVisible(false);
+            ifFrontKamera.setVisible(true);
+            return cameraService;
         }
-        cameraService = this.context.getService(ref);
+        if (ref instanceof IPersistenceService) {
 
+            persistenceService = (IPersistenceService) this.context.getService(ref);
 
-        JPanel panel = new CamPanel(cameraService, 0);
-
-        Dictionary<String, String[]> topics = new Hashtable<>();
-        topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/camera/driver" });
-        context.registerService(EventHandler.class.getName(), panel, topics);
-
-        ifFrontKamera.getContentPane().add(panel, BorderLayout.CENTER);
-        ifFrontKamera.setVisible(false);
-        ifFrontKamera.setVisible(true);
-        return cameraService;
+        }
+        return this.context.getService(ref);
     }
 
     @Override
-    public void modifiedService(ServiceReference<ICameraService> ref, ICameraService service) {
+    public void modifiedService(ServiceReference<Object> ref, Object service) {
         System.out.println("service mod");
     }
 
     @Override
-    public void removedService(ServiceReference<ICameraService> ref, ICameraService service) {
-        cameraService = null;
+    public void removedService(ServiceReference<Object> ref, Object service) {
+        if (ref instanceof ICameraService) {
+            cameraService = null;
+        }
+        if (ref instanceof IPersistenceService) {
+            persistenceService = null;
+        }
 
     }
 

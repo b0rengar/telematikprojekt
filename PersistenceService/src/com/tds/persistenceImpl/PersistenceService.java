@@ -3,6 +3,9 @@ package com.tds.persistenceImpl;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+
+import org.osgi.framework.BundleContext;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -10,6 +13,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.tds.persistence.IPersistenceService;
+import com.tds.persistence.TdsEvent;
 
 /**
  *
@@ -17,6 +21,9 @@ import com.tds.persistence.IPersistenceService;
  *
  */
 public class PersistenceService implements IPersistenceService {
+    private IPersistenceService persistenceService;
+    private BundleContext context;
+
     private static DB db;
     private static MongoClient mongoClient;
     private static final String mDB = "tm13.ddns.net";
@@ -31,6 +38,27 @@ public class PersistenceService implements IPersistenceService {
             System.out.println("cant connect to MongoDB: " + mDB + " " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ArrayList<TdsEvent> getTdsEventsFromDB() {
+        ArrayList events = getItems(IPersistenceService.TABLE_EVENT);
+        Iterator<Object> iter = events.iterator();
+        ArrayList<TdsEvent> tdsEvents = new ArrayList<TdsEvent>();
+        TdsEvent e;
+        while (iter.hasNext()) {
+            BasicDBObject event = (BasicDBObject) iter.next();
+            BasicDBObject location = (BasicDBObject) event.get("location");
+
+            String gps = (String) location.get("coordinates");
+            long timestamp = (Long) event.get("timestamp");
+            String filename = (String) event.get("filename");
+            int event_id = (Integer) event.get("event_id");
+            e = new TdsEvent(event_id, timestamp, gps, filename);
+            tdsEvents.add(e);
+            System.out.println("ID: " + event_id);
+        }
+        return tdsEvents;
     }
 
     @Override
@@ -93,4 +121,5 @@ public class PersistenceService implements IPersistenceService {
         BasicDBObject fileInfo = new BasicDBObject("stream_type", stream_type).append("filename", filename).append("timestamp_start", timestamp_start).append("timestamp_end", timestamp_end).append("location", new BasicDBObject("type", "Point").append("coordinates", gps));
         coll.insert(fileInfo);
     }
+
 }

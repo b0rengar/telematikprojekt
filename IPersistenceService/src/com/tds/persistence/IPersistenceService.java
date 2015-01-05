@@ -23,6 +23,8 @@ public interface IPersistenceService {
 
 // public static String TABLE_SNAPSHOT = "SNAPSHOT";
 
+    public ArrayList<TdsEvent> getTdsEventsFromDB();
+
     public ArrayList getItems(String table_name);
 
     public void setEvent(int evnetid, String filename, long timestamp, String gps);

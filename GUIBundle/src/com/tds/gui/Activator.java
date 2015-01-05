@@ -10,7 +10,7 @@ public class Activator implements BundleActivator {
 
     private BundleContext context;
     private TDSFrame frame;
-    private ServiceTracker<ICameraService, ICameraService> cameraTracker;
+    private ServiceTracker<Object, Object> cameraTracker;
 
     /*
      * (non-Javadoc)

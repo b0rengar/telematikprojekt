@@ -1,11 +1,10 @@
 /**
  * 
  */
-package com.tds.cameraImpl;
+package com.tds.imgprocImpl;
 
 import java.util.Date;
 import java.util.Dictionary;
-import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.TimerTask;
 
@@ -13,8 +12,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
-
-import ch.ethz.iks.r_osgi.types.Timestamp;
 
 import com.tds.camera.ICameraService;
 
