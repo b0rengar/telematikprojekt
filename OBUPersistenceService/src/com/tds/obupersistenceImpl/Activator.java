@@ -9,6 +9,19 @@ import org.osgi.framework.Constants;
 
 import com.tds.obupersistence.IOBUPersistenceService;
 
+/**
+ * 
+ * <b>OBUPersistenceService <br />
+ * com.tds.obupersistenceImpl <br />
+ * Activator <br />
+ * </b>
+ *
+ * Description.
+ *
+ * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
+ * @created 03.01.2015 17:40:53
+ *
+ */
 public class Activator implements BundleActivator {
 
     private static BundleContext context;

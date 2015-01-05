@@ -25,6 +25,7 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
 import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
@@ -35,167 +36,263 @@ import com.tds.imgproc.IImageProcessingService;
  * com.tds.imgproc <br />
  * ImageProcessingService <br />
  * </b>
- *
+ * 
  * Description.
- *
+ * 
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:11:42
- *
+ * 
  */
 public class ImageProcessingService implements IImageProcessingService {
-    private CascadeClassifier left_eye, augen_cascade;
-    private long time = 0;
-    private boolean noeyes = false;
+	private CascadeClassifier left_eye, augen_cascade, upperbody;
+	private long time = 0;
+	private boolean noeyes = false;
+	
+	public ImageProcessingService(){
+		System.out.println("Hello, OpenCV");
+	    // Load the native library.
+	    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-    @Override
-    public void detectSleep(BufferedImage image) {
-        System.loadLibrary("opencv_java249");
-        augen_cascade = new CascadeClassifier("haarcascade_eye_tree_eyeglasses.xml");
-        /** erkennt auch geschlossene Augen */
-        left_eye = new CascadeClassifier("haarcascade_lefteye_2splits.xml");
-        byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-        Mat inputframe = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
-        inputframe.put(0, 0, pixels);
-        Mat mRgba = new Mat();
-        Mat mGrey = new Mat();
-        MatOfRect faces = new MatOfRect();
-        inputframe.copyTo(mRgba);
-        inputframe.copyTo(mGrey);
-        Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.equalizeHist(mGrey, mGrey);
+	    VideoCapture camera = new VideoCapture(0);
+	    try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	    camera.open(0); //Useless
+	    if(!camera.isOpened()){
+	        System.out.println("Camera Error");
+	    }
+	    else{
+	        System.out.println("Camera OK?");
+	    }
 
-        left_eye.detectMultiScale(mGrey, faces);
-        int augen = 0;
-        int i = 0;
-        int eyes_found = faces.toArray().length;
-        System.out.println("gefundene Augen:" + faces.toArray().length);
-        for (Rect dik : faces.toArray()) {
-            if (i == 0) {
-                augen = dik.y;
-            }
-            i = i + 1;
+	    Mat frame = new Mat();
 
-        }
+	    //camera.grab();
+	    //System.out.println("Frame Grabbed");
+	    //camera.retrieve(frame);
+	    //System.out.println("Frame Decoded");
 
-        augen_cascade.detectMultiScale(mGrey, faces);
-        int open_eyes = faces.toArray().length;
-        System.out.println("offene Augen:" + faces.toArray().length);
+	    camera.read(frame);
+	    System.out.println("Frame Obtained");
 
-        if (noeyes == false && (eyes_found > 0 && open_eyes < 1)) {
-            time = System.currentTimeMillis();
-            noeyes = true;
-        }
+	    /* No difference
+	    camera.release();
+	    */
 
-        if (eyes_found > 0 && open_eyes > 0) {
-            time = System.currentTimeMillis();
-            noeyes = false;
-        }
+	    System.out.println("Captured Frame Width " + frame.width());
 
-        if (noeyes == true && ((System.currentTimeMillis() - time)) > 2000) {
-            System.out.println("ALARM");
-            System.out.println("ALARM");
-            System.out.println("ALARM");
+	    Highgui.imwrite("camera.jpg", frame);
+	    System.out.println("OK");
+		
+	}
 
-        }
+	@Override
+	public boolean detectSleep(BufferedImage image) {
+		
+		augen_cascade = new CascadeClassifier(
+				"haarcascade_eye_tree_eyeglasses.xml");
+		/** erkennt auch geschlossene Augen */
+		left_eye = new CascadeClassifier("haarcascade_lefteye_2splits.xml");
+		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer())
+				.getData();
+		Mat inputframe = new Mat(image.getHeight(), image.getWidth(),
+				CvType.CV_8UC3);
+		inputframe.put(0, 0, pixels);
+		Mat mRgba = new Mat();
+		Mat mGrey = new Mat();
+		MatOfRect faces = new MatOfRect();
+		inputframe.copyTo(mRgba);
+		inputframe.copyTo(mGrey);
+		Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.equalizeHist(mGrey, mGrey);
+		boolean sleeping = false;
 
-        for (Rect dik : faces.toArray()) {
-            if ((dik.y < augen + 10) && dik.y > (augen - 10)) {
-                Core.rectangle(mRgba, new Point(dik.x, dik.y), new Point(dik.x + dik.width, dik.y + dik.height), new Scalar(255, 0, 255));
-            }
-        }
+		left_eye.detectMultiScale(mGrey, faces);
+		int augen = 0;
+		int i = 0;
+		int eyes_found = faces.toArray().length;
+		System.out.println("gefundene Augen:" + faces.toArray().length);
+		for (Rect dik : faces.toArray()) {
+			if (i == 0) {
+				augen = dik.y;
+			}
+			i = i + 1;
 
-        // return mRgba;
-        String filename = "SleepDetected.jpg";
-        Highgui.imwrite(filename, mRgba);
-    }
+		}
 
-    // TODO
-    // bekomme n bufferedImage umwandeln zu Mat, rueckgabe als jpeg
-    @Override
-    public void detectObject(BufferedImage input, BufferedImage compare) {
+		augen_cascade.detectMultiScale(mGrey, faces);
+		int open_eyes = faces.toArray().length;
+		System.out.println("offene Augen:" + faces.toArray().length);
 
-        byte[] pixels = ((DataBufferByte) compare.getRaster().getDataBuffer()).getData();
-        Mat inputframe = new Mat(compare.getHeight(), compare.getWidth(), CvType.CV_8UC3);
-        inputframe.put(0, 0, pixels);
-        pixels = ((DataBufferByte) input.getRaster().getDataBuffer()).getData();
-        Mat compareTo = new Mat(input.getHeight(), input.getWidth(), CvType.CV_8UC3);
-        compareTo.put(0, 0, pixels);
-        Mat img_object = compareTo;
-        Imgproc.cvtColor(img_object, img_object, Imgproc.COLOR_RGB2GRAY);
-        Mat img_scene = inputframe;
-        Imgproc.cvtColor(img_scene, img_scene, Imgproc.COLOR_RGB2GRAY);
+		if (noeyes == false && (eyes_found > 0 && open_eyes < 1)) {
+			time = System.currentTimeMillis();
+			noeyes = true;
+		}
 
-        FeatureDetector detector = FeatureDetector.create(FeatureDetector.SURF); // 4 = SURF
+		if (eyes_found > 0 && open_eyes > 0) {
+			time = System.currentTimeMillis();
+			noeyes = false;
+			sleeping = false;
+		}
 
-        MatOfKeyPoint keypoints_object = new MatOfKeyPoint();
-        MatOfKeyPoint keypoints_scene = new MatOfKeyPoint();
+		if (noeyes == true && ((System.currentTimeMillis() - time)) > 2000) {
+			System.out.println("ALARM");
+			System.out.println("ALARM");
+			System.out.println("ALARM");
+			sleeping = true;
 
-        detector.detect(img_object, keypoints_object);
-        detector.detect(img_scene, keypoints_scene);
+		}
 
-        DescriptorExtractor extractor = DescriptorExtractor.create(DescriptorExtractor.SURF); // 2 =
-        // SURF;
+		for (Rect dik : faces.toArray()) {
+			if ((dik.y < augen + 10) && dik.y > (augen - 10)) {
+				Core.rectangle(mRgba, new Point(dik.x, dik.y), new Point(dik.x
+						+ dik.width, dik.y + dik.height), new Scalar(255, 0,
+						255));
+			}
+		}
 
-        Mat descriptor_object = new Mat();
-        Mat descriptor_scene = new Mat();
+		// return mRgba;
+		String filename = "SleepDetected.jpg";
+		Highgui.imwrite(filename, mRgba);
+		return sleeping;
+	}
 
-        extractor.compute(img_object, keypoints_object, descriptor_object);
-        extractor.compute(img_scene, keypoints_scene, descriptor_scene);
+	// TODO
+	// bekomme n bufferedImage umwandeln zu Mat, rueckgabe als jpeg
+	@Override
+	public void detectObject(BufferedImage input, BufferedImage compare) {
 
-        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED); // 1 =
-        // FLANNBASED
-        MatOfDMatch matches = new MatOfDMatch();
+		byte[] pixels = ((DataBufferByte) compare.getRaster().getDataBuffer())
+				.getData();
+		Mat inputframe = new Mat(compare.getHeight(), compare.getWidth(),
+				CvType.CV_8UC3);
+		inputframe.put(0, 0, pixels);
+		pixels = ((DataBufferByte) input.getRaster().getDataBuffer()).getData();
+		Mat compareTo = new Mat(input.getHeight(), input.getWidth(),
+				CvType.CV_8UC3);
+		compareTo.put(0, 0, pixels);
+		Mat img_object = compareTo;
+		Imgproc.cvtColor(img_object, img_object, Imgproc.COLOR_RGB2GRAY);
+		Mat img_scene = inputframe;
+		Imgproc.cvtColor(img_scene, img_scene, Imgproc.COLOR_RGB2GRAY);
 
-        matcher.match(descriptor_object, descriptor_scene, matches);
-        List<DMatch> matchesList = matches.toList();
+		FeatureDetector detector = FeatureDetector.create(FeatureDetector.SURF); // 4
+																					// =
+																					// SURF
 
-        Double max_dist = 0.0;
-        Double min_dist = 100.0;
+		MatOfKeyPoint keypoints_object = new MatOfKeyPoint();
+		MatOfKeyPoint keypoints_scene = new MatOfKeyPoint();
 
-        for (int i = 0; i < matchesList.size(); i++) {
-            Double dist = (double) matchesList.get(i).distance;
-            if (dist < min_dist) {
-                min_dist = dist;
-            }
-            if (dist > max_dist) {
-                max_dist = dist;
-            }
-        }
+		detector.detect(img_object, keypoints_object);
+		detector.detect(img_scene, keypoints_scene);
 
-        System.out.println("-- Max dist : " + max_dist);
-        System.out.println("-- Min dist : " + min_dist);
+		DescriptorExtractor extractor = DescriptorExtractor
+				.create(DescriptorExtractor.SURF); // 2 =
+		// SURF;
 
-        LinkedList<DMatch> good_matches = new LinkedList<DMatch>();
-        MatOfDMatch gm = new MatOfDMatch();
-        for (int i = 0; i < matchesList.size(); i++) {
-            // if (matchesList.get(i).distance < (3 * min_dist)) {
-            if (min_dist < 0.003) {
-                if (matchesList.get(i).distance < (3 * min_dist)) {
-                    good_matches.addLast(matchesList.get(i));
-                }
-            }
-        }
+		Mat descriptor_object = new Mat();
+		Mat descriptor_scene = new Mat();
 
-        gm.fromList(good_matches);
-        System.out.println(gm.size());
-        Mat img_matches = new Mat();
-        Features2d.drawMatches(img_object, keypoints_object, img_scene, keypoints_scene, gm, img_matches, new Scalar(255, 0, 0), new Scalar(0, 0, 255), new MatOfByte(), 2);
+		extractor.compute(img_object, keypoints_object, descriptor_object);
+		extractor.compute(img_scene, keypoints_scene, descriptor_scene);
 
-        // return img_matches;
-        String filename = "ObjectDetected.jpg";
-        Highgui.imwrite(filename, img_matches);
-    }
+		DescriptorMatcher matcher = DescriptorMatcher
+				.create(DescriptorMatcher.FLANNBASED); // 1 =
+		// FLANNBASED
+		MatOfDMatch matches = new MatOfDMatch();
 
-    @Override
-    public BufferedImage getbufferedImgae(Mat frame) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+		matcher.match(descriptor_object, descriptor_scene, matches);
+		List<DMatch> matchesList = matches.toList();
 
-    @Override
-    public Enumeration getType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+		Double max_dist = 0.0;
+		Double min_dist = 100.0;
+
+		for (int i = 0; i < matchesList.size(); i++) {
+			Double dist = (double) matchesList.get(i).distance;
+			if (dist < min_dist) {
+				min_dist = dist;
+			}
+			if (dist > max_dist) {
+				max_dist = dist;
+			}
+		}
+
+		System.out.println("-- Max dist : " + max_dist);
+		System.out.println("-- Min dist : " + min_dist);
+
+		LinkedList<DMatch> good_matches = new LinkedList<DMatch>();
+		MatOfDMatch gm = new MatOfDMatch();
+		for (int i = 0; i < matchesList.size(); i++) {
+			// if (matchesList.get(i).distance < (3 * min_dist)) {
+			if (min_dist < 0.003) {
+				if (matchesList.get(i).distance < (3 * min_dist)) {
+					good_matches.addLast(matchesList.get(i));
+				}
+			}
+		}
+
+		gm.fromList(good_matches);
+		System.out.println(gm.size());
+		Mat img_matches = new Mat();
+		Features2d.drawMatches(img_object, keypoints_object, img_scene,
+				keypoints_scene, gm, img_matches, new Scalar(255, 0, 0),
+				new Scalar(0, 0, 255), new MatOfByte(), 2);
+
+		// return img_matches;
+		String filename = "ObjectDetected.jpg";
+		Highgui.imwrite(filename, img_matches);
+	}
+
+	@Override
+	public boolean detectHuman(BufferedImage image) {
+
+		/** erkennt oberkoerper */
+		upperbody = new CascadeClassifier("haarcascade_upperbody.xml");
+		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer())
+				.getData();
+		Mat inputframe = new Mat(image.getHeight(), image.getWidth(),
+				CvType.CV_8UC3);
+		inputframe.put(0, 0, pixels);
+		Mat mRgba = new Mat();
+		Mat mGrey = new Mat();
+		MatOfRect bodies = new MatOfRect();
+		inputframe.copyTo(mRgba);
+		inputframe.copyTo(mGrey);
+		Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.equalizeHist(mGrey, mGrey);
+		boolean human = false;
+
+		upperbody.detectMultiScale(mGrey, bodies);
+		int bodies_found = bodies.toArray().length;
+		if (bodies_found > 0) {
+			for (Rect dik : bodies.toArray()) {
+				Core.rectangle(mRgba, new Point(dik.x, dik.y), new Point(dik.x
+						+ dik.width, dik.y + dik.height), new Scalar(255, 0,
+						255));
+			}
+			human = true;
+		} else {
+			human = false;
+		}
+
+		// return mRgba;
+		String filename = "HumanDetected.jpg";
+		Highgui.imwrite(filename, mRgba);
+		return human;
+	}
+
+//	@Override
+//	public BufferedImage getbufferedImgae(Mat frame) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+	@Override
+	public Enumeration getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

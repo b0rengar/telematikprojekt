@@ -6,6 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.tds.imgprocImpl.Activator
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-NativeCode: libopencv_java249.so; processor=arm; osname=linux,
+ opencv_java249.dll; processor=x86_64; osname=Win64; processor=x86; osname=Win32
 Import-Package: com.tds.imgproc,
  org.opencv.core,
  org.opencv.features2d,
@@ -15,3 +17,15 @@ Import-Package: com.tds.imgproc,
  org.osgi.framework;version="1.3.0"
 Bundle-ClassPath: opencv-249.jar,
  .
+Export-Package: org.opencv.calib3d,
+ org.opencv.contrib,
+ org.opencv.core,
+ org.opencv.features2d,
+ org.opencv.gpu,
+ org.opencv.highgui,
+ org.opencv.imgproc,
+ org.opencv.ml,
+ org.opencv.objdetect,
+ org.opencv.photo,
+ org.opencv.utils,
+ org.opencv.video

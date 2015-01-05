@@ -7,6 +7,7 @@ Bundle-Activator: com.tds.webImpl.Activator
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.tds.web,
+ javax.imageio,
  javax.servlet;version="2.6.0",
  javax.servlet.http;version="2.6.0",
  org.apache.felix.http.api,

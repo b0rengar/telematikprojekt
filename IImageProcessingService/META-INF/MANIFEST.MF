@@ -5,11 +5,6 @@ Bundle-SymbolicName: IImageProcessingService
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: com.tds.imgproc,
- org.opencv.core,
- org.opencv.features2d,
- org.opencv.highgui,
- org.opencv.imgproc,
- org.opencv.objdetect
 Bundle-ClassPath: .,
  opencv-2.4.9.jar
+Export-Package: com.tds.imgproc
