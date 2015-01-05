@@ -3,10 +3,16 @@
  */
 package com.tds.gpsImpl;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 
 import com.tds.gps.IGPSService;
 
@@ -28,6 +34,8 @@ import com.tds.gps.IGPSService;
  * @edited 24.12.2014
  */
 public class GPSService implements IGPSService {
+    private static EventAdmin eventAdmin;
+
     static SerialPort serialPort;
     private static NMEA gpsParser = new NMEA();
     String portName = "/dev/ttyUSB0";
@@ -36,6 +44,14 @@ public class GPSService implements IGPSService {
     int stopBits = SerialPort.STOPBITS_1;
     int parity = SerialPort.PARITY_NONE;
     private static String gpsString;
+
+    public void bindEventAdmin(EventAdmin eventAdmin) {
+        this.eventAdmin = eventAdmin;
+    }
+
+    public void unbindEventAdmin(EventAdmin eventAdmin) {
+        this.eventAdmin = null;
+    }
 
     @Override
     public void openSP() {
@@ -65,7 +81,16 @@ public class GPSService implements IGPSService {
                 if (event.getEventValue() > 0) {
                     try {
                         String tmp = serialPort.readString();
-                        gpsString = gpsParser.parse(tmp).toString();
+                        gpsString = gpsParser.parse(tmp).getPosition();
+
+                        Dictionary<String, String> eventProps = new Hashtable<String, String>();
+                        eventProps.put(Event_GPS, gpsString);
+                        Event osgiEvent = new Event("gpsservice/eventsender/GPS", eventProps);
+
+                        // "sendEvent()" synchron
+                        // "postEvent()" asynchron:
+                        eventAdmin.sendEvent(osgiEvent);
+
                     } catch (SerialPortException ex) {
                         // TODO LOGGER
                         System.out.println(ex);
