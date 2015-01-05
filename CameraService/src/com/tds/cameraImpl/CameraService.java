@@ -29,11 +29,11 @@ public class CameraService implements ICameraService {
         cams = Webcam.getWebcams();
 
         int i = 0;
-        for (Webcam c : cams) {
-            System.out.println(c.getName());
-            System.out.println(i);
-            timers.put(i++, new Timer());
-        }
+//        for (Webcam c : cams) {
+//        	System.out.println(c.getName());
+//        	System.out.println(i);
+//            timers.put(i++, new Timer());
+//        }
     }
 
     @Override
