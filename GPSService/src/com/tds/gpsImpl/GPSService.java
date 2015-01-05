@@ -84,8 +84,8 @@ public class GPSService implements IGPSService {
                         gpsString = gpsParser.parse(tmp).getPosition();
 
                         Dictionary<String, String> eventProps = new Hashtable<String, String>();
-                        eventProps.put(Event_GPS, gpsString);
-                        Event osgiEvent = new Event(Event_GPS_TOPIC, eventProps);
+                        eventProps.put(Event_DATA, gpsString);
+                        Event osgiEvent = new Event(Event_TOPIC, eventProps);
 
                         // "sendEvent()" synchron
                         // "postEvent()" asynchron:
