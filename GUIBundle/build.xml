@@ -15,7 +15,8 @@
 			includeantruntime="false"
 		/>
 		<jar destfile="target/tds.${ant.project.name}.jar" basedir="bin" manifest="META-INF/MANIFEST.MF">
-		</jar>
+		   <zipgroupfileset dir="libs" includes="**/*.jar" />
+		 </jar>
 	</target>
 
 	<target name="clean">

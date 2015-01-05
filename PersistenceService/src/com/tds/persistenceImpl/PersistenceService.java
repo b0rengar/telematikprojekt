@@ -52,13 +52,13 @@ public class PersistenceService implements IPersistenceService {
      *
      * @param tableName
      * @param data
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public void setData(String tableName, Object data) throws Exception {
-    	throw new Exception("not yet implemented: use default java classes instead of mongodb specific");
-//        DBCollection coll = db.getCollection(tableName);
-//        coll.insert(data);
+        throw new Exception("not yet implemented: use default java classes instead of mongodb specific");
+// DBCollection coll = db.getCollection(tableName);
+// coll.insert(data);
     }
 
     @Override

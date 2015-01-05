@@ -21,7 +21,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
@@ -54,7 +54,8 @@ public class Activator implements BundleActivator {
         RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
 
         // connect
-        RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+        RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
         for (int i = 0; i < rsr.length; i++) {
             System.out.println(remote.getRemoteService(rsr[i]).getClass().toString());
@@ -75,7 +76,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override

@@ -14,23 +14,28 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
     public void start(BundleContext context) throws Exception {
         this.context = context;
 
-        frame = new TDSFrame(context);
-        cameraTracker = new ServiceTracker<>(context, ICameraService.class.getName(), frame);
+        MainFrame mf = new MainFrame(context);
+        cameraTracker = new ServiceTracker<>(context, ICameraService.class.getName(), mf);
         cameraTracker.open();
-        frame.setVisible(true);
+        mf.getFrame().setVisible(true);
+
+// frame = new TDSFrame(context);
+// cameraTracker = new ServiceTracker<>(context, ICameraService.class.getName(), frame);
+// cameraTracker.open();
+// frame.setVisible(true);
 
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
@@ -38,8 +43,8 @@ public class Activator implements BundleActivator {
         this.context = null;
         cameraTracker.close();
         cameraTracker = null;
-        frame.destroyGUI();
-        frame = null;
+// frame.destroyGUI();
+// frame = null;
     }
 
 }

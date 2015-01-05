@@ -16,7 +16,6 @@ import com.tds.camera.Picture;
 
 public class CameraService implements ICameraService {
 
-
     private List<Webcam> cams;
 
     private HashMap<Integer, Timer> timers;
@@ -31,8 +30,8 @@ public class CameraService implements ICameraService {
 
         int i = 0;
         for (Webcam c : cams) {
-        	System.out.println(c.getName());
-        	System.out.println(i);
+            System.out.println(c.getName());
+            System.out.println(i);
             timers.put(i++, new Timer());
         }
     }
@@ -124,12 +123,12 @@ public class CameraService implements ICameraService {
     @Override
     public void startCameraEvents(int camID, String topic, int fps) {
 
-//        TimerTask tt = (TimerTask)new com.tds.cameraImpl.CamPublisher(this.context, this, camID, topic, fps);
+        TimerTask tt = new com.tds.cameraImpl.CamPublisher(this.context, this, camID, topic, fps);
         System.out.println("start timer");
         Timer t = timers.get(camID);
 
         t = new Timer();
-//        t.scheduleAtFixedRate(tt, 1000/fps, 1000/fps);
+        t.scheduleAtFixedRate(tt, 1000 / fps, 1000 / fps);
     }
 
 }
