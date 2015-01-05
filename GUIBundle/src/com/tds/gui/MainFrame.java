@@ -234,8 +234,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifBetriebsparameter.add(chartPanel2);
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 
-// JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
-        JInternalFrame ifMeldungen = new JInternalFrame("Size = " + persistenceService.getTdsEventsFromDB().size());
+        JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
         ifMeldungen.setBounds(0, 328, 445, 315);
         frmMainWindow.getContentPane().add(ifMeldungen);
 
@@ -306,8 +305,9 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
     @Override
     public Object addingService(ServiceReference<Object> ref) {
+        System.out.println("ADDDING" + ref.getClass().getName());
         if (ref instanceof ICameraService) {
-
+            System.out.println("Adding Service CameraService");
             cameraService = (ICameraService) this.context.getService(ref);
 
             JPanel panel = new CamPanel(cameraService, 0);
@@ -322,7 +322,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             return cameraService;
         }
         if (ref instanceof IPersistenceService) {
-
+            System.out.println("Adding Service PersistenceService");
             persistenceService = (IPersistenceService) this.context.getService(ref);
 
         }

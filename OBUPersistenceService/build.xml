@@ -5,6 +5,7 @@
 		<fileset file="../Server/felix/bin/felix.jar" />
 		<fileset dir="../Server/felix/bundle" />
 		<fileset dir="../IOBUPersistenceService/target" includes="**/*.jar"/>
+		<fileset dir="../IGPSService/target" includes="**/*.jar"/>
 	</path>
 	
 	<target name="build" depends="clean">
