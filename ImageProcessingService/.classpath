@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv-2.4.9"/>
-	<classpathentry kind="lib" path="opencv-249.jar"/>
-	<classpathentry kind="lib" path="org.apache.felix.ipojo.junit4osgi-0.8.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/opencv-249.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

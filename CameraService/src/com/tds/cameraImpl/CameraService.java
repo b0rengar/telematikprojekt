@@ -14,10 +14,11 @@ import com.tds.camera.ICameraService;
 import com.tds.camera.IPicture;
 import com.tds.camera.Picture;
 
+
 public class CameraService implements ICameraService {
 
 
-    private List<Webcam> cams;
+//    private List<Webcam> cams;
 
     private HashMap<Integer, Timer> timers;
 
@@ -26,81 +27,65 @@ public class CameraService implements ICameraService {
     public CameraService(BundleContext context) {
         this.context = context;
         timers = new HashMap<Integer, Timer>();
+        
+        System.out.println("Hello, OpenCV");
+        // Load the native library.
+//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        cams = Webcam.getWebcams();
+//        cams = Webcam.getWebcams();
 
         int i = 0;
-        for (Webcam c : cams) {
-        	System.out.println(c.getName());
-        	System.out.println(i);
-            timers.put(i++, new Timer());
-        }
+//        for (Webcam c : cams) {
+//        	System.out.println(c.getName());
+//        	System.out.println(i);
+//            timers.put(i++, new Timer());
+//        }
     }
 
     @Override
     public void destroyService() {
-        if (cams == null) {
-            return;
-        }
 
-        for (Webcam cam : cams) {
-            if (cam.isOpen()) {
-                cam.close();
-            }
-            timers.get(cam).cancel();
-            timers.get(cam).purge();
+        for (Timer t : timers.values()) {
+            t.cancel();
+            t.purge();
         }
     }
 
-    @Override
-    public int getCameraCount() {
-        return cams.size();
-    }
+//    @Override
+//    public int getCameraCount() {
+//        return cams.size();
+//    }
+//
+//    @Override
+//    public String getCamName(int camID) {
+//        if (camID < 0 && camID >= getCameraCount()) {
+//            return "";
+//        }
+//        return cams.get(camID).getName();
+//
+//    }
 
     @Override
-    public String getCamName(int camID) {
-        if (camID < 0 && camID >= getCameraCount()) {
-            return "";
-        }
-        return cams.get(camID).getName();
+    public BufferedImage getLocalCamImage(int camID) {
+//        if (camID < 0 && camID >= getCameraCount()) {
+//            return null;
+//        }
 
-    }
+//        Webcam cam = cams.get(camID);
+//        if (!cam.isOpen()) {
+//            cam.setViewSize(new Dimension(640, 480));
+//            cam.open();
+//        }
+//
+//        BufferedImage img = cam.getImage();
 
-    @Override
-    public BufferedImage getLocalCamImage(int camID, int imageType) {
-        if (camID < 0 && camID >= getCameraCount()) {
-            return null;
-        }
-
-        Webcam cam = cams.get(camID);
-        if (!cam.isOpen()) {
-            cam.setViewSize(new Dimension(640, 480));
-            cam.open();
-        }
-
-        BufferedImage img = cam.getImage();
-
-        return convertToType(img, imageType);
+        return null;
 
     }
 
     @Override
     public IPicture getRemoteCamImage(int camID) {
-        if (camID < 0 && camID >= getCameraCount()) {
-            return null;
-        }
-
-        Webcam cam = cams.get(camID);
-        if (!cam.isOpen()) {
-            cam.setViewSize(new Dimension(640, 480));
-            cam.open();
-        }
-
-        BufferedImage img = cam.getImage();
-        if (img == null) {
-            return null;
-        }
-        return new Picture(img);
+        return new Picture(getLocalCamImage(camID));
     }
 
     private static BufferedImage convertToType(BufferedImage sourceImage, int targetType) {

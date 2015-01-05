@@ -73,10 +73,10 @@ public class TDSFrame extends JFrame implements ServiceTrackerCustomizer<ICamera
         }
         cameraService = this.context.getService(ref);
 
-        System.out.println("detected Cams: " + cameraService.getCameraCount());
-        for (int i = 0; i < cameraService.getCameraCount(); i++) {
-            System.out.println(cameraService.getCamName(i));
-        }
+//        System.out.println("detected Cams: " + cameraService.getCameraCount());
+//        for (int i = 0; i < cameraService.getCameraCount(); i++) {
+//            System.out.println(cameraService.getCamName(i));
+//        }
 
         JPanel panel = new CamPanel(cameraService, 0);
         

@@ -22,11 +22,11 @@ public interface ICameraService {
 
     public void destroyService();
 
-    public int getCameraCount();
+//    public int getCameraCount();
+//
+//    public String getCamName(int camID);
 
-    public String getCamName(int camID);
-
-    public BufferedImage getLocalCamImage(int camID, int imageType);
+    public BufferedImage getLocalCamImage(int camID);
 
     public IPicture getRemoteCamImage(int camID);
 

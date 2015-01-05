@@ -6,8 +6,6 @@ package com.tds.imgproc;
 import java.awt.image.BufferedImage;
 import java.util.Enumeration;
 
-import org.opencv.core.Mat;
-
 /**
  * <b>IImageProcessingService <br />
  * com.tds.imgproc <br />
@@ -26,7 +24,7 @@ public interface IImageProcessingService {
 	
 	public boolean detectHuman(BufferedImage inputframe);
 
-    public BufferedImage getbufferedImgae(Mat frame);
+//    public BufferedImage getbufferedImage(Mat frame);
 
     public Enumeration getType();
 

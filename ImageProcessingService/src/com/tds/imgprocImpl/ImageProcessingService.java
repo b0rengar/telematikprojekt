@@ -25,6 +25,7 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
 import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
@@ -46,10 +47,50 @@ public class ImageProcessingService implements IImageProcessingService {
 	private CascadeClassifier left_eye, augen_cascade, upperbody;
 	private long time = 0;
 	private boolean noeyes = false;
+	
+	public ImageProcessingService(){
+		System.out.println("Hello, OpenCV");
+	    // Load the native library.
+	    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+	    VideoCapture camera = new VideoCapture(0);
+	    try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	    camera.open(0); //Useless
+	    if(!camera.isOpened()){
+	        System.out.println("Camera Error");
+	    }
+	    else{
+	        System.out.println("Camera OK?");
+	    }
+
+	    Mat frame = new Mat();
+
+	    //camera.grab();
+	    //System.out.println("Frame Grabbed");
+	    //camera.retrieve(frame);
+	    //System.out.println("Frame Decoded");
+
+	    camera.read(frame);
+	    System.out.println("Frame Obtained");
+
+	    /* No difference
+	    camera.release();
+	    */
+
+	    System.out.println("Captured Frame Width " + frame.width());
+
+	    Highgui.imwrite("camera.jpg", frame);
+	    System.out.println("OK");
+		
+	}
 
 	@Override
 	public boolean detectSleep(BufferedImage image) {
-		System.loadLibrary("opencv_java249");
+		
 		augen_cascade = new CascadeClassifier(
 				"haarcascade_eye_tree_eyeglasses.xml");
 		/** erkennt auch geschlossene Augen */
@@ -206,8 +247,8 @@ public class ImageProcessingService implements IImageProcessingService {
 
 	@Override
 	public boolean detectHuman(BufferedImage image) {
-		System.loadLibrary("opencv_java249");
-		/** erkennt oberkörper */
+
+		/** erkennt oberkoerper */
 		upperbody = new CascadeClassifier("haarcascade_upperbody.xml");
 		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer())
 				.getData();
@@ -242,11 +283,11 @@ public class ImageProcessingService implements IImageProcessingService {
 		return human;
 	}
 
-	@Override
-	public BufferedImage getbufferedImgae(Mat frame) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public BufferedImage getbufferedImgae(Mat frame) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Enumeration getType() {
