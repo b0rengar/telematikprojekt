@@ -16,8 +16,8 @@ package com.tds.gps;
  *
  */
 public interface IGPSService {
-    public static String Event_GPS = "GPS/Data";
-    public static String Event_GPS_TOPIC = "gpsService/Data";
+    public static String Event_DATA = "GPS/Data";
+    public static String Event_TOPIC = "gpsservice/eventsender/GPS";
 
     String getGpsPosition();
 

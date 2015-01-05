@@ -46,11 +46,11 @@ public class GPSService implements IGPSService {
     private static String gpsString;
 
     public void bindEventAdmin(EventAdmin eventAdmin) {
-        this.eventAdmin = eventAdmin;
+        GPSService.eventAdmin = eventAdmin;
     }
 
     public void unbindEventAdmin(EventAdmin eventAdmin) {
-        this.eventAdmin = null;
+        GPSService.eventAdmin = null;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class GPSService implements IGPSService {
 
                         Dictionary<String, String> eventProps = new Hashtable<String, String>();
                         eventProps.put(Event_GPS, gpsString);
-                        Event osgiEvent = new Event("gpsservice/eventsender/GPS", eventProps);
+                        Event osgiEvent = new Event(Event_GPS_TOPIC, eventProps);
 
                         // "sendEvent()" synchron
                         // "postEvent()" asynchron:

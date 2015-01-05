@@ -3,61 +3,48 @@
  */
 package com.tds.obupersistenceImpl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
-import org.osgi.service.event.Event;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
+import com.tds.gps.IGPSService;
 import com.tds.obupersistence.IOBUPersistenceService;
 
 /**
  * @author Phillip Kopprasch
  *
  */
-public class OBUPersistenceService implements IOBUPersistenceService, EventHandler {
+public class OBUPersistenceService implements IOBUPersistenceService, ServiceTrackerCustomizer<Object, Object> {
+    private BundleContext context;
+// private IGPSService gpsService;
+// private IOBDService odbService;
+    private Writer writer;
 
-    public OBUPersistenceService() {
+    @Override
+    public Object addingService(ServiceReference reference) {
+        Dictionary<String, String[]> topics = new Hashtable<>();
+        if (reference instanceof IGPSService) {
+            topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.Event_TOPIC });
+            context.registerService(EventHandler.class.getName(), writer, topics);
+
+        }
+        return this.context.getService(reference);
     }
 
     @Override
-    public void handleEvent(Event event) {
-        // TODO Auto-generated method stub
-        System.out.println(event.getProperty("gpsService/Data"));
-
+    public void modifiedService(ServiceReference reference, Object service) {
+        // TODO
     }
 
-    private void write(String data, int type) {
-        try {
-
-            String filename = null;
-            if (type == TYPE_GPS) {
-                filename = FILE_GPS;
-            } else if (type == TYPE_ODB) {
-                filename = FILE_ODB;
-            } else {
-                return;
-            }
-
-            File file = new File(filename);
-
-            FileWriter writer = new FileWriter(file);
-            if (file.exists()) {
-                writer.append(data);
-            } else {
-                writer.write(data);
-            }
-
-            writer.close();
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    @Override
+    public void removedService(ServiceReference reference, Object service) {
+        if (reference instanceof IGPSService) {
+// gpsService = null;
         }
     }
 }
