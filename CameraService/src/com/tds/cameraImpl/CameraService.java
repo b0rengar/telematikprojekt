@@ -51,55 +51,43 @@ public class CameraService implements ICameraService {
         }
     }
 
-    @Override
-    public int getCameraCount() {
-        return cams.size();
-    }
+//    @Override
+//    public int getCameraCount() {
+//        return cams.size();
+//    }
+//
+//    @Override
+//    public String getCamName(int camID) {
+//        if (camID < 0 && camID >= getCameraCount()) {
+//            return "";
+//        }
+//        return cams.get(camID).getName();
+//
+//    }
 
     @Override
-    public String getCamName(int camID) {
-        if (camID < 0 && camID >= getCameraCount()) {
-            return "";
-        }
-        return cams.get(camID).getName();
-
-    }
-
-    @Override
-    public BufferedImage getLocalCamImage(int camID, int imageType) {
-        if (camID < 0 && camID >= getCameraCount()) {
-            return null;
-        }
-
-        Webcam cam = cams.get(camID);
-        if (!cam.isOpen()) {
-            cam.setViewSize(new Dimension(640, 480));
-            cam.open();
-        }
-
-        BufferedImage img = cam.getImage();
-
-        return convertToType(img, imageType);
+    public BufferedImage getLocalCamImage(int camID) {
+//        if (camID < 0 && camID >= getCameraCount()) {
+//            return null;
+//        }
+//
+//        Webcam cam = cams.get(camID);
+//        if (!cam.isOpen()) {
+//            cam.setViewSize(new Dimension(640, 480));
+//            cam.open();
+//        }
+//
+//        BufferedImage img = cam.getImage();
+//
+//        return convertToType(img, imageType);
+    	return null;
 
     }
 
     @Override
     public IPicture getRemoteCamImage(int camID) {
-        if (camID < 0 && camID >= getCameraCount()) {
-            return null;
-        }
-
-        Webcam cam = cams.get(camID);
-        if (!cam.isOpen()) {
-            cam.setViewSize(new Dimension(640, 480));
-            cam.open();
-        }
-
-        BufferedImage img = cam.getImage();
-        if (img == null) {
-            return null;
-        }
-        return new Picture(img);
+        
+        return new Picture(getLocalCamImage(camID));
     }
 
     private static BufferedImage convertToType(BufferedImage sourceImage, int targetType) {
