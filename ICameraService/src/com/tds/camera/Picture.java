@@ -30,7 +30,7 @@ public class Picture implements IPicture {
     private byte[] pixels;
 
     public Picture(BufferedImage bi) {
-
+    	if(bi == null) return;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             ImageIO.write(bi, "jpg", baos);

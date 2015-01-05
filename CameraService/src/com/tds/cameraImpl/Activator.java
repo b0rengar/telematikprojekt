@@ -1,13 +1,7 @@
 package com.tds.cameraImpl;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
-
-import ch.ethz.iks.r_osgi.RemoteOSGiService;
 
 import com.tds.camera.ICameraService;
 
@@ -38,15 +32,15 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         this.context = context;
-        service = new CameraService(context);
-
-        Dictionary<String, Object> params = new Hashtable<>();
-        params.put(Constants.SERVICE_PID, ICameraService.class.getName());
-        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the camera interfaces.");
-        params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
-        context.registerService(ICameraService.class.getName(), service, params);
-
-        service.startCameraEvents(0, "obu/camera/driver", 15);
+//        service = new CameraService(context);
+//
+//        Dictionary<String, Object> params = new Hashtable<>();
+//        params.put(Constants.SERVICE_PID, ICameraService.class.getName());
+//        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the camera interfaces.");
+//        params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
+//        context.registerService(ICameraService.class.getName(), service, params);
+//
+//        service.startCameraEvents(0, "obu/camera/driver", 15);
 // service.startCameraEvents(1, "obu/camera/road", 15);
 
     }

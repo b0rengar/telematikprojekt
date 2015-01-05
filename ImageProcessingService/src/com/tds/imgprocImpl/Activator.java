@@ -7,6 +7,9 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 
+import ch.ethz.iks.r_osgi.RemoteOSGiService;
+
+import com.tds.camera.ICameraService;
 import com.tds.imgproc.IImageProcessingService;
 
 /**
@@ -27,6 +30,8 @@ public class Activator implements BundleActivator {
     private static BundleContext context;
 
     private IImageProcessingService service;
+    
+    private ICameraService camService;
 
     static BundleContext getContext() {
         return context;
@@ -46,6 +51,17 @@ public class Activator implements BundleActivator {
         params.put(Constants.SERVICE_PID, IImageProcessingService.class.getName());
         params.put(Constants.SERVICE_DESCRIPTION, "Provides image processing capabilities.");
         context.registerService(IImageProcessingService.class.getName(), service, params);
+        
+        
+        camService = new CameraService(context, 2);
+
+        params = new Hashtable<>();
+        params.put(Constants.SERVICE_PID, ICameraService.class.getName());
+        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the camera interfaces.");
+        params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
+        context.registerService(ICameraService.class.getName(), camService, params);
+
+        camService.startCameraEvents(0, "obu/camera/driver", 15);
 
     }
 

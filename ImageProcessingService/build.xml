@@ -4,6 +4,7 @@
 		<fileset dir="."/>
 		<fileset file="../Server/felix/bin/felix.jar" />
 		<fileset dir="../IImageProcessingService/target" includes="**/*.jar"/>
+		<fileset dir="../ICameraService/target" includes="**/*.jar"/>
 		<fileset dir="../Server/felix/bundle" />
 	</path>
 	
