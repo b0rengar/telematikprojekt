@@ -2,9 +2,9 @@ package com.tds.gui;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
+import org.osgi.framework.Filter;
 import org.osgi.util.tracker.ServiceTracker;
-
-import com.tds.camera.ICameraService;
 
 public class Activator implements BundleActivator {
 
@@ -14,7 +14,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
@@ -22,7 +22,8 @@ public class Activator implements BundleActivator {
         this.context = context;
 
         MainFrame mf = new MainFrame(context);
-        tracker = new ServiceTracker<>(context, ICameraService.class.getName(), mf);
+        Filter filter = context.createFilter("(" + Constants.OBJECTCLASS + "=com.tds*)");
+        tracker = new ServiceTracker<>(context, filter, mf);
         tracker.open();
         mf.getFrame().setVisible(true);
 
@@ -35,7 +36,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override

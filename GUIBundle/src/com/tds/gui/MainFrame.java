@@ -1,7 +1,6 @@
 package com.tds.gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,19 +19,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
+import ch.ethz.iks.r_osgi.RemoteOSGiService;
+import ch.ethz.iks.r_osgi.RemoteServiceReference;
+import ch.ethz.iks.r_osgi.URI;
+
 import com.tds.camera.ICameraService;
+import com.tds.obd.IOBDService;
 import com.tds.persistence.IPersistenceService;
 
 public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
@@ -41,10 +40,12 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     private BundleContext context;
     private ICameraService cameraService;
     private IPersistenceService persistenceService;
+    private IOBDService obdService;
 
     private JFrame frmMainWindow;
 
     JInternalFrame ifFrontKamera;
+    JInternalFrame ifBetriebsparameter;
 
     JMenuItem mntmFahrzeugHinzufuegen;
     JMenuItem mntmFahrzeuglisteBearbeiten;
@@ -76,10 +77,45 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 // super("(T)elemetrie (D)aten (S)ystem");
         this.context = context;
 
+        getRemoteOSGiServices();
+
         initialize();
 
 // public MainFrame() {
 //
+    }
+
+    private void getRemoteOSGiServices() {
+        System.out.println("Connecting to OBU at MainFrame");
+
+        try {
+
+            final ServiceReference sref = context.getServiceReference(RemoteOSGiService.class.getName());
+
+            if (sref == null) {
+                throw new BundleException("No R-OSGi found");
+            }
+
+            RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
+
+            // connect
+            // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+            RemoteServiceReference[] rsr;
+
+            rsr = remote.connect(new URI("r-osgi://localhost:9278"));
+            for (int i = 0; i < rsr.length; i++) {
+                System.out.println(remote.getRemoteService(rsr[i]).getClass().toString());
+                if (remote.getRemoteService(rsr[i]) instanceof IOBDService) {
+                    obdService = (IOBDService) remote.getRemoteService(rsr[i]);
+                }
+            }
+            System.out.println("Connected to OBU successfully");
+        } catch (Exception e) {
+            System.out.println("Connecting not successful");
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -165,59 +201,59 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         menuBar.add(mnUeber);
         frmMainWindow.getContentPane().setLayout(null);
 
-        XYSeries series = new XYSeries("Geschwindigkeit");
-        series.add(1, 1);
-        series.add(1, 2);
-        series.add(2, 1);
-        series.add(3, 9);
-        series.add(4, 10);
-        series.add(5, 1);
-        series.add(6, 2);
-        series.add(7, 1);
-        series.add(8, 9);
-        series.add(9, 10);
-        series.add(10, 1);
-        // Add the series to your data set
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
-        // Generate the graph
-        JFreeChart chart = ChartFactory.createXYLineChart("Geschwindigkeit", // Title
-                "", // x-axis Label
-                "", // y-axis Label
-                dataset, // Dataset
-                PlotOrientation.VERTICAL, // Plot Orientation
-                false, // Show Legend
-                true, // Use tooltips
-                false // Configure chart to generate URLs?
-                );
-        ChartPanel chartPanel = new ChartPanel(chart);
-
-        XYSeries series2 = new XYSeries("Temperature");
-        series2.add(1, 1);
-        series2.add(1, 2);
-        series2.add(2, 1);
-        series2.add(3, 9);
-        series2.add(4, 10);
-        series2.add(5, 1);
-        series2.add(6, 2);
-        series2.add(7, 1);
-        series2.add(8, 9);
-        series2.add(9, 10);
-        series2.add(10, 1);
-        // Add the series to your data set
-        XYSeriesCollection dataset2 = new XYSeriesCollection();
-        dataset2.addSeries(series2);
-        // Generate the graph
-        JFreeChart chart2 = ChartFactory.createXYLineChart("Temperature", // Title
-                "", // x-axis Label
-                "", // y-axis Label
-                dataset2, // Dataset
-                PlotOrientation.VERTICAL, // Plot Orientation
-                false, // Show Legend
-                true, // Use tooltips
-                false // Configure chart to generate URLs?
-                );
-        ChartPanel chartPanel2 = new ChartPanel(chart2);
+// XYSeries series = new XYSeries("Geschwindigkeit");
+// series.add(1, 1);
+// series.add(1, 2);
+// series.add(2, 1);
+// series.add(3, 9);
+// series.add(4, 10);
+// series.add(5, 1);
+// series.add(6, 2);
+// series.add(7, 1);
+// series.add(8, 9);
+// series.add(9, 10);
+// series.add(10, 1);
+// // Add the series to your data set
+// XYSeriesCollection dataset = new XYSeriesCollection();
+// dataset.addSeries(series);
+// // Generate the graph
+// JFreeChart chart = ChartFactory.createXYLineChart("Geschwindigkeit", // Title
+// "", // x-axis Label
+// "", // y-axis Label
+// dataset, // Dataset
+// PlotOrientation.VERTICAL, // Plot Orientation
+// false, // Show Legend
+// true, // Use tooltips
+// false // Configure chart to generate URLs?
+// );
+// ChartPanel chartPanel = new ChartPanel(chart);
+//
+// XYSeries series2 = new XYSeries("Temperature");
+// series2.add(1, 1);
+// series2.add(1, 2);
+// series2.add(2, 1);
+// series2.add(3, 9);
+// series2.add(4, 10);
+// series2.add(5, 1);
+// series2.add(6, 2);
+// series2.add(7, 1);
+// series2.add(8, 9);
+// series2.add(9, 10);
+// series2.add(10, 1);
+// // Add the series to your data set
+// XYSeriesCollection dataset2 = new XYSeriesCollection();
+// dataset2.addSeries(series2);
+// // Generate the graph
+// JFreeChart chart2 = ChartFactory.createXYLineChart("Temperature", // Title
+// "", // x-axis Label
+// "", // y-axis Label
+// dataset2, // Dataset
+// PlotOrientation.VERTICAL, // Plot Orientation
+// false, // Show Legend
+// true, // Use tooltips
+// false // Configure chart to generate URLs?
+// );
+// ChartPanel chartPanel2 = new ChartPanel(chart2);
 
         ifFrontKamera = new JInternalFrame("Front-Kamera Ansicht");
         ifFrontKamera.setBounds(592, 0, 445, 315);
@@ -227,11 +263,15 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifFrontKamera.setClosable(true);
         frmMainWindow.getContentPane().add(ifFrontKamera);
 
-        JInternalFrame ifBetriebsparameter = new JInternalFrame("Betriebsparameter Ansicht");
+        ifBetriebsparameter = new JInternalFrame("Betriebsparameter Ansicht");
         ifBetriebsparameter.setBounds(0, 0, 445, 315);
-        ifBetriebsparameter.getContentPane().setLayout(new GridLayout(3, 2));
-        ifBetriebsparameter.add(chartPanel);
-        ifBetriebsparameter.add(chartPanel2);
+        ifBetriebsparameter.setIconifiable(true);
+        ifBetriebsparameter.setResizable(true);
+        ifBetriebsparameter.setMaximizable(true);
+        ifBetriebsparameter.setClosable(true);
+// ifBetriebsparameter.add(chartPanel);
+// ifBetriebsparameter.add(chartPanel2);
+        ifBetriebsparameter.getContentPane().setLayout(new BorderLayout(0, 0));
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 
         JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
@@ -305,9 +345,10 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
     @Override
     public Object addingService(ServiceReference<Object> ref) {
-        System.out.println("ADDDING" + ref.getClass().getName());
-        if (ref instanceof ICameraService) {
-            System.out.println("Adding Service CameraService");
+
+        Object s = this.context.getService(ref);
+        if (s instanceof ICameraService) {
+            System.out.println("Adding Service CameraService to MainFrame");
             cameraService = (ICameraService) this.context.getService(ref);
 
             JPanel panel = new CamPanel(cameraService, 0);
@@ -321,12 +362,15 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             ifFrontKamera.setVisible(true);
             return cameraService;
         }
-        if (ref instanceof IPersistenceService) {
-            System.out.println("Adding Service PersistenceService");
+        if (s instanceof IPersistenceService) {
+            System.out.println("Adding Service PersistenceService to MainFrame");
             persistenceService = (IPersistenceService) this.context.getService(ref);
-
+// persistenceService.setEvent(42, "test.file", 123423423, "0,0");
+            ifBetriebsparameter.getContentPane().add(new ParameterPanel(persistenceService, obdService));
+            ifBetriebsparameter.setVisible(false);
+            ifBetriebsparameter.setVisible(true);
         }
-        return this.context.getService(ref);
+        return s;
     }
 
     @Override
@@ -336,10 +380,11 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
     @Override
     public void removedService(ServiceReference<Object> ref, Object service) {
-        if (ref instanceof ICameraService) {
+        if (service instanceof ICameraService) {
+            // TODO service or context.getService(ref) ??
             cameraService = null;
         }
-        if (ref instanceof IPersistenceService) {
+        if (service instanceof IPersistenceService) {
             persistenceService = null;
         }
 

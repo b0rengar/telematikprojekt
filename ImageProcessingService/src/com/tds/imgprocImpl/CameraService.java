@@ -1,6 +1,5 @@
 package com.tds.imgprocImpl;
 
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,63 +29,61 @@ public class CameraService implements ICameraService {
         this.context = context;
         timers = new HashMap<Integer, Timer>();
         cams = new ArrayList<VideoCapture>();
-        
-        for(int i = 0; i < numCams; i++){
-        	try{
-        		VideoCapture vc = new VideoCapture(i);
-	        	cams.add(vc);
-	        	vc.open(i);
-	        	Thread.sleep(1000);
-	        	if(vc.isOpened()){
-	        		System.out.println("camera " + i);
-	        	}
-        	}
-        	catch(Exception e){
-        		System.out.println("camera exception :\n"+ e.getMessage());
-        	}
+
+        for (int i = 0; i < numCams; i++) {
+            try {
+                VideoCapture vc = new VideoCapture(i);
+                cams.add(vc);
+                vc.open(i);
+                Thread.sleep(1000);
+                if (vc.isOpened()) {
+                    System.out.println("camera " + i);
+                }
+            } catch (Exception e) {
+                System.out.println("camera exception :\n" + e.getMessage());
+            }
         }
 
     }
 
     @Override
     public void destroyService() {
-        
-    	for(VideoCapture vc : cams){
-    		vc.release();
-    	}
+
+        for (VideoCapture vc : cams) {
+            vc.release();
+        }
         for (Timer t : timers.values()) {
             t.cancel();
             t.purge();
         }
     }
 
-
-
     @Override
     public BufferedImage getLocalCamImage(int camID) {
-    	if(camID < 0 && camID >= cams.size())
-    		return null;
-    	
-    	VideoCapture camera = cams.get(camID);
-    	if(!camera.isOpened()){
-    		camera.open(camID);
-    	}
-    	
-    	if(camera.isOpened()){
- 	    
-	 	    Mat frame = new Mat();
-	 	    camera.read(frame);
-	 	    
-	 	    try {
-				return Util.convertToBufferedImage(frame);
-			} catch (UnsupportedDataTypeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
- 	    
-    	}
-    	
-    	return null;
+        if (camID < 0 && camID >= cams.size()) {
+            return null;
+        }
+
+        VideoCapture camera = cams.get(camID);
+        if (!camera.isOpened()) {
+            camera.open(camID);
+        }
+
+        if (camera.isOpened()) {
+
+            Mat frame = new Mat();
+            camera.read(frame);
+
+            try {
+                return Util.convertToBufferedImage(frame);
+            } catch (UnsupportedDataTypeException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        return null;
 
     }
 
@@ -95,7 +92,6 @@ public class CameraService implements ICameraService {
         return new Picture(getLocalCamImage(camID));
     }
 
-    
     @Override
     public void startCameraEvents(int camID, String topic, int fps) {
 
