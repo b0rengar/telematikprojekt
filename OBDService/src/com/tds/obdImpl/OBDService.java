@@ -14,6 +14,7 @@ import pt.lighthouselabs.obd.commands.temperature.EngineCoolantTemperatureObdCom
 import pt.lighthouselabs.obd.enums.ObdProtocols;
 
 import com.tds.obd.IOBDService;
+import com.tds.obd.OBDParameterSet;
 
 /**
  * <b>OBDService <br />
@@ -73,6 +74,18 @@ public class OBDService implements IOBDService {
     private void initializeODB2() throws Exception {
         System.out.println("Initialize ODB2");
         new SelectProtocolObdCommand(ObdProtocols.AUTO).run(input, output);
+    }
+
+    @Override
+    public OBDParameterSet getPamrameterSet() {
+        OBDParameterSet set = new OBDParameterSet();
+        set.setSpeed(getSpeed());
+        set.setFuelConsumptionRate(getFuelConsumptionRate());
+        set.setEngineRPM(getEngineRPM());
+        set.setEngineTemperature(getEngineTemperature());
+        set.setCarIndoorTemperature(getCarIndoorTemperature());
+        set.setCarOutdoorTemperature(getCarOutdoorTemperature());
+        return set;
     }
 
     @Override

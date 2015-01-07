@@ -17,6 +17,8 @@ public interface IOBDService {
 
     public void openSP();
 
+    public OBDParameterSet getPamrameterSet();
+
     public float getSpeed();
 
     public float getFuelConsumptionRate();
