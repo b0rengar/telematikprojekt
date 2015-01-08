@@ -3,58 +3,67 @@ package com.tds.webImpl;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import javax.servlet.http.HttpServlet;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.util.tracker.ServiceTracker;
+
+import com.tds.persistence.IPersistenceService;
 import com.tds.web.IWebService;
 
 public class Activator implements BundleActivator {
 
-    private static BundleContext context;
+    private BundleContext context;
 
-    private IWebService service;
+    private WebService service;
 
     private ServletTracker st;
 
-    static BundleContext getContext() {
-        return context;
-    }
+    private ServiceTracker<IPersistenceService, IPersistenceService> tracker;
+
+// static BundleContext getContext() {
+// return context;
+// }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
     @SuppressWarnings("unchecked")
     public void start(BundleContext bundleContext) throws Exception {
 
-        Activator.context = bundleContext;
-        service = new WebService();
+        this.context = bundleContext;
+        service = new WebService(context);
 
         Dictionary<String, Object> params = new Hashtable<>();
         params.put(Constants.SERVICE_PID, IWebService.class.getName());
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the Webservices.");
         context.registerService(IWebService.class.getName(), service, params);
 
+        tracker = new ServiceTracker<IPersistenceService, IPersistenceService>(context, IPersistenceService.class.getName(), service);
+        tracker.open();
+
         st = new ServletTracker(bundleContext);
-        st.addServlet("/Web", (HttpServlet) service);
+        st.addServlet("/Web", service);
         st.open();
 
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
-        Activator.context = null;
+        this.context = null;
         st.removeServlet("/Web");
         st.close();
+        this.context = null;
+        tracker.close();
+        tracker = null;
     }
 
 }

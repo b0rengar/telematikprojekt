@@ -4,9 +4,13 @@
 package com.tds.webImpl;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -14,6 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
+
+import com.tds.persistence.IPersistenceService;
+import com.tds.persistence.TdsEvent;
 import com.tds.web.IWebService;
 
 /**
@@ -28,12 +38,18 @@ import com.tds.web.IWebService;
  * @created 18.11.2014 15:17:20
  * 
  */
-public class WebService extends HttpServlet implements IWebService {
+public class WebService extends HttpServlet implements IWebService, ServiceTrackerCustomizer<IPersistenceService, IPersistenceService> {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+    private final BundleContext context;
+    private IPersistenceService persistenceService;
+
+    public WebService(BundleContext context) {
+        this.context = context;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,15 +57,14 @@ public class WebService extends HttpServlet implements IWebService {
 // resp.getWriter().write(new Date().toString());
 // resp.getWriter().write("\n---------------------------------");
 // resp.getWriter().flush();
-        String startDate = request.getParameter("date");
+        long startDate = Long.valueOf(request.getParameter("date"));
         String quest = request.getParameter("quest");
-        String id = request.getParameter("id");
 // List<String> msgs = getMessages(getDateFromString(startDate));
 //
 // for (String msg : msgs) {
 // response.getWriter().write(msg);
 // }
-        System.out.println("given Parameter: " + startDate + " " + quest + " " + id);
+        System.out.println("given Parameter: " + startDate + " " + quest);
 
         try {
 
@@ -58,27 +73,140 @@ public class WebService extends HttpServlet implements IWebService {
                 // get id from List with notifications
                 response.setContentType("image/jpeg");
 
-                BufferedImage img;
-                if (Integer.valueOf(id) == 1) {
-                    img = ImageIO.read(new URL("http://data.motor-talk.de/data/galleries/0/147/9424/43109894/bild--7008737403287221413.jpg"));
-                } else {
-                    img = ImageIO.read(new URL("http://4.bp.blogspot.com/-19cColZlWD8/T3tTfo34DkI/AAAAAAAABIo/CLh7EkgGwPk/s1600/5376_1_articleorg_Facebook_Daumen_runter.jpg"));
-                }
+                BufferedImage img = getBuffImageFromTdsEvent(startDate);
+// if (Integer.valueOf(id) == 1) {
+// img = ImageIO.read(new URL("http://upload.wikimedia.org/wikipedia/commons/0/0b/B61_G%C3%BCnser_Stra%C3%9Fe_-Unterloisdorf.JPG"));
+// } else {
+// img = ImageIO.read(new URL("http://images.fotocommunity.de/bilder/landschaft/wege-und-pfade/strasse-ins-nichts-1abbc2c9-52d4-4eb6-a26c-61798d13ddec.jpg"));
+// }
                 OutputStream out = response.getOutputStream();
                 ImageIO.write(img, "jpg", out);
                 out.close();
             } else if (quest.equals("data")) {
                 System.out.println("send Data");
-                // PROTOCOLL YEAR;MONTH;DAY;HOUR;MINUTES;SECONDS;TYPE;LATITUDE;LONGITUDE;IMAGE
-                response.getWriter().write("2013;12;01;12;33;17;Warning;52.342052;13.512783;0#");
-                response.getWriter().write("2013;12;22;17;22;33;Information;52.342052;13.40292;1#");
-                response.getWriter().write("2013;12;24;19;44;12;Warning;52.50452;13.40292;0#");
-                response.getWriter().write("2013;12;24;19;44;12;Information;52.50452;13.40292;1#");
-                response.getWriter().write("2013;12;24;19;44;12;Information;52.50452;13.40292;1#");
+                String eventData = getStringFromEvents(getEventsFromMongoDB(startDate));
+                System.out.println(eventData);
+                response.getWriter().write(eventData);
+
+                // ---------------------------------------------------------------------------------
+                // TestData
+                // PROTOCOLL TIMESTAMP;TYPE;LATITUDE;LONGITUDE;IMAGE
+                // response.getWriter().write("1418068174826;0;52.342052;13.512783;0#");
+                // response.getWriter().write("1418068174826;1;52.342052;13.40292;1#");
+                // response.getWriter().write("1418068174826;2;52.50452;13.40292;0#");
+                // response.getWriter().write("1418068174826;0;52.50452;13.40292;1#");
+                // response.getWriter().write("1418068174826;1;52.50452;13.40292;1#");
             }
         } catch (Exception e) {
             // TODO: handle exception
         }
+    }
+
+    /**
+     * 
+     * @param startDate
+     * @return
+     * @throws IOException
+     */
+    private BufferedImage getBuffImageFromTdsEvent(long startDate) throws IOException {
+        BufferedImage img = null;
+        ArrayList<TdsEvent> events = null;
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(startDate);
+
+        try {
+            events = persistenceService.getTdsEventsFromDB();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        for (TdsEvent temp : events) {
+            Calendar tmpDate = Calendar.getInstance();
+            tmpDate.setTimeInMillis(temp.getTimestamp());
+            if (tmpDate.getTimeInMillis() > date.getTimeInMillis()) {
+                img = ImageIO.read(new File(temp.getFilename()));
+            }
+        }
+        return img;
+    }
+
+    /**
+     * method to get Events from DB with time range and sorted by time stamp
+     * 
+     * @param startDate - beginning of event time
+     */
+    public ArrayList<TdsEvent> getEventsFromMongoDB(long startDate) {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(startDate);
+
+        ArrayList<TdsEvent> events = null;
+        try {
+            events = persistenceService.getTdsEventsFromDB();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        System.out.println(persistenceService.getTdsEventsFromDB());
+        ArrayList<TdsEvent> neededEvents = new ArrayList<TdsEvent>();
+        System.out.println("2");
+        // loop through all events, to get events in time range
+        for (TdsEvent temp : events) {
+            Calendar tmpDate = Calendar.getInstance();
+            tmpDate.setTimeInMillis(temp.getTimestamp());
+            if (tmpDate.getTimeInMillis() > date.getTimeInMillis()) {
+                System.out.println(temp.getEventId());
+                neededEvents.add(temp);
+            }
+        }
+        // Sorting events newest on top
+        Collections.sort(neededEvents, new Comparator<TdsEvent>() {
+            @Override
+            public int compare(TdsEvent event1, TdsEvent event2) {
+                return Long.valueOf(event1.getTimestamp()).compareTo(Long.valueOf(event2.getTimestamp()));
+            }
+        });
+        return neededEvents;
+    }
+
+    /**
+     * method to get data string from event array
+     * 
+     * @param events - array
+     * @return data - string
+     */
+    public String getStringFromEvents(ArrayList<TdsEvent> events) {
+        String str = "";
+        for (TdsEvent temp : events) {
+            str += temp.getTimestamp();
+            str += ";";
+            str += temp.getEventId();
+            str += ";";
+            // str += temp.getGps();
+            str += "52.342052";
+            str += ";";
+            str += "13.40292";
+
+            str += "#";
+        }
+        return str;
+    }
+
+    @Override
+    public IPersistenceService addingService(ServiceReference<IPersistenceService> arg0) {
+        System.out.println("WebService adding Persistence Service");
+        persistenceService = this.context.getService(arg0);
+        return persistenceService;
+    }
+
+    @Override
+    public void modifiedService(ServiceReference<IPersistenceService> arg0, IPersistenceService arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void removedService(ServiceReference<IPersistenceService> arg0, IPersistenceService arg1) {
+        // TODO Auto-generated method stub
+
     }
 
 }
