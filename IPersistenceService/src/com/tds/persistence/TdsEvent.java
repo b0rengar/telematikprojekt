@@ -13,6 +13,11 @@ public class TdsEvent {
         this.filename = filename;
     }
 
+    @Override
+    public String toString() {
+        return "TdsEvent " + this.eventId;
+    }
+
     public int getEventId() {
         return eventId;
     }

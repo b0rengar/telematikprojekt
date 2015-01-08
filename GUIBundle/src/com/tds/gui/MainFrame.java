@@ -35,6 +35,7 @@ import com.tds.gui.panels.CamPanel;
 import com.tds.gui.panels.CarEditDialog;
 import com.tds.gui.panels.CarListDialog;
 import com.tds.gui.panels.ClientServerDialog;
+import com.tds.gui.panels.EventPanel;
 import com.tds.gui.panels.ParameterPanel;
 import com.tds.gui.panels.PathsDialog;
 import com.tds.gui.panels.UnitsDialog;
@@ -222,11 +223,15 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 
         JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
-        ifMeldungen.setBounds(596, 0, 250, 315);
+        ifMeldungen.setClosable(true);
+        ifMeldungen.setIconifiable(true);
+        ifMeldungen.setMaximizable(true);
+        ifMeldungen.getContentPane().add(new EventPanel());
+        ifMeldungen.setBounds(596, 318, 531, 263);
         frmMainWindow.getContentPane().add(ifMeldungen);
 
         JInternalFrame ifKarte = new JInternalFrame("Karte Ansicht");
-        ifKarte.setBounds(596, 317, 530, 264);
+        ifKarte.setBounds(596, 0, 270, 315);
         frmMainWindow.getContentPane().add(ifKarte);
 
         try {
