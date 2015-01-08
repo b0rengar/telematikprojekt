@@ -48,27 +48,27 @@ public class ParameterPanel extends JPanel implements EventHandler {
         TimerTask tt = new OBDRequester(this.obdService, this);
 
         JLabel lblKmh = new JLabel("km/h");
-        lblKmh.setBounds(199, 14, 46, 14);
+        lblKmh.setBounds(210, 14, 46, 14);
         add(lblKmh);
 
         JLabel lblLh = new JLabel("l/h");
-        lblLh.setBounds(199, 191, 46, 14);
+        lblLh.setBounds(210, 191, 46, 14);
         add(lblLh);
 
         JLabel lblc = new JLabel("°C");
-        lblc.setBounds(199, 368, 46, 14);
+        lblc.setBounds(210, 368, 46, 14);
         add(lblc);
 
         JLabel lblUmin = new JLabel("U/min");
-        lblUmin.setBounds(494, 14, 46, 14);
+        lblUmin.setBounds(504, 14, 46, 14);
         add(lblUmin);
 
         JLabel lblc_1 = new JLabel("°C");
-        lblc_1.setBounds(494, 191, 46, 14);
+        lblc_1.setBounds(504, 191, 46, 14);
         add(lblc_1);
 
         JLabel lblc_2 = new JLabel("°C");
-        lblc_2.setBounds(494, 368, 46, 14);
+        lblc_2.setBounds(504, 368, 46, 14);
         add(lblc_2);
 
         System.out.println("start timer ODB 2");
@@ -91,67 +91,67 @@ public class ParameterPanel extends JPanel implements EventHandler {
         textFieldGeschwindigkeit = new JTextField();
         textFieldGeschwindigkeit.setEditable(false);
         textFieldGeschwindigkeit.setHorizontalAlignment(SwingConstants.RIGHT);
-        textFieldGeschwindigkeit.setBounds(103, 11, 86, 20);
+        textFieldGeschwindigkeit.setBounds(140, 11, 60, 20);
         add(textFieldGeschwindigkeit);
         textFieldGeschwindigkeit.setColumns(10);
 
         JLabel lblGeschwindigkeit = new JLabel("Geschwindigkeit");
-        lblGeschwindigkeit.setBounds(10, 14, 83, 14);
+        lblGeschwindigkeit.setBounds(10, 14, 120, 14);
         add(lblGeschwindigkeit);
 
         JLabel lblDrehzahl = new JLabel("Drehzahl");
-        lblDrehzahl.setBounds(305, 14, 83, 14);
+        lblDrehzahl.setBounds(305, 14, 119, 14);
         add(lblDrehzahl);
 
         textFieldDrehzahl = new JTextField();
         textFieldDrehzahl.setEditable(false);
         textFieldDrehzahl.setHorizontalAlignment(SwingConstants.RIGHT);
-        textFieldDrehzahl.setBounds(398, 11, 86, 20);
+        textFieldDrehzahl.setBounds(434, 11, 60, 20);
         add(textFieldDrehzahl);
         textFieldDrehzahl.setColumns(10);
 
         JLabel lblVerbrauch = new JLabel("Verbrauch");
-        lblVerbrauch.setBounds(10, 191, 83, 14);
+        lblVerbrauch.setBounds(10, 191, 120, 14);
         add(lblVerbrauch);
 
         textFieldVerbrauch = new JTextField();
         textFieldVerbrauch.setEditable(false);
         textFieldVerbrauch.setHorizontalAlignment(SwingConstants.RIGHT);
-        textFieldVerbrauch.setBounds(103, 188, 86, 20);
+        textFieldVerbrauch.setBounds(140, 188, 60, 20);
         add(textFieldVerbrauch);
         textFieldVerbrauch.setColumns(10);
 
         JLabel lblMotortemperatur = new JLabel("Motortemperatur");
-        lblMotortemperatur.setBounds(305, 191, 83, 14);
+        lblMotortemperatur.setBounds(305, 191, 119, 14);
         add(lblMotortemperatur);
 
         textFieldMotortemperatur = new JTextField();
         textFieldMotortemperatur.setEditable(false);
         textFieldMotortemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
-        textFieldMotortemperatur.setBounds(398, 188, 86, 20);
+        textFieldMotortemperatur.setBounds(434, 188, 60, 20);
         add(textFieldMotortemperatur);
         textFieldMotortemperatur.setColumns(10);
 
-        JLabel lblInnentemperatur = new JLabel("Innentemp.");
-        lblInnentemperatur.setBounds(10, 368, 83, 14);
+        JLabel lblInnentemperatur = new JLabel("Innentemperatur");
+        lblInnentemperatur.setBounds(10, 368, 120, 14);
         add(lblInnentemperatur);
 
         textFieldInnentemperatur = new JTextField();
         textFieldInnentemperatur.setEditable(false);
         textFieldInnentemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
-        textFieldInnentemperatur.setBounds(103, 365, 86, 20);
+        textFieldInnentemperatur.setBounds(140, 365, 60, 20);
         add(textFieldInnentemperatur);
         textFieldInnentemperatur.setColumns(10);
 
-        JLabel lblAussentemperatur = new JLabel("Außentemp.");
-        lblAussentemperatur.setBounds(305, 368, 83, 14);
+        JLabel lblAussentemperatur = new JLabel("Außentemperatur");
+        lblAussentemperatur.setBounds(305, 368, 119, 14);
         add(lblAussentemperatur);
 
         textFieldAussentemperatur = new JTextField();
         textFieldAussentemperatur.setEditable(false);
         textFieldAussentemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldAussentemperatur.setColumns(10);
-        textFieldAussentemperatur.setBounds(398, 365, 86, 20);
+        textFieldAussentemperatur.setBounds(434, 365, 60, 20);
         add(textFieldAussentemperatur);
 
         chartGeschwindigkeit = new OBDLineChart();
