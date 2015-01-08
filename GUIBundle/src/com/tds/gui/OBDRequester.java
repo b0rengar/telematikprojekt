@@ -9,6 +9,8 @@ import com.tds.obd.OBDParameterSet;
 
 public class OBDRequester extends TimerTask {
 
+    private ParameterPanel panel;
+
     private IOBDService obdService;
     private OBDParameterSet set;
 
@@ -20,6 +22,7 @@ public class OBDRequester extends TimerTask {
     private JTextField textFieldAussentemperatur;
 
     public OBDRequester(IOBDService obdService, ParameterPanel panel) {
+        this.panel = panel;
         this.obdService = obdService;
 
         this.textFieldGeschwindigkeit = panel.getTextFieldGeschwindigkeit();
@@ -33,12 +36,21 @@ public class OBDRequester extends TimerTask {
     @Override
     public void run() {
         set = obdService.getPamrameterSet();
-        textFieldGeschwindigkeit.setText(set.getSpeed() + " km/h");
-        textFieldDrehzahl.setText(set.getEngineRPM() + " U/min");
-        textFieldVerbrauch.setText(set.getFuelConsumptionRate() + " l/h");
-        textFieldMotortemperatur.setText(set.getEngineTemperature() + " C");
-        textFieldInnentemperatur.setText(set.getCarIndoorTemperature() + " C");
-        textFieldAussentemperatur.setText(set.getCarOutdoorTemperature() + " C");
+        textFieldGeschwindigkeit.setText(String.format("%.0f", set.getSpeed()));
+        textFieldDrehzahl.setText(set.getEngineRPM() + "");
+        textFieldVerbrauch.setText(String.format("%.2f", set.getFuelConsumptionRate()));
+        textFieldMotortemperatur.setText(String.format("%.1f", set.getEngineTemperature()));
+        textFieldInnentemperatur.setText(String.format("%.1f", set.getCarIndoorTemperature()));
+        textFieldAussentemperatur.setText(String.format("%.1f", set.getCarOutdoorTemperature()));
+        repaintCharts();
     }
 
+    private void repaintCharts() {
+        panel.getChartGeschwindigkeit().addElement(set.getSpeed());
+        panel.getChartDrehzahl().addElement(set.getEngineRPM());
+        panel.getChartVerbrauch().addElement(set.getFuelConsumptionRate());
+        panel.getChartMotortemperatur().addElement(set.getEngineTemperature());
+        panel.getChartAussentemperatur().addElement(set.getCarOutdoorTemperature());
+        panel.getChartInnentemperatur().addElement(set.getCarIndoorTemperature());
+    }
 }

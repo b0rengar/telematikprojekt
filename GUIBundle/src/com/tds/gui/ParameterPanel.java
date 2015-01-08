@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
@@ -30,6 +31,13 @@ public class ParameterPanel extends JPanel implements EventHandler {
     private JTextField textFieldInnentemperatur;
     private JTextField textFieldAussentemperatur;
 
+    private OBDLineChart chartGeschwindigkeit;
+    private OBDLineChart chartDrehzahl;
+    private OBDLineChart chartVerbrauch;
+    private OBDLineChart chartMotortemperatur;
+    private OBDLineChart chartInnentemperatur;
+    private OBDLineChart chartAussentemperatur;
+
     public ParameterPanel(IPersistenceService persistenceService, IOBDService obdService) {
         this.persistenceService = persistenceService;
         this.obdService = obdService;
@@ -37,6 +45,31 @@ public class ParameterPanel extends JPanel implements EventHandler {
         initialize();
 
         TimerTask tt = new OBDRequester(this.obdService, this);
+
+        JLabel lblKmh = new JLabel("km/h");
+        lblKmh.setBounds(199, 14, 46, 14);
+        add(lblKmh);
+
+        JLabel lblLh = new JLabel("l/h");
+        lblLh.setBounds(199, 191, 46, 14);
+        add(lblLh);
+
+        JLabel lblc = new JLabel("°C");
+        lblc.setBounds(199, 368, 46, 14);
+        add(lblc);
+
+        JLabel lblUmin = new JLabel("U/min");
+        lblUmin.setBounds(494, 14, 46, 14);
+        add(lblUmin);
+
+        JLabel lblc_1 = new JLabel("°C");
+        lblc_1.setBounds(494, 191, 46, 14);
+        add(lblc_1);
+
+        JLabel lblc_2 = new JLabel("°C");
+        lblc_2.setBounds(494, 368, 46, 14);
+        add(lblc_2);
+
         System.out.println("start timer ODB 2");
 
         Timer t = new Timer();
@@ -55,6 +88,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         setLayout(null);
 
         textFieldGeschwindigkeit = new JTextField();
+        textFieldGeschwindigkeit.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldGeschwindigkeit.setBounds(103, 11, 86, 20);
         add(textFieldGeschwindigkeit);
         textFieldGeschwindigkeit.setColumns(10);
@@ -64,49 +98,78 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(lblGeschwindigkeit);
 
         JLabel lblDrehzahl = new JLabel("Drehzahl");
-        lblDrehzahl.setBounds(250, 14, 83, 14);
+        lblDrehzahl.setBounds(305, 14, 83, 14);
         add(lblDrehzahl);
 
         textFieldDrehzahl = new JTextField();
-        textFieldDrehzahl.setBounds(343, 11, 86, 20);
+        textFieldDrehzahl.setHorizontalAlignment(SwingConstants.RIGHT);
+        textFieldDrehzahl.setBounds(398, 11, 86, 20);
         add(textFieldDrehzahl);
         textFieldDrehzahl.setColumns(10);
 
         JLabel lblVerbrauch = new JLabel("Verbrauch");
-        lblVerbrauch.setBounds(10, 116, 83, 14);
+        lblVerbrauch.setBounds(10, 191, 83, 14);
         add(lblVerbrauch);
 
         textFieldVerbrauch = new JTextField();
-        textFieldVerbrauch.setBounds(103, 113, 86, 20);
+        textFieldVerbrauch.setHorizontalAlignment(SwingConstants.RIGHT);
+        textFieldVerbrauch.setBounds(103, 188, 86, 20);
         add(textFieldVerbrauch);
         textFieldVerbrauch.setColumns(10);
 
         JLabel lblMotortemperatur = new JLabel("Motortemperatur");
-        lblMotortemperatur.setBounds(250, 116, 83, 14);
+        lblMotortemperatur.setBounds(305, 191, 83, 14);
         add(lblMotortemperatur);
 
         textFieldMotortemperatur = new JTextField();
-        textFieldMotortemperatur.setBounds(343, 113, 86, 20);
+        textFieldMotortemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
+        textFieldMotortemperatur.setBounds(398, 188, 86, 20);
         add(textFieldMotortemperatur);
         textFieldMotortemperatur.setColumns(10);
 
         JLabel lblInnentemperatur = new JLabel("Innentemp.");
-        lblInnentemperatur.setBounds(10, 219, 83, 14);
+        lblInnentemperatur.setBounds(10, 368, 83, 14);
         add(lblInnentemperatur);
 
         textFieldInnentemperatur = new JTextField();
-        textFieldInnentemperatur.setBounds(103, 216, 86, 20);
+        textFieldInnentemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
+        textFieldInnentemperatur.setBounds(103, 365, 86, 20);
         add(textFieldInnentemperatur);
         textFieldInnentemperatur.setColumns(10);
 
         JLabel lblAussentemperatur = new JLabel("Außentemp.");
-        lblAussentemperatur.setBounds(250, 219, 83, 14);
+        lblAussentemperatur.setBounds(305, 368, 83, 14);
         add(lblAussentemperatur);
 
         textFieldAussentemperatur = new JTextField();
+        textFieldAussentemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldAussentemperatur.setColumns(10);
-        textFieldAussentemperatur.setBounds(343, 216, 86, 20);
+        textFieldAussentemperatur.setBounds(398, 365, 86, 20);
         add(textFieldAussentemperatur);
+
+        chartGeschwindigkeit = new OBDLineChart();
+        chartGeschwindigkeit.setBounds(10, 39, 265, 141);
+        add(chartGeschwindigkeit);
+
+        chartDrehzahl = new OBDLineChart();
+        chartDrehzahl.setBounds(305, 39, 265, 141);
+        add(chartDrehzahl);
+
+        chartVerbrauch = new OBDLineChart();
+        chartVerbrauch.setBounds(10, 216, 265, 141);
+        add(chartVerbrauch);
+
+        chartMotortemperatur = new OBDLineChart();
+        chartMotortemperatur.setBounds(305, 216, 265, 141);
+        add(chartMotortemperatur);
+
+        chartInnentemperatur = new OBDLineChart();
+        chartInnentemperatur.setBounds(10, 393, 265, 141);
+        add(chartInnentemperatur);
+
+        chartAussentemperatur = new OBDLineChart();
+        chartAussentemperatur.setBounds(305, 393, 265, 141);
+        add(chartAussentemperatur);
     }
 
     @Override
@@ -163,4 +226,51 @@ public class ParameterPanel extends JPanel implements EventHandler {
         this.textFieldAussentemperatur = textFieldAussentemperatur;
     }
 
+    public OBDLineChart getChartGeschwindigkeit() {
+        return chartGeschwindigkeit;
+    }
+
+    public void setChartGeschwindigkeit(OBDLineChart chartGeschwindigkeit) {
+        this.chartGeschwindigkeit = chartGeschwindigkeit;
+    }
+
+    public OBDLineChart getChartDrehzahl() {
+        return chartDrehzahl;
+    }
+
+    public void setChartDrehzahl(OBDLineChart chartDrehzahl) {
+        this.chartDrehzahl = chartDrehzahl;
+    }
+
+    public OBDLineChart getChartVerbrauch() {
+        return chartVerbrauch;
+    }
+
+    public void setChartVerbrauch(OBDLineChart chartVerbrauch) {
+        this.chartVerbrauch = chartVerbrauch;
+    }
+
+    public OBDLineChart getChartMotortemperatur() {
+        return chartMotortemperatur;
+    }
+
+    public void setChartMotortemperatur(OBDLineChart chartMotortemperatur) {
+        this.chartMotortemperatur = chartMotortemperatur;
+    }
+
+    public OBDLineChart getChartInnentemperatur() {
+        return chartInnentemperatur;
+    }
+
+    public void setChartInnentemperatur(OBDLineChart chartInnentemperatur) {
+        this.chartInnentemperatur = chartInnentemperatur;
+    }
+
+    public OBDLineChart getChartAussentemperatur() {
+        return chartAussentemperatur;
+    }
+
+    public void setChartAussentemperatur(OBDLineChart chartAussentemperatur) {
+        this.chartAussentemperatur = chartAussentemperatur;
+    }
 }

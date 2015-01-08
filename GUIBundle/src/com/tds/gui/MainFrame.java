@@ -124,7 +124,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     private void initialize() {
         frmMainWindow = new JFrame();
         frmMainWindow.setTitle("TDS - Telemetrie Daten System");
-        frmMainWindow.setBounds(100, 100, 1142, 743);
+        frmMainWindow.setBounds(100, 100, 1143, 651);
         frmMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         MainFrameActionListener actionListener = new MainFrameActionListener();
@@ -201,62 +201,8 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         menuBar.add(mnUeber);
         frmMainWindow.getContentPane().setLayout(null);
 
-// XYSeries series = new XYSeries("Geschwindigkeit");
-// series.add(1, 1);
-// series.add(1, 2);
-// series.add(2, 1);
-// series.add(3, 9);
-// series.add(4, 10);
-// series.add(5, 1);
-// series.add(6, 2);
-// series.add(7, 1);
-// series.add(8, 9);
-// series.add(9, 10);
-// series.add(10, 1);
-// // Add the series to your data set
-// XYSeriesCollection dataset = new XYSeriesCollection();
-// dataset.addSeries(series);
-// // Generate the graph
-// JFreeChart chart = ChartFactory.createXYLineChart("Geschwindigkeit", // Title
-// "", // x-axis Label
-// "", // y-axis Label
-// dataset, // Dataset
-// PlotOrientation.VERTICAL, // Plot Orientation
-// false, // Show Legend
-// true, // Use tooltips
-// false // Configure chart to generate URLs?
-// );
-// ChartPanel chartPanel = new ChartPanel(chart);
-//
-// XYSeries series2 = new XYSeries("Temperature");
-// series2.add(1, 1);
-// series2.add(1, 2);
-// series2.add(2, 1);
-// series2.add(3, 9);
-// series2.add(4, 10);
-// series2.add(5, 1);
-// series2.add(6, 2);
-// series2.add(7, 1);
-// series2.add(8, 9);
-// series2.add(9, 10);
-// series2.add(10, 1);
-// // Add the series to your data set
-// XYSeriesCollection dataset2 = new XYSeriesCollection();
-// dataset2.addSeries(series2);
-// // Generate the graph
-// JFreeChart chart2 = ChartFactory.createXYLineChart("Temperature", // Title
-// "", // x-axis Label
-// "", // y-axis Label
-// dataset2, // Dataset
-// PlotOrientation.VERTICAL, // Plot Orientation
-// false, // Show Legend
-// true, // Use tooltips
-// false // Configure chart to generate URLs?
-// );
-// ChartPanel chartPanel2 = new ChartPanel(chart2);
-
         ifFrontKamera = new JInternalFrame("Front-Kamera Ansicht");
-        ifFrontKamera.setBounds(592, 0, 445, 315);
+        ifFrontKamera.setBounds(876, 0, 250, 315);
         ifFrontKamera.setIconifiable(true);
         ifFrontKamera.setResizable(true);
         ifFrontKamera.setMaximizable(true);
@@ -264,29 +210,26 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         frmMainWindow.getContentPane().add(ifFrontKamera);
 
         ifBetriebsparameter = new JInternalFrame("Betriebsparameter Ansicht");
-        ifBetriebsparameter.setBounds(0, 0, 445, 315);
+        ifBetriebsparameter.setBounds(0, 0, 586, 581);
         ifBetriebsparameter.setIconifiable(true);
         ifBetriebsparameter.setResizable(true);
         ifBetriebsparameter.setMaximizable(true);
         ifBetriebsparameter.setClosable(true);
-// ifBetriebsparameter.add(chartPanel);
-// ifBetriebsparameter.add(chartPanel2);
         ifBetriebsparameter.getContentPane().setLayout(new BorderLayout(0, 0));
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 
         JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
-        ifMeldungen.setBounds(0, 328, 445, 315);
+        ifMeldungen.setBounds(596, 0, 250, 315);
         frmMainWindow.getContentPane().add(ifMeldungen);
 
         JInternalFrame ifKarte = new JInternalFrame("Karte Ansicht");
-        ifKarte.setBounds(592, 328, 445, 315);
+        ifKarte.setBounds(596, 317, 530, 264);
         frmMainWindow.getContentPane().add(ifKarte);
 
         try {
             BufferedImage img = ImageIO.read(new URL("http://maps.googleapis.com/maps/api/staticmap?center=Wildau,Germany&size=512x512&sensor=true_or_false"));
             ifKarte.getContentPane().add(new JLabel(new ImageIcon(img)));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
