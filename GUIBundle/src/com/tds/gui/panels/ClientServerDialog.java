@@ -1,4 +1,4 @@
-package com.tds.gui;
+package com.tds.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import com.tds.gui.settings.Client;
+import com.tds.gui.settings.Settings;
 
 public class ClientServerDialog extends JDialog implements ActionListener, TableModelListener {
 

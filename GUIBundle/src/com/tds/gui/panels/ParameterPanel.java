@@ -1,4 +1,4 @@
-package com.tds.gui;
+package com.tds.gui.panels;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import com.tds.gui.OBDRequester;
 import com.tds.obd.IOBDService;
 import com.tds.persistence.IPersistenceService;
 
@@ -88,6 +89,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         setLayout(null);
 
         textFieldGeschwindigkeit = new JTextField();
+        textFieldGeschwindigkeit.setEditable(false);
         textFieldGeschwindigkeit.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldGeschwindigkeit.setBounds(103, 11, 86, 20);
         add(textFieldGeschwindigkeit);
@@ -102,6 +104,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(lblDrehzahl);
 
         textFieldDrehzahl = new JTextField();
+        textFieldDrehzahl.setEditable(false);
         textFieldDrehzahl.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldDrehzahl.setBounds(398, 11, 86, 20);
         add(textFieldDrehzahl);
@@ -112,6 +115,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(lblVerbrauch);
 
         textFieldVerbrauch = new JTextField();
+        textFieldVerbrauch.setEditable(false);
         textFieldVerbrauch.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldVerbrauch.setBounds(103, 188, 86, 20);
         add(textFieldVerbrauch);
@@ -122,6 +126,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(lblMotortemperatur);
 
         textFieldMotortemperatur = new JTextField();
+        textFieldMotortemperatur.setEditable(false);
         textFieldMotortemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldMotortemperatur.setBounds(398, 188, 86, 20);
         add(textFieldMotortemperatur);
@@ -132,6 +137,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(lblInnentemperatur);
 
         textFieldInnentemperatur = new JTextField();
+        textFieldInnentemperatur.setEditable(false);
         textFieldInnentemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldInnentemperatur.setBounds(103, 365, 86, 20);
         add(textFieldInnentemperatur);
@@ -142,6 +148,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(lblAussentemperatur);
 
         textFieldAussentemperatur = new JTextField();
+        textFieldAussentemperatur.setEditable(false);
         textFieldAussentemperatur.setHorizontalAlignment(SwingConstants.RIGHT);
         textFieldAussentemperatur.setColumns(10);
         textFieldAussentemperatur.setBounds(398, 365, 86, 20);

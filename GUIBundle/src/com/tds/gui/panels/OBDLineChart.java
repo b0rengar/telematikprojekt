@@ -1,4 +1,4 @@
-package com.tds.gui;
+package com.tds.gui.panels;
 
 import java.util.ArrayList;
 

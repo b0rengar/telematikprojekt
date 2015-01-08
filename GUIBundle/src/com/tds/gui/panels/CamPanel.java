@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tds.gui;
+package com.tds.gui.panels;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

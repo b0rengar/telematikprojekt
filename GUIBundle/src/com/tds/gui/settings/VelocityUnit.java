@@ -1,4 +1,4 @@
-package com.tds.gui;
+package com.tds.gui.settings;
 
 public enum VelocityUnit {
 	KMH, MPH;

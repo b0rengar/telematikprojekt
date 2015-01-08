@@ -1,4 +1,4 @@
-package com.tds.gui;
+package com.tds.gui.settings;
 
 public enum TemperatureUnit {
 	CELSIUS, FAHRENHEIT, KELVIN;

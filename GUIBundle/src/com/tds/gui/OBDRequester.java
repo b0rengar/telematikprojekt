@@ -4,6 +4,7 @@ import java.util.TimerTask;
 
 import javax.swing.JTextField;
 
+import com.tds.gui.panels.ParameterPanel;
 import com.tds.obd.IOBDService;
 import com.tds.obd.OBDParameterSet;
 

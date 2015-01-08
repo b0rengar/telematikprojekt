@@ -31,6 +31,13 @@ import ch.ethz.iks.r_osgi.RemoteServiceReference;
 import ch.ethz.iks.r_osgi.URI;
 
 import com.tds.camera.ICameraService;
+import com.tds.gui.panels.CamPanel;
+import com.tds.gui.panels.CarEditDialog;
+import com.tds.gui.panels.CarListDialog;
+import com.tds.gui.panels.ClientServerDialog;
+import com.tds.gui.panels.ParameterPanel;
+import com.tds.gui.panels.PathsDialog;
+import com.tds.gui.panels.UnitsDialog;
 import com.tds.obd.IOBDService;
 import com.tds.persistence.IPersistenceService;
 
@@ -211,10 +218,6 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
         ifBetriebsparameter = new JInternalFrame("Betriebsparameter Ansicht");
         ifBetriebsparameter.setBounds(0, 0, 586, 581);
-        ifBetriebsparameter.setIconifiable(true);
-        ifBetriebsparameter.setResizable(true);
-        ifBetriebsparameter.setMaximizable(true);
-        ifBetriebsparameter.setClosable(true);
         ifBetriebsparameter.getContentPane().setLayout(new BorderLayout(0, 0));
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 

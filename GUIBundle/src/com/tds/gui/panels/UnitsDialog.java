@@ -1,4 +1,4 @@
-package com.tds.gui;
+package com.tds.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -9,6 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
+
+import com.tds.gui.settings.TemperatureUnit;
+import com.tds.gui.settings.VelocityUnit;
 
 public class UnitsDialog extends JDialog {
 

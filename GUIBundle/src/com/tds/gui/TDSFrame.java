@@ -21,6 +21,7 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import com.tds.camera.ICameraService;
+import com.tds.gui.panels.CamPanel;
 
 /**
  * <b>GUIBundle <br />
