@@ -17,7 +17,6 @@ import org.osgi.util.tracker.ServiceTracker;
 public class Activator implements BundleActivator {
 
     private BundleContext context;
-    private TDSFrame frame;
     private ServiceTracker<Object, Object> tracker;
 
     /*
@@ -34,12 +33,6 @@ public class Activator implements BundleActivator {
         tracker = new ServiceTracker<>(context, filter, mf);
         tracker.open();
         mf.getFrame().setVisible(true);
-
-// frame = new TDSFrame(context);
-// cameraTracker = new ServiceTracker<>(context, ICameraService.class.getName(), frame);
-// cameraTracker.open();
-// frame.setVisible(true);
-
     }
 
     /*
@@ -52,8 +45,6 @@ public class Activator implements BundleActivator {
         this.context = null;
         tracker.close();
         tracker = null;
-// frame.destroyGUI();
-// frame = null;
     }
 
 }
