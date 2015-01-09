@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv-2.4.9"/>
 	<classpathentry kind="lib" path="libs/opencv-249.jar"/>
+	<classpathentry kind="lib" path="/Server/felix/bundle/remote-1.0.0.RC4.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.felix.ipojo.junit4osgi-0.8.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
