@@ -43,33 +43,11 @@ public class ParameterPanel extends JPanel implements EventHandler {
         this.persistenceService = persistenceService;
         this.obdService = obdService;
 
+        System.out.println("num at mongo = " + persistenceService.getTdsEventsFromDB().size());
+
         initialize();
 
         TimerTask tt = new OBDRequester(this.obdService, this);
-
-        JLabel lblKmh = new JLabel("km/h");
-        lblKmh.setBounds(210, 14, 46, 14);
-        add(lblKmh);
-
-        JLabel lblLh = new JLabel("l/h");
-        lblLh.setBounds(210, 191, 46, 14);
-        add(lblLh);
-
-        JLabel lblc = new JLabel("°C");
-        lblc.setBounds(210, 368, 46, 14);
-        add(lblc);
-
-        JLabel lblUmin = new JLabel("U/min");
-        lblUmin.setBounds(504, 14, 46, 14);
-        add(lblUmin);
-
-        JLabel lblc_1 = new JLabel("°C");
-        lblc_1.setBounds(504, 191, 46, 14);
-        add(lblc_1);
-
-        JLabel lblc_2 = new JLabel("°C");
-        lblc_2.setBounds(504, 368, 46, 14);
-        add(lblc_2);
 
         System.out.println("start timer ODB 2");
 
@@ -177,6 +155,30 @@ public class ParameterPanel extends JPanel implements EventHandler {
         chartAussentemperatur = new OBDLineChart();
         chartAussentemperatur.setBounds(305, 393, 265, 141);
         add(chartAussentemperatur);
+
+        JLabel lblKmh = new JLabel("km/h");
+        lblKmh.setBounds(210, 14, 46, 14);
+        add(lblKmh);
+
+        JLabel lblLh = new JLabel("l/h");
+        lblLh.setBounds(210, 191, 46, 14);
+        add(lblLh);
+
+        JLabel lblc = new JLabel("°C");
+        lblc.setBounds(210, 368, 46, 14);
+        add(lblc);
+
+        JLabel lblUmin = new JLabel("U/min");
+        lblUmin.setBounds(504, 14, 46, 14);
+        add(lblUmin);
+
+        JLabel lblc_1 = new JLabel("°C");
+        lblc_1.setBounds(504, 191, 46, 14);
+        add(lblc_1);
+
+        JLabel lblc_2 = new JLabel("°C");
+        lblc_2.setBounds(504, 368, 46, 14);
+        add(lblc_2);
     }
 
     @Override

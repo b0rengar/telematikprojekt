@@ -3,17 +3,12 @@ package com.tds.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,11 +26,13 @@ import ch.ethz.iks.r_osgi.RemoteServiceReference;
 import ch.ethz.iks.r_osgi.URI;
 
 import com.tds.camera.ICameraService;
+import com.tds.gps.IGPSService;
 import com.tds.gui.panels.CamPanel;
 import com.tds.gui.panels.CarEditDialog;
 import com.tds.gui.panels.CarListDialog;
 import com.tds.gui.panels.ClientServerDialog;
 import com.tds.gui.panels.EventPanel;
+import com.tds.gui.panels.MapPanel;
 import com.tds.gui.panels.ParameterPanel;
 import com.tds.gui.panels.PathsDialog;
 import com.tds.gui.panels.UnitsDialog;
@@ -49,11 +46,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     private ICameraService cameraService;
     private IPersistenceService persistenceService;
     private IOBDService obdService;
+    private IGPSService gpsService;
 
     private JFrame frmMainWindow;
 
     JInternalFrame ifFrontKamera;
     JInternalFrame ifBetriebsparameter;
+    JInternalFrame ifKarte;
 
     JMenuItem mntmFahrzeugHinzufuegen;
     JMenuItem mntmFahrzeuglisteBearbeiten;
@@ -107,14 +106,18 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
 
             // connect
-// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
-            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
+            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
             for (int i = 0; i < rsr.length; i++) {
-                System.out.println(remote.getRemoteService(rsr[i]).getClass().toString());
+                System.out.println("RSR Connect" + remote.getRemoteService(rsr[i]).getClass().toString());
                 if (remote.getRemoteService(rsr[i]) instanceof IOBDService) {
                     obdService = (IOBDService) remote.getRemoteService(rsr[i]);
                 }
+// if (remote.getRemoteService(rsr[i]) instanceof IGPSService) {
+// System.out.println("CONNECTING TO GPS SERVICE !!!!!!!!!!!!!!!!!!!!!!!");
+// gpsService = (IGPSService) remote.getRemoteService(rsr[i]);
+// }
             }
             System.out.println("Connected to OBU successfully");
         } catch (Exception e) {
@@ -229,17 +232,9 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifMeldungen.setBounds(596, 318, 531, 263);
         frmMainWindow.getContentPane().add(ifMeldungen);
 
-        JInternalFrame ifKarte = new JInternalFrame("Karte Ansicht");
+        ifKarte = new JInternalFrame("Karte Ansicht");
         ifKarte.setBounds(596, 0, 270, 315);
         frmMainWindow.getContentPane().add(ifKarte);
-
-        try {
-            BufferedImage img = ImageIO.read(new URL("http://maps.googleapis.com/maps/api/staticmap?center=Wildau,Germany&size=512x512&sensor=true_or_false"));
-            ifKarte.getContentPane().add(new JLabel(new ImageIcon(img)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         ifKarte.setVisible(true);
         ifMeldungen.setVisible(true);
         ifBetriebsparameter.setVisible(true);
@@ -320,6 +315,22 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             ifBetriebsparameter.setVisible(false);
             ifBetriebsparameter.setVisible(true);
         }
+        if (s instanceof IGPSService) {
+            System.out.println("Adding Service GPSService to MainFrame");
+            gpsService = (IGPSService) this.context.getService(ref);
+
+            JPanel mapPanel = new MapPanel(gpsService);
+
+            Dictionary<String, String[]> topics = new Hashtable<>();
+            topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.EVENT_GPS_TOPIC });
+            context.registerService(EventHandler.class.getName(), mapPanel, topics);
+
+            ifKarte.getContentPane().add(mapPanel);
+            ifKarte.setVisible(false);
+            ifKarte.setVisible(true);
+
+        }
+
         return s;
     }
 
