@@ -39,10 +39,11 @@ public class GPSService implements IGPSService {
     static SerialPort serialPort;
     private static NMEA gpsParser = new NMEA();
     String portName = "/dev/ttyUSB0";
-    int baudrate = 4800;
-    int dataBits = SerialPort.DATABITS_8;
-    int stopBits = SerialPort.STOPBITS_1;
-    int parity = SerialPort.PARITY_NONE;
+
+// int baudrate = 4800;
+// int dataBits = SerialPort.DATABITS_8;
+// int stopBits = SerialPort.STOPBITS_1;
+// int parity = SerialPort.PARITY_NONE;
 
     @Override
     public void bindEventAdmin(EventAdmin eventAdmin) {
@@ -76,11 +77,6 @@ public class GPSService implements IGPSService {
      * In this class must implement the method serialEvent But we will not report on all events but only those that we put in the mask. In this case the arrival of the data and change the status lines CTS and DSR
      */
     static class SerialPortReader implements SerialPortEventListener {
-// static char SOL = '$'; // start of nmea msg
-// static char EOL = '\n'; // end of nmea msg
-// Boolean sol_received = false;
-// Boolean eol_received = false;
-// StringBuilder nmea_msg = null;
 
         @Override
         public void serialEvent(SerialPortEvent event) {
@@ -89,25 +85,9 @@ public class GPSService implements IGPSService {
                 if (event.getEventValue() > 0) {
                     try {
                         String tmp = serialPort.readString();
-// System.out.println(tmp);
-// if (tmp.charAt(0) == SOL) {
-// nmea_msg = new StringBuilder(tmp);
-// sol_received = true;
-// }
-// if (tmp.charAt(0) == EOL) {
-// eol_received = true;
-// }
-// if (sol_received && !eol_received) {
-// // string zusammen bauen $ bis '\n'
-// nmea_msg.append(tmp);
-// }
-// if (sol_received && eol_received) {
-// System.out.println(nmea_msg.toString());
-// gpsString =
                         gpsParser.parse(tmp);
                         float lat = gpsParser.position.lat;
                         float lon = gpsParser.position.lon;
-                        System.out.println(lat + " : " + lon);
                         Dictionary<String, String> eventProps = new Hashtable<String, String>();
                         eventProps.put(Event_GPS_DATA_LAT, Float.toString(lat));
                         eventProps.put(Event_GPS_DATA_LONG, Float.toString(lon));
@@ -115,10 +95,7 @@ public class GPSService implements IGPSService {
 
                         // "sendEvent()" synchron "postEvent()" asynchron:
                         eventAdmin.sendEvent(osgiEvent);
-// nmea_msg = null;
-// sol_received = false;
-// eol_received = false;
-// }
+// System.out.println("GPS-Event with pos:" + lat + " : " + lon + "; pushed");
                     } catch (SerialPortException ex) {
                         // TODO LOGGER
                         System.out.println(ex);

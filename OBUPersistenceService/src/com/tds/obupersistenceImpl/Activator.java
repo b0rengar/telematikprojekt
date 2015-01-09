@@ -42,6 +42,9 @@ public class Activator implements BundleActivator {
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
         service = new OBUPersistenceService();
+
+        System.out.println("ACTIVATOR: " + bundleContext.getBundle().getSymbolicName());
+
         Dictionary<String, Object> params = new Hashtable<>();
         params.put(Constants.SERVICE_PID, IOBUPersistenceService.class.getName());
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the persistence layer of the application on the OBU.");

@@ -25,13 +25,18 @@ public class OBUPersistenceService implements IOBUPersistenceService, ServiceTra
 // private IOBDService odbService;
     private Writer writer;
 
+    OBUPersistenceService() {
+        System.out.println("Construktor: " + this.getClass().getSimpleName());
+    }
+
     @Override
     public Object addingService(ServiceReference reference) {
         Dictionary<String, String[]> topics = new Hashtable<>();
+        System.out.println("ADDINGSERVICE: " + reference.getClass().getSimpleName());
         if (reference instanceof IGPSService) {
             topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.Event_GPS_TOPIC });
             context.registerService(EventHandler.class.getName(), writer, topics);
-
+            System.out.println("Eventhandler for: " + IGPSService.Event_GPS_TOPIC + "registered");
         }
         return this.context.getService(reference);
     }
