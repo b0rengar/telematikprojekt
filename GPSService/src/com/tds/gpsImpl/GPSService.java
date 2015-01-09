@@ -102,6 +102,9 @@ public class GPSService implements IGPSService {
                     } catch (SerialPortException ex) {
                         // TODO LOGGER
                         System.out.println(ex);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                        System.out.println("Cant create Event: " + e.getMessage());
                     }
                 }
             }

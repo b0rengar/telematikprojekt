@@ -10,7 +10,6 @@ import java.util.Map;
  */
 public class NMEA {
 
-    // fucking java interfaces
     interface SentenceParser {
         public boolean parse(String[] tokens, GPSPosition position);
     }
@@ -118,6 +117,11 @@ public class NMEA {
     private static final Map<String, SentenceParser> sentenceParsers = new HashMap<String, SentenceParser>();
 
     public NMEA() {
+// $GPGGA - Global Positioning System Fix Data
+// $GPGLL - Geographic position, latitude / longitude
+// $GPRMC - Recommended minimum specific GPS/Transit data
+// $GPVTG - Track made good and ground speed
+
         sentenceParsers.put("GPGGA", new GPGGA());
         sentenceParsers.put("GPGGL", new GPGGL());
         sentenceParsers.put("GPRMC", new GPRMC());
@@ -128,15 +132,18 @@ public class NMEA {
 
     public GPSPosition parse(String line) {
 
-        if (line.startsWith("$")) {
+        if ((line.startsWith("$")) && (line.charAt(line.length() - 1) == '\n')) {
             String nmea = line.substring(1);
             String[] tokens = nmea.split(",");
             String type = tokens[0];
+            System.out.println("NMEA_PARSER: " + line);
             // TODO check crc
             if (sentenceParsers.containsKey(type)) {
                 sentenceParsers.get(type).parse(tokens, position);
             }
             position.updatefix();
+        } else {
+            System.out.println("NMEA_PARSER_ERROR_AT: " + line);
         }
 
         return position;
