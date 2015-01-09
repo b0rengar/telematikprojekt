@@ -18,9 +18,11 @@ import org.osgi.service.event.EventAdmin;
  *
  */
 public interface IGPSService {
-    public static String Event_GPS_DATA_LONG = "GPS/Data/lat";
-    public static String Event_GPS_DATA_LAT = "GPS/Data/long";
-    public static String Event_GPS_TOPIC = "gpsservice/eventsender/GPS";
+
+    public static String EVENT_GPS_DATA_TIMESTAMP = "GPS/Data/ts";
+    public static String EVENT_GPS_DATA_LONG = "GPS/Data/lat";
+    public static String EVENT_GPS_DATA_LAT = "GPS/Data/long";
+    public static String EVENT_GPS_TOPIC = "gpsservice/eventsender/GPS";
 
 // String getGpsPosition();
 

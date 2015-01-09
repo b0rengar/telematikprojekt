@@ -3,6 +3,7 @@
  */
 package com.tds.gpsImpl;
 
+import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -88,10 +89,12 @@ public class GPSService implements IGPSService {
                         gpsParser.parse(tmp);
                         float lat = gpsParser.position.lat;
                         float lon = gpsParser.position.lon;
+                        long ts = Calendar.getInstance().getTimeInMillis();
                         Dictionary<String, String> eventProps = new Hashtable<String, String>();
-                        eventProps.put(Event_GPS_DATA_LAT, Float.toString(lat));
-                        eventProps.put(Event_GPS_DATA_LONG, Float.toString(lon));
-                        Event osgiEvent = new Event(Event_GPS_TOPIC, eventProps);
+                        eventProps.put(EVENT_GPS_DATA_TIMESTAMP, Long.toString(ts));
+                        eventProps.put(EVENT_GPS_DATA_LAT, Float.toString(lat));
+                        eventProps.put(EVENT_GPS_DATA_LONG, Float.toString(lon));
+                        Event osgiEvent = new Event(EVENT_GPS_TOPIC, eventProps);
 
                         // "sendEvent()" synchron "postEvent()" asynchron:
                         eventAdmin.sendEvent(osgiEvent);

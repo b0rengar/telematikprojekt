@@ -8,6 +8,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.tds.gps.IGPSService;
 import com.tds.obupersistence.IOBUPersistenceService;
 
 /**
@@ -41,7 +42,7 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
-        service = new OBUPersistenceService();
+        service = new OBUPersistenceService(bundleContext);
 
         System.out.println("ACTIVATOR: " + bundleContext.getBundle().getSymbolicName());
 
@@ -50,7 +51,9 @@ public class Activator implements BundleActivator {
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the persistence layer of the application on the OBU.");
         context.registerService(IOBUPersistenceService.class.getName(), service, params);
 
-        serviceTracker = new ServiceTracker<Object, Object>(context, Object.class.getName(), service);
+// Filter filter = context.createFilter("(" + Constants.OBJECTCLASS + "=com.tds*)");
+        serviceTracker = new ServiceTracker<>(context, IGPSService.class.getName(), service);
+// serviceTracker = new ServiceTracker<Object, Object>(context, Object.class.getName(), service);
         serviceTracker.open();
     }
 

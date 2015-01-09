@@ -9,5 +9,7 @@ package com.tds.obupersistence;
  *
  */
 public interface IOBUPersistenceService {
-    public static String FILE = "./data/telemetrie";
+    public static String DATA_DIR = "/data/telemetrie/";
+    public static String FILE_GPS = "gps";
+
 }
