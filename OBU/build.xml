@@ -52,7 +52,7 @@
 			<fileset dir="../IWebService/target" />
 
 
-			<fileset dir="../CameraService/target" />
+			<!--<fileset dir="../CameraService/target" />-->
 			<!--<fileset dir="../EventDetectorService/target" />-->
 			<fileset dir="../GPSService/target" />
 			<fileset dir="../ImageProcessingService/target" />

@@ -12,7 +12,7 @@
 		<ant antfile="../IWebService/build.xml" dir="../IWebService" />
 
 
-		<ant antfile="../CameraService/build.xml" dir="../CameraService" />
+		<!--<ant antfile="../CameraService/build.xml" dir="../CameraService" />-->
 		<ant antfile="../EventDetectorService/build.xml" dir="../EventDetectorService" />
 		<ant antfile="../GPSService/build.xml" dir="../GPSService" />
 		<ant antfile="../GUIBundle/build.xml" dir="../GUIBundle" />
