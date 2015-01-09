@@ -101,4 +101,5 @@ public class EventPanel extends JPanel implements ListSelectionListener {
             textFieldPath.setText(event.getFilename());
         }
     }
+
 }
