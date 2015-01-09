@@ -14,12 +14,9 @@ import com.tds.imgproc.IImageProcessingService;
 
 /**
  *
- * <b>ImageProcessingService <br />
- * com.tds.imgproc <br />
- * Activator <br />
- * </b>
+ * Class to start and stop the Image Processing Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
  *
- * Description.
+ * This service provides capabilities to process images taken by cameras installed in the system.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:13:29

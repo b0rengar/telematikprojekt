@@ -16,19 +16,25 @@ import com.tds.persistence.IPersistenceService;
 import com.tds.persistence.TdsEvent;
 
 /**
+ * Concrete class implementing {@link IPersistenceService} to provide access to the persistence layer of the application.
  *
- * @author fibu
+ * @author Andre Finsterbusch
  *
  */
 public class PersistenceService implements IPersistenceService {
     private IPersistenceService persistenceService;
     private BundleContext context;
 
+    /** An instance of the database used to store the data. */
     private static DB db;
+    /** An API instance to access the database. */
     private static MongoClient mongoClient;
+    /** The hostname of the database to store the data in. */
     private static final String mDB = "tm13.ddns.net";
+    /** The port on the database host to access the database through. */
     private static final int mDBPort = 27017;
 
+    /** Creates a new instance to store data. */
     PersistenceService() {
         try {
             mongoClient = new MongoClient(mDB, mDBPort);

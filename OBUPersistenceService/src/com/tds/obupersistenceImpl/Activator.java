@@ -13,12 +13,9 @@ import com.tds.obupersistence.IOBUPersistenceService;
 
 /**
  *
- * <b>OBUPersistenceService <br />
- * com.tds.obupersistenceImpl <br />
- * Activator <br />
- * </b>
+ * Class to start and stop the OBD Persistence Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down. *
  *
- * Description.
+ * This service provides access to the persistence layer of the application on the On-Board Unit.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 03.01.2015 17:40:53

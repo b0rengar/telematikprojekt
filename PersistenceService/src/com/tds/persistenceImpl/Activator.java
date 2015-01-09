@@ -9,6 +9,15 @@ import org.osgi.framework.Constants;
 
 import com.tds.persistence.IPersistenceService;
 
+/**
+ * Class to start and stop the Persistence Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down. *
+ *
+ * This service provides access to the persistence layer of the application.
+ *
+ * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
+ * @author Christian Bodler
+ *
+ */
 public class Activator implements BundleActivator {
 
     private static BundleContext context;

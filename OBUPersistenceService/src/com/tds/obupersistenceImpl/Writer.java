@@ -10,12 +10,21 @@ import org.osgi.service.event.EventHandler;
 import com.tds.gps.IGPSService;
 import com.tds.obupersistence.IOBUPersistenceService;
 
+/**
+ * This class is responsible for writing events to a file.
+ *
+ * @author Andre Finsterbusch
+ *
+ */
 public class Writer implements EventHandler, IOBUPersistenceService {
+    /** The location of the file to write the events to. */
     String filename = DATA_DIR + FILE_GPS;
     // System.getProperty("user.home") + FILE;
+    /** The file the event data is written to. */
     File file;
     FileWriter writer;
 
+    /** Creates a new writer to write events to file. */
     Writer() {
         file = new File(filename);
         try {
@@ -47,6 +56,11 @@ public class Writer implements EventHandler, IOBUPersistenceService {
 
     }
 
+    /**
+     * Writes the given event data to file.
+     *
+     * @param data The data to write.
+     */
     private void write(String data) {
         try {
             if (file.exists()) {
@@ -60,6 +74,7 @@ public class Writer implements EventHandler, IOBUPersistenceService {
         }
     }
 
+    /** Ends a writer session. */
     public void closeWriter() {
         try {
             writer.close();

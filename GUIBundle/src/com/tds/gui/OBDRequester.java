@@ -8,6 +8,11 @@ import com.tds.gui.panels.ParameterPanel;
 import com.tds.obd.IOBDService;
 import com.tds.obd.OBDParameterSet;
 
+/**
+ *
+ * @author Christian Bodler
+ *
+ */
 public class OBDRequester extends TimerTask {
 
     private ParameterPanel panel;

@@ -9,6 +9,12 @@ import org.osgi.framework.Constants;
 
 import com.tds.event.IEventDetectorService;
 
+/**
+ * Class to start and stop the Event Detector Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
+ *
+ * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
+ *
+ */
 public class Activator implements BundleActivator {
 
     private static BundleContext context;

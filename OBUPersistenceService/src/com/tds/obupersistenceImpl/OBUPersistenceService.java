@@ -16,6 +16,8 @@ import com.tds.gps.IGPSService;
 import com.tds.obupersistence.IOBUPersistenceService;
 
 /**
+ * Concrete class implementing {@link IOBUPersistenceService} to provide access to the persistence layer of the On-Board Unit.
+ *
  * @author Phillip Kopprasch
  *
  */

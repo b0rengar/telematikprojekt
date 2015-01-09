@@ -10,21 +10,22 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 
 /**
- * <b>OBDService <br />
- * com.tds.obdImpl <br />
- * SerialIOPort <br />
- * </b>
- * 
- * Description.
- * 
+ * A class to read output from a serial port.
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 03.01.2015 17:49:21
  * 
  */
 public class SerialInputStream extends InputStream {
 
+	/** The source to read the output from. E.g. COM5 or /dev/ttyUSB0 */
 	private SerialPort port;
 
+	/**
+	 * Creates a new instance to read from the given port.
+	 *
+	 * @param port The source to read the output from. E.g. COM5 or /dev/ttyUSB0
+	 */
 	public SerialInputStream(SerialPort port) {
 		this.port = port;
 	}

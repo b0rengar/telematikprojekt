@@ -6,6 +6,14 @@ import org.osgi.framework.Constants;
 import org.osgi.framework.Filter;
 import org.osgi.util.tracker.ServiceTracker;
 
+/**
+ * Class to start and stop the GUI Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
+ *
+ * This service manages the the graphical user interface to display various data collected by the system.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class Activator implements BundleActivator {
 
     private BundleContext context;

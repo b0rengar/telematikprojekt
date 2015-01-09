@@ -14,13 +14,9 @@ import ch.ethz.iks.r_osgi.RemoteOSGiService;
 import com.tds.gps.IGPSService;
 
 /**
+ * Class to start and stop the GPS Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
  *
- * <b>GPSService <br />
- * com.tds.gps <br />
- * Activator <br />
- * </b>
- *
- * Description.
+ * This service provides access to the GPS coordinates of the On-Board Unit.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:33:18

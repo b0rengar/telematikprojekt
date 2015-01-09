@@ -18,17 +18,12 @@ import org.osgi.service.event.EventAdmin;
 import com.tds.gps.IGPSService;
 
 /**
- * <b>GPSService <br />
- * com.tds.gps <br />
- * GPSService <br />
- * </b>
- *
- * Description.
+ * Concrete class implementing {@link IGPSService} to provides access to the GPS coordinates of the On-Board Unit.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:31:26
  *
- * @author Eric
+ * @author Erik Fröhlich
  * @edited 16.12.2014
  *
  * @author André Finsterbusch

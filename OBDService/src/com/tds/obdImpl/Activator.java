@@ -16,6 +16,14 @@ import ch.ethz.iks.r_osgi.RemoteOSGiService;
 
 import com.tds.obd.IOBDService;
 
+/**
+ * Class to start and stop the OBD Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down. *
+ *
+ * This service provides access to the OBD2 interface.
+ *
+ * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
+ *
+ */
 public class Activator implements BundleActivator {
 
     private static BundleContext context;
