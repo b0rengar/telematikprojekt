@@ -92,9 +92,9 @@ public class PersistenceService implements IPersistenceService {
     }
 
     @Override
-    public void setEvent(int evnetid, String filename, long timestamp, String gps) {
+    public void setEvent(int eventId, String filename, long timestamp, String gps) {
         DBCollection coll = db.getCollection(TABLE_EVENT);
-        BasicDBObject event = new BasicDBObject("timestamp", System.currentTimeMillis()).append("location", new BasicDBObject("type", "Point").append("coordinates", gps)).append("filename", filename).append("event_id", evnetid);
+        BasicDBObject event = new BasicDBObject("timestamp", System.currentTimeMillis()).append("location", new BasicDBObject("type", "Point").append("coordinates", gps)).append("filename", filename).append("event_id", eventId);
         coll.insert(event);
     }
 

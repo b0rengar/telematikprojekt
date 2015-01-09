@@ -42,12 +42,12 @@ public interface IPersistenceService {
     /**
      * Stores a new TDS event using the given parameters.
      *
-     * @param evnetid The event type.
+     * @param eventId The event type.
      * @param filename A path to an image file if a picture was taken at the time the event was detected.
      * @param timestamp A timestamp representing the time the event was detected.
      * @param gps GPS coordinates describing the location where the event was detected.
      */
-    public void setEvent(int evnetid, String filename, long timestamp, String gps);
+    public void setEvent(int eventId, String filename, long timestamp, String gps);
 
     /**
      * Stores the given data in the given table.
