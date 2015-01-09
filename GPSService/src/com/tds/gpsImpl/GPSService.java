@@ -108,25 +108,21 @@ public class GPSService implements IGPSService {
 
     @Override
     public void closeSP() {
-        // TODO Auto-generated method stub
         try {
             System.out.println("GPS Port closed: " + serialPort.closePort());
         } catch (SerialPortException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     @Override
     public float getLat() {
-        // TODO Auto-generated method stub
         float lat = 52.745975f;
         return lat;
     }
 
     @Override
     public float getLon() {
-        // TODO Auto-generated method stub
         float lon = 13.238044f;
         return lon;
     }

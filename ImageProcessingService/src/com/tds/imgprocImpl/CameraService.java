@@ -77,7 +77,6 @@ public class CameraService implements ICameraService {
             try {
                 return Util.convertToBufferedImage(frame);
             } catch (UnsupportedDataTypeException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

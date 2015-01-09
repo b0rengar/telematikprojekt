@@ -122,7 +122,6 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             System.out.println("Connected to OBU successfully");
         } catch (Exception e) {
             System.out.println("Connecting not successful");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

@@ -30,7 +30,6 @@ public class Writer implements EventHandler, IOBUPersistenceService {
         try {
             writer = new FileWriter(file, true);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -69,7 +68,6 @@ public class Writer implements EventHandler, IOBUPersistenceService {
                 writer.write(data);
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -79,7 +77,6 @@ public class Writer implements EventHandler, IOBUPersistenceService {
         try {
             writer.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
