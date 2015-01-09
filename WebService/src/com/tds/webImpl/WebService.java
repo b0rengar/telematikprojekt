@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -110,7 +111,7 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
      */
     private BufferedImage getBuffImageFromTdsEvent(long startDate) throws IOException {
         BufferedImage img = null;
-        ArrayList<TdsEvent> events = null;
+        List<TdsEvent> events = null;
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(startDate);
 
@@ -139,7 +140,7 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(startDate);
 
-        ArrayList<TdsEvent> events = null;
+        List<TdsEvent> events = null;
         try {
             events = persistenceService.getTdsEventsFromDB();
         } catch (Exception e) {

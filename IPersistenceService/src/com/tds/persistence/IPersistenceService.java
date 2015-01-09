@@ -3,8 +3,8 @@
  */
 package com.tds.persistence;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Interface to define the way data is persisted in the application.
@@ -29,7 +29,7 @@ public interface IPersistenceService {
      *
      * @return A list of TDS events.
      */
-    public ArrayList<TdsEvent> getTdsEventsFromDB();
+    public List<TdsEvent> getTdsEventsFromDB();
 
     /**
      * Returns the contents of the table by the given name.
@@ -37,7 +37,7 @@ public interface IPersistenceService {
      * @param table_name The name of the table to get the contents of.
      * @return The contents of the table by the given name.
      */
-    public ArrayList getItems(String table_name);
+    public List<Object> getItems(String table_name);
 
     /**
      * Stores a new TDS event using the given parameters.

@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -43,8 +44,8 @@ public class PersistenceService implements IPersistenceService {
     }
 
     @Override
-    public ArrayList<TdsEvent> getTdsEventsFromDB() {
-        ArrayList events = getItems(IPersistenceService.TABLE_EVENT);
+    public List<TdsEvent> getTdsEventsFromDB() {
+        List<Object> events = getItems(IPersistenceService.TABLE_EVENT);
         Iterator<Object> iter = events.iterator();
         ArrayList<TdsEvent> tdsEvents = new ArrayList<TdsEvent>();
         TdsEvent e;
@@ -64,8 +65,8 @@ public class PersistenceService implements IPersistenceService {
     }
 
     @Override
-    public ArrayList<Object> getItems(String table_name) {
-        ArrayList<Object> events = new ArrayList<Object>();
+    public List<Object> getItems(String table_name) {
+        List<Object> events = new ArrayList<Object>();
         DBCollection coll = db.getCollection(table_name);
         DBCursor cursor = coll.find();
         try {
