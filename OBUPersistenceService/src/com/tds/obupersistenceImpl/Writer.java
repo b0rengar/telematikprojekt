@@ -16,9 +16,17 @@ public class Writer implements EventHandler, IOBUPersistenceService {
     @Override
     public void handleEvent(Event event) {
 
-        if (event.getTopic() == IGPSService.Event_TOPIC) {
-            String gps = (String) event.getProperty(IGPSService.Event_DATA);
-            write(gps);
+        if (event.getTopic() == IGPSService.Event_GPS_TOPIC) {
+            Object lat = event.getProperty(IGPSService.Event_GPS_DATA_LAT);
+            Object lng = event.getProperty(IGPSService.Event_GPS_DATA_LONG);
+
+            StringBuilder gps_string = new StringBuilder("[");
+            gps_string.append(lat.toString());
+            gps_string.append(" , ");
+            gps_string.append(lng.toString());
+            gps_string.append("]");
+            System.err.println("WRITER:" + gps_string.toString());
+            write(gps_string.toString());
         }
 
     }

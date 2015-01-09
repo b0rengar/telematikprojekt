@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.tds.gpsImpl.Activator
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: com.tds.gps,
+Import-Package: ch.ethz.iks.r_osgi,
+ com.tds.gps,
  org.osgi.framework;version="1.3.0",
  org.osgi.service.event;version="1.3.0"

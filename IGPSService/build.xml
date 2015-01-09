@@ -2,6 +2,7 @@
 
 	<path id="classpath">
 		<fileset dir="."/>
+		<fileset dir="../Server/felix/bundle" />
 		<fileset file="../Server/felix/bin/felix.jar" />
 	</path>
 	

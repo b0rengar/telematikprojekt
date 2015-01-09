@@ -131,7 +131,6 @@ public class NMEA {
         if (line.startsWith("$")) {
             String nmea = line.substring(1);
             String[] tokens = nmea.split(",");
-            System.out.println(tokens);
             String type = tokens[0];
             // TODO check crc
             if (sentenceParsers.containsKey(type)) {

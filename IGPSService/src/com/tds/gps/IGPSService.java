@@ -3,6 +3,8 @@
  */
 package com.tds.gps;
 
+import org.osgi.service.event.EventAdmin;
+
 /**
  * <b>IGPSService <br />
  * com.tds.gps <br />
@@ -16,10 +18,21 @@ package com.tds.gps;
  *
  */
 public interface IGPSService {
-    public static String Event_DATA = "GPS/Data";
-    public static String Event_TOPIC = "gpsservice/eventsender/GPS";
+    public static String Event_GPS_DATA_LONG = "GPS/Data/lat";
+    public static String Event_GPS_DATA_LAT = "GPS/Data/long";
+    public static String Event_GPS_TOPIC = "gpsservice/eventsender/GPS";
 
-    String getGpsPosition();
+// String getGpsPosition();
+
+    void bindEventAdmin(EventAdmin eventAdmin);
+
+    void unbindEventAdmin();
 
     void openSP();
+
+    void closeSP();
+
+    float getLat();
+
+    float getLon();
 }

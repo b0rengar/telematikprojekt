@@ -39,17 +39,18 @@ public class GPSService implements IGPSService {
     static SerialPort serialPort;
     private static NMEA gpsParser = new NMEA();
     String portName = "/dev/ttyUSB0";
-    int baudrate = 1200;
+    int baudrate = 4800;
     int dataBits = SerialPort.DATABITS_8;
     int stopBits = SerialPort.STOPBITS_1;
     int parity = SerialPort.PARITY_NONE;
-    private static String gpsString;
 
+    @Override
     public void bindEventAdmin(EventAdmin eventAdmin) {
         GPSService.eventAdmin = eventAdmin;
     }
 
-    public void unbindEventAdmin(EventAdmin eventAdmin) {
+    @Override
+    public void unbindEventAdmin() {
         GPSService.eventAdmin = null;
     }
 
@@ -58,8 +59,10 @@ public class GPSService implements IGPSService {
         serialPort = new SerialPort(portName);
         try {
             System.out.println("Port opened: " + serialPort.openPort());
-            System.out.println("Params setted: " + serialPort.setParams(baudrate, dataBits, stopBits, parity));
+            //
+            // System.out.println("Params setted: " + serialPort.setParams(baudrate, dataBits, stopBits, parity));
             int mask = SerialPort.MASK_RXCHAR;// Prepare mask
+
             serialPort.setEventsMask(mask);// Set mask
             serialPort.addEventListener(new SerialPortReader());// Add SerialPortEventListener
 
@@ -70,9 +73,14 @@ public class GPSService implements IGPSService {
     }
 
     /*
-     * In this class must implement the method serialEvent, through it we learn about events that happened to our port. But we will not report on all events but only those that we put in the mask. In this case the arrival of the data and change the status lines CTS and DSR
+     * In this class must implement the method serialEvent But we will not report on all events but only those that we put in the mask. In this case the arrival of the data and change the status lines CTS and DSR
      */
     static class SerialPortReader implements SerialPortEventListener {
+// static char SOL = '$'; // start of nmea msg
+// static char EOL = '\n'; // end of nmea msg
+// Boolean sol_received = false;
+// Boolean eol_received = false;
+// StringBuilder nmea_msg = null;
 
         @Override
         public void serialEvent(SerialPortEvent event) {
@@ -81,16 +89,36 @@ public class GPSService implements IGPSService {
                 if (event.getEventValue() > 0) {
                     try {
                         String tmp = serialPort.readString();
-                        gpsString = gpsParser.parse(tmp).getPosition();
-
+// System.out.println(tmp);
+// if (tmp.charAt(0) == SOL) {
+// nmea_msg = new StringBuilder(tmp);
+// sol_received = true;
+// }
+// if (tmp.charAt(0) == EOL) {
+// eol_received = true;
+// }
+// if (sol_received && !eol_received) {
+// // string zusammen bauen $ bis '\n'
+// nmea_msg.append(tmp);
+// }
+// if (sol_received && eol_received) {
+// System.out.println(nmea_msg.toString());
+// gpsString =
+                        gpsParser.parse(tmp);
+                        float lat = gpsParser.position.lat;
+                        float lon = gpsParser.position.lon;
+                        System.out.println(lat + " : " + lon);
                         Dictionary<String, String> eventProps = new Hashtable<String, String>();
-                        eventProps.put(Event_DATA, gpsString);
-                        Event osgiEvent = new Event(Event_TOPIC, eventProps);
+                        eventProps.put(Event_GPS_DATA_LAT, Float.toString(lat));
+                        eventProps.put(Event_GPS_DATA_LONG, Float.toString(lon));
+                        Event osgiEvent = new Event(Event_GPS_TOPIC, eventProps);
 
-                        // "sendEvent()" synchron
-                        // "postEvent()" asynchron:
+                        // "sendEvent()" synchron "postEvent()" asynchron:
                         eventAdmin.sendEvent(osgiEvent);
-
+// nmea_msg = null;
+// sol_received = false;
+// eol_received = false;
+// }
                     } catch (SerialPortException ex) {
                         // TODO LOGGER
                         System.out.println(ex);
@@ -101,8 +129,28 @@ public class GPSService implements IGPSService {
     }
 
     @Override
-    public String getGpsPosition() {
-        return gpsString;
+    public void closeSP() {
+        // TODO Auto-generated method stub
+        try {
+            System.out.println("GPS Port closed: " + serialPort.closePort());
+        } catch (SerialPortException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public float getLat() {
+        // TODO Auto-generated method stub
+        float lat = 52.745975f;
+        return lat;
+    }
+
+    @Override
+    public float getLon() {
+        // TODO Auto-generated method stub
+        float lon = 13.238044f;
+        return lon;
     }
 
 }

@@ -29,7 +29,7 @@ public class OBUPersistenceService implements IOBUPersistenceService, ServiceTra
     public Object addingService(ServiceReference reference) {
         Dictionary<String, String[]> topics = new Hashtable<>();
         if (reference instanceof IGPSService) {
-            topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.Event_TOPIC });
+            topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.Event_GPS_TOPIC });
             context.registerService(EventHandler.class.getName(), writer, topics);
 
         }

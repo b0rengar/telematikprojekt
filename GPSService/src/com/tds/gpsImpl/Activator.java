@@ -6,6 +6,10 @@ import java.util.Hashtable;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.event.EventAdmin;
+
+import ch.ethz.iks.r_osgi.RemoteOSGiService;
 
 import com.tds.gps.IGPSService;
 
@@ -45,8 +49,13 @@ public class Activator implements BundleActivator {
         Dictionary<String, Object> params = new Hashtable<>();
         params.put(Constants.SERVICE_PID, IGPSService.class.getName());
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the gps navigation information.");
-        context.registerService(IGPSService.class.getName(), service, params);
+        params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
 
+        context.registerService(IGPSService.class.getName(), service, params);
+        ServiceReference<EventAdmin> ref = (ServiceReference<EventAdmin>) context.getServiceReference(EventAdmin.class.getName());
+        if (ref != null) {
+            service.bindEventAdmin(context.getService(ref));
+        }
     }
 
     /*
@@ -56,6 +65,8 @@ public class Activator implements BundleActivator {
      */
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
+        service.closeSP();
+        service.unbindEventAdmin();
         Activator.context = null;
     }
 
