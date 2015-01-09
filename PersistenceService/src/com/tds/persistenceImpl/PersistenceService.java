@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import org.osgi.framework.BundleContext;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -22,8 +20,6 @@ import com.tds.persistence.TdsEvent;
  *
  */
 public class PersistenceService implements IPersistenceService {
-    private IPersistenceService persistenceService;
-    private BundleContext context;
 
     /** An instance of the database used to store the data. */
     private static DB db;
