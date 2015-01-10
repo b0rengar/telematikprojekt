@@ -51,6 +51,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     private JFrame frmMainWindow;
 
     JInternalFrame ifFrontKamera;
+    JInternalFrame ifDriverKamera;
     JInternalFrame ifBetriebsparameter;
     JInternalFrame ifKarte;
 
@@ -89,14 +90,20 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         initialize();
 
         JPanel panel = new CamPanel(cameraService, 0);
-
         Dictionary<String, String[]> topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.OBU_EVENT_CAMERA_ROAD });
         context.registerService(EventHandler.class.getName(), panel, topics);
-
         ifFrontKamera.getContentPane().add(panel, BorderLayout.CENTER);
         ifFrontKamera.setVisible(false);
         ifFrontKamera.setVisible(true);
+
+        JPanel driverpanel = new CamPanel(cameraService, 0);
+        topics = new Hashtable<>();
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.EVENT_OBU_CAMERA_DRIVER });
+        context.registerService(EventHandler.class.getName(), driverpanel, topics);
+        ifDriverKamera.getContentPane().add(driverpanel, BorderLayout.CENTER);
+        ifDriverKamera.setVisible(false);
+        ifDriverKamera.setVisible(true);
 
         JPanel parameterPanel = new ParameterPanel(obdService);
 
@@ -126,8 +133,9 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
 
             // connect
+            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
-            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
 // for (int i = 0; i < rsr.length; i++) {
 // System.out.println("RSR Connect" + remote.getRemoteService(rsr[i]).getClass().toString());
@@ -153,7 +161,8 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     private void initialize() {
         frmMainWindow = new JFrame();
         frmMainWindow.setTitle("TDS - Telemetrie Daten System");
-        frmMainWindow.setBounds(100, 100, 1143, 651);
+// frmMainWindow.setBounds(100, 100, 1143, 651);
+        frmMainWindow.setBounds(100, 100, 1400, 651);
         frmMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         MainFrameActionListener actionListener = new MainFrameActionListener();
@@ -237,6 +246,14 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifFrontKamera.setMaximizable(true);
         ifFrontKamera.setClosable(true);
         frmMainWindow.getContentPane().add(ifFrontKamera);
+
+        ifDriverKamera = new JInternalFrame("Fahrer Ansicht");
+        ifDriverKamera.setBounds(1126, 0, 250, 315);
+        ifDriverKamera.setIconifiable(true);
+        ifDriverKamera.setResizable(true);
+        ifDriverKamera.setMaximizable(true);
+        ifDriverKamera.setClosable(true);
+        frmMainWindow.getContentPane().add(ifDriverKamera);
 
         ifBetriebsparameter = new JInternalFrame("Betriebsparameter Ansicht");
         ifBetriebsparameter.setBounds(0, 0, 586, 581);
