@@ -109,17 +109,17 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
-            for (int i = 0; i < rsr.length; i++) {
-                System.out.println("RSR Connect" + remote.getRemoteService(rsr[i]).getClass().toString());
-                if (remote.getRemoteService(rsr[i]) instanceof IOBDService) {
-                    obdService = (IOBDService) remote.getRemoteService(rsr[i]);
-                }
+// for (int i = 0; i < rsr.length; i++) {
+// System.out.println("RSR Connect" + remote.getRemoteService(rsr[i]).getClass().toString());
+// if (remote.getRemoteService(rsr[i]) instanceof IOBDService) {
+// obdService = (IOBDService) remote.getRemoteService(rsr[i]);
+// }
 // if (remote.getRemoteService(rsr[i]) instanceof IGPSService) {
 // System.out.println("CONNECTING TO GPS SERVICE !!!!!!!!!!!!!!!!!!!!!!!");
 // gpsService = (IGPSService) remote.getRemoteService(rsr[i]);
 // }
-            }
-            System.out.println("Connected to OBU successfully");
+// }
+// System.out.println("Connected to OBU successfully");
         } catch (Exception e) {
             System.out.println("Connecting not successful");
             e.printStackTrace();
@@ -310,9 +310,9 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             System.out.println("Adding Service PersistenceService to MainFrame");
             persistenceService = (IPersistenceService) this.context.getService(ref);
 // persistenceService.setEvent(42, "test.file", 123423423, "0,0");
-            ifBetriebsparameter.getContentPane().add(new ParameterPanel(persistenceService, obdService));
-            ifBetriebsparameter.setVisible(false);
-            ifBetriebsparameter.setVisible(true);
+// ifBetriebsparameter.getContentPane().add(new ParameterPanel(persistenceService, obdService));
+// ifBetriebsparameter.setVisible(false);
+// ifBetriebsparameter.setVisible(true);
         }
         if (s instanceof IGPSService) {
             System.out.println("Adding Service GPSService to MainFrame");
@@ -328,6 +328,20 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             ifKarte.setVisible(false);
             ifKarte.setVisible(true);
 
+        }
+        if (s instanceof IOBDService) {
+            System.out.println("Adding Service OBDService_raw to MainFrame");
+            obdService = (IOBDService) this.context.getService(ref);
+
+            JPanel parameterPanel = new ParameterPanel(obdService);
+
+            Dictionary<String, String[]> topics = new Hashtable<>();
+            topics.put(EventConstants.EVENT_TOPIC, new String[] { IOBDService.EVENT_OBD_TOPIC });
+            context.registerService(EventHandler.class.getName(), parameterPanel, topics);
+
+            ifBetriebsparameter.getContentPane().add(parameterPanel);
+            ifBetriebsparameter.setVisible(false);
+            ifBetriebsparameter.setVisible(true);
         }
 
         return s;

@@ -1,8 +1,5 @@
 package com.tds.gui.panels;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -11,9 +8,8 @@ import javax.swing.SwingConstants;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import com.tds.gui.OBDRequester;
 import com.tds.obd.IOBDService;
-import com.tds.persistence.IPersistenceService;
+import com.tds.obd.OBDParameterSet;
 
 public class ParameterPanel extends JPanel implements EventHandler {
 
@@ -22,8 +18,10 @@ public class ParameterPanel extends JPanel implements EventHandler {
      */
     private static final long serialVersionUID = 8860351179422635538L;
 
-    private IPersistenceService persistenceService;
+// private IPersistenceService persistenceService;
     private IOBDService obdService;
+
+    private OBDParameterSet parameterSet;
 
     private JTextField textFieldGeschwindigkeit;
     private JTextField textFieldDrehzahl;
@@ -39,20 +37,22 @@ public class ParameterPanel extends JPanel implements EventHandler {
     private OBDLineChart chartInnentemperatur;
     private OBDLineChart chartAussentemperatur;
 
-    public ParameterPanel(IPersistenceService persistenceService, IOBDService obdService) {
-        this.persistenceService = persistenceService;
+    public ParameterPanel(IOBDService obdService) {
+// this.persistenceService = persistenceService;
         this.obdService = obdService;
 
-        System.out.println("num at mongo = " + persistenceService.getTdsEventsFromDB().size());
+        parameterSet = new OBDParameterSet();
+
+// System.out.println("num at mongo = " + persistenceService.getTdsEventsFromDB().size());
 
         initialize();
 
-        TimerTask tt = new OBDRequester(this.obdService, this);
-
-        System.out.println("start timer ODB 2");
-
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(tt, 1000, 1000);
+// TimerTask tt = new OBDRequester(this.obdService, this);
+//
+// System.out.println("start timer ODB 2");
+//
+// Timer t = new Timer();
+// t.scheduleAtFixedRate(tt, 1000, 1000);
 
 // System.out.println("R-OSGI-Speed: " + obd.getSpeed());
 // System.out.println("R-OSGI-EngineRPM: " + obd.getEngineRPM());
@@ -182,9 +182,27 @@ public class ParameterPanel extends JPanel implements EventHandler {
     }
 
     @Override
-    public void handleEvent(Event arg0) {
-        // TODO Auto-generated method stub
+    public void handleEvent(Event event) {
+        parameterSet.setSpeed(Float.parseFloat((String) event.getProperty(IOBDService.EVENT_OBD_DATA_SPEED)));
+        parameterSet.setEngineRPM(Integer.parseInt((String) event.getProperty(IOBDService.EVENT_OBD_DATA_RPM)));
+        parameterSet.setFuelConsumptionRate(Float.parseFloat((String) event.getProperty(IOBDService.EVENT_OBD_DATA_CONSUMPTION)));
+        parameterSet.setEngineTemperature(Float.parseFloat((String) event.getProperty(IOBDService.EVENT_OBD_DATA_TEMPERATURE_ENGINE)));
+        parameterSet.setCarIndoorTemperature(Float.parseFloat((String) event.getProperty(IOBDService.EVENT_OBD_DATA_TEMPERATURE_INDOOR)));
+        parameterSet.setCarOutdoorTemperature(Float.parseFloat((String) event.getProperty(IOBDService.EVENT_OBD_DATA_TEMPERATURE_OUTDOOR)));
 
+        textFieldGeschwindigkeit.setText(String.format("%.0f", parameterSet.getSpeed()));
+        textFieldDrehzahl.setText(parameterSet.getEngineRPM() + "");
+        textFieldVerbrauch.setText(String.format("%.2f", parameterSet.getFuelConsumptionRate()));
+        textFieldMotortemperatur.setText(String.format("%.1f", parameterSet.getEngineTemperature()));
+        textFieldInnentemperatur.setText(String.format("%.1f", parameterSet.getCarIndoorTemperature()));
+        textFieldAussentemperatur.setText(String.format("%.1f", parameterSet.getCarOutdoorTemperature()));
+
+        this.getChartGeschwindigkeit().addElement(parameterSet.getSpeed());
+        this.getChartDrehzahl().addElement(parameterSet.getEngineRPM());
+        this.getChartVerbrauch().addElement(parameterSet.getFuelConsumptionRate());
+        this.getChartMotortemperatur().addElement(parameterSet.getEngineTemperature());
+        this.getChartAussentemperatur().addElement(parameterSet.getCarOutdoorTemperature());
+        this.getChartInnentemperatur().addElement(parameterSet.getCarIndoorTemperature());
     }
 
     public JTextField getTextFieldGeschwindigkeit() {
