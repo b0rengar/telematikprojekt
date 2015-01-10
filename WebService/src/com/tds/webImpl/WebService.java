@@ -65,12 +65,12 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
 // for (String msg : msgs) {
 // response.getWriter().write(msg);
 // }
-        System.out.println("given Parameter: " + startDate + " " + quest);
+        System.out.println("REQUEST with the given Parameters: " + startDate + " " + quest);
 
         try {
 
             if (quest.equals("image")) {
-                System.out.println("send Image");
+                // System.out.println("send Image");
                 // get id from List with notifications
                 response.setContentType("image/jpeg");
 
@@ -84,7 +84,7 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
                 ImageIO.write(img, "jpg", out);
                 out.close();
             } else if (quest.equals("data")) {
-                System.out.println("send Data");
+                // System.out.println("send Data");
                 String eventData = getStringFromEvents(getEventsFromMongoDB(startDate));
                 System.out.println(eventData);
                 response.getWriter().write(eventData);
@@ -92,11 +92,12 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
                 // ---------------------------------------------------------------------------------
                 // TestData
                 // PROTOCOLL TIMESTAMP;TYPE;LATITUDE;LONGITUDE;IMAGE
-                // response.getWriter().write("1418068174826;0;52.342052;13.512783;0#");
-                // response.getWriter().write("1418068174826;1;52.342052;13.40292;1#");
-                // response.getWriter().write("1418068174826;2;52.50452;13.40292;0#");
-                // response.getWriter().write("1418068174826;0;52.50452;13.40292;1#");
-                // response.getWriter().write("1418068174826;1;52.50452;13.40292;1#");
+// response.getWriter().write("1418068174826;0;52.342052;13.512783#");
+// response.getWriter().write("1418068174826;1;52.342052;13.40292#");
+// response.getWriter().write("1418068174826;2;52.50452;13.40292#");
+// response.getWriter().write("1418068174826;3;52.50452;13.40292#");
+// response.getWriter().write("1418068174826;4;52.50452;13.40292#");
+// response.getWriter().write("1418068174826;5;52.50452;13.40292#");
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -104,9 +105,10 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
     }
 
     /**
+     * Method to get Picture from event
      * 
-     * @param startDate
-     * @return
+     * @param startDate - System time in milliseconds
+     * @return BufferedImage
      * @throws IOException
      */
     private BufferedImage getBuffImageFromTdsEvent(long startDate) throws IOException {
@@ -118,7 +120,7 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         try {
             events = persistenceService.getTdsEventsFromDB();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("getBuffImageFromTdsEvent: " + e);
         }
 
         for (TdsEvent temp : events) {
@@ -144,17 +146,16 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         try {
             events = persistenceService.getTdsEventsFromDB();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("getEventsFromMongoDB: " + e);
         }
-        System.out.println(persistenceService.getTdsEventsFromDB());
+        // System.out.println(persistenceService.getTdsEventsFromDB());
         ArrayList<TdsEvent> neededEvents = new ArrayList<TdsEvent>();
-        System.out.println("2");
         // loop through all events, to get events in time range
         for (TdsEvent temp : events) {
             Calendar tmpDate = Calendar.getInstance();
             tmpDate.setTimeInMillis(temp.getTimestamp());
             if (tmpDate.getTimeInMillis() > date.getTimeInMillis()) {
-                System.out.println(temp.getEventId());
+                // System.out.println(temp.getEventId());
                 neededEvents.add(temp);
             }
         }
@@ -191,6 +192,9 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         return str;
     }
 
+    /**
+     * Adding IPersistanceService to WebService
+     */
     @Override
     public IPersistenceService addingService(ServiceReference<IPersistenceService> arg0) {
         System.out.println("WebService adding Persistence Service");
@@ -198,12 +202,18 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         return persistenceService;
     }
 
+    /**
+     * Modify IPersistanceService
+     */
     @Override
     public void modifiedService(ServiceReference<IPersistenceService> arg0, IPersistenceService arg1) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Removing IPersistanceService from WebService
+     */
     @Override
     public void removedService(ServiceReference<IPersistenceService> arg0, IPersistenceService arg1) {
         // TODO Auto-generated method stub
