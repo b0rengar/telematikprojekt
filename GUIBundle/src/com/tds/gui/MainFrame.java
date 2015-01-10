@@ -88,9 +88,19 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
         initialize();
 
-        JPanel parameterPanel = new ParameterPanel(obdService);
+        JPanel panel = new CamPanel(cameraService, 0);
 
         Dictionary<String, String[]> topics = new Hashtable<>();
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.OBU_EVENT_CAMERA_ROAD });
+        context.registerService(EventHandler.class.getName(), panel, topics);
+
+        ifFrontKamera.getContentPane().add(panel, BorderLayout.CENTER);
+        ifFrontKamera.setVisible(false);
+        ifFrontKamera.setVisible(true);
+
+        JPanel parameterPanel = new ParameterPanel(obdService);
+
+        topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { IOBDService.EVENT_OBD_TOPIC });
         context.registerService(EventHandler.class.getName(), parameterPanel, topics);
 
