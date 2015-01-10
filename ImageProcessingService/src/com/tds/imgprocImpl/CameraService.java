@@ -71,6 +71,9 @@ public class CameraService implements ICameraService {
 
         if (camera.isOpened()) {
 
+// camera.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, value)
+// camera.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, value)
+
             Mat frame = new Mat();
             camera.read(frame);
 
@@ -100,6 +103,15 @@ public class CameraService implements ICameraService {
 
         t = new Timer();
         t.scheduleAtFixedRate(tt, 1000 / fps, 1000 / fps);
+    }
+
+    @Override
+    public void stopCameraEvents(int camID) {
+        Timer t = timers.get(camID);
+        if (t != null) {
+            t.cancel();
+        }
+
     }
 
 }

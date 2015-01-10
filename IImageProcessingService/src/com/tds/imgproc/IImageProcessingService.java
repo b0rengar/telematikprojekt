@@ -11,20 +11,20 @@ import java.util.Enumeration;
  * com.tds.imgproc <br />
  * IImageProcessingService <br />
  * </b>
- *
+ * 
  * Description.
- *
+ * 
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 20:33:30
- *
+ * 
  */
 public interface IImageProcessingService {
 
-	public boolean detectSleep(BufferedImage inputframe);
-	
-	public boolean detectHuman(BufferedImage inputframe);
+    public boolean detectSleep(BufferedImage inputframe);
 
-//    public BufferedImage getbufferedImage(Mat frame);
+    public boolean detectHuman(BufferedImage inputframe);
+
+// public BufferedImage getbufferedImage(Mat frame);
 
     public Enumeration getType();
 
