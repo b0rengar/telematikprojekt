@@ -36,13 +36,14 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
         service = new OBDService_raw();
+        service.openSP();
 
         Dictionary<String, Object> params = new Hashtable<>();
         params.put(Constants.SERVICE_PID, IOBDService.class.getName());
@@ -81,7 +82,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
