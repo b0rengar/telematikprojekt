@@ -88,7 +88,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(textFieldDrehzahl);
         textFieldDrehzahl.setColumns(10);
 
-        JLabel lblVerbrauch = new JLabel("Tank Füllstand");
+        JLabel lblVerbrauch = new JLabel("Tankfüllstand");
         lblVerbrauch.setBounds(10, 191, 120, 14);
         add(lblVerbrauch);
 
@@ -121,7 +121,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         add(textFieldGaspedal);
         textFieldGaspedal.setColumns(10);
 
-        JLabel lblAussentemperatur = new JLabel("Motor Last");
+        JLabel lblAussentemperatur = new JLabel("Motorlast");
         lblAussentemperatur.setBounds(305, 368, 119, 14);
         add(lblAussentemperatur);
 
@@ -164,7 +164,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         lblLh.setBounds(210, 191, 46, 14);
         add(lblLh);
 
-        JLabel lblc = new JLabel("°C");
+        JLabel lblc = new JLabel("%");
         lblc.setBounds(210, 368, 46, 14);
         add(lblc);
 
@@ -172,7 +172,7 @@ public class ParameterPanel extends JPanel implements EventHandler {
         lblUmin.setBounds(504, 14, 46, 14);
         add(lblUmin);
 
-        JLabel lblc_1 = new JLabel("%");
+        JLabel lblc_1 = new JLabel("°C");
         lblc_1.setBounds(504, 191, 46, 14);
         add(lblc_1);
 

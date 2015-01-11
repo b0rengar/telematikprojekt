@@ -34,7 +34,8 @@ public class InertialMeasurementService implements IInertialMeasurementService {
 
     static SerialPort serialPort;
     // TODO ref-by-id
-    static String portName = "/dev/ttyUSB1";
+// static String portName = "/dev/ttyUSB1";
+    static String portName = "/dev/acc0";
     static long last_event_time = 0;
     static long event_timer = 100; // ein event aller xxxx ms
 

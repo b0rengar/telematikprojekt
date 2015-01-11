@@ -34,7 +34,8 @@ public class GPSService implements IGPSService {
 
     static SerialPort serialPort;
     private static NMEA gpsParser = new NMEA();
-    String portName = "/dev/ttyUSB0";
+// String portName = "/dev/ttyUSB0";
+    String portName = "/dev/gps0";
 
 // int baudrate = 4800;
 // int dataBits = SerialPort.DATABITS_8;

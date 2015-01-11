@@ -162,7 +162,8 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
             // connect
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
-            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:55555"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
 // for (int i = 0; i < rsr.length; i++) {
