@@ -38,6 +38,10 @@ public class InertialMeasurementService implements IInertialMeasurementService {
     static long last_event_time = 0;
     static long event_timer = 100; // ein event aller xxxx ms
 
+    private final static int voltage = 3300; // in mV -> 3.3V
+    private static double voltsPerUnit = voltage / 1024.0;
+    private static int voltsPerG = voltage / 10;
+
     @Override
     public void bindEventAdmin(EventAdmin eventAdmin) {
         InertialMeasurementService.eventAdmin = eventAdmin;
@@ -88,9 +92,9 @@ public class InertialMeasurementService implements IInertialMeasurementService {
                     try {
                         String tmp = serialPort.readString();
                         String[] tokens = tmp.split(" ");
-                        double x = ((Double.parseDouble(tokens[0]) - 512) * 5) / 512;
-                        double y = ((Double.parseDouble(tokens[1]) - 512) * 5) / 512;
-                        double z = ((Double.parseDouble(tokens[2]) - 512) * 5) / 512;
+                        double x = ((Double.parseDouble(tokens[0]) - 512) * voltsPerUnit) / voltsPerG;
+                        double y = ((Double.parseDouble(tokens[1]) - 512) * voltsPerUnit) / voltsPerG;
+                        double z = ((Double.parseDouble(tokens[2]) - 512) * voltsPerUnit) / voltsPerG;
 
                         long ts = Calendar.getInstance().getTimeInMillis();
                         // System.out.println(ts + " ACC Event x:" + x + " y:" + y + " z: " + z);
@@ -99,9 +103,9 @@ public class InertialMeasurementService implements IInertialMeasurementService {
                             if ((ts - last_event_time) >= event_timer) {
                                 Dictionary<String, String> eventProps = new Hashtable<String, String>();
                                 eventProps.put(EVENT_ACC_DATA_TIMESTAMP, Long.toString(ts));
-                                eventProps.put(EVENT_ACC_DATA_X, tmp);
-                                eventProps.put(EVENT_ACC_DATA_Y, tmp);
-                                eventProps.put(EVENT_ACC_DATA_Z, tmp);
+                                eventProps.put(EVENT_ACC_DATA_X, Double.toString(x));
+                                eventProps.put(EVENT_ACC_DATA_Y, Double.toString(y));
+                                eventProps.put(EVENT_ACC_DATA_Z, Double.toString(z));
                                 Event osgiEvent = new Event(EVENT_ACC_TOPIC, eventProps);
                                 // "sendEvent()" synchron "postEvent()" asynchron:
                                 eventAdmin.sendEvent(osgiEvent);
