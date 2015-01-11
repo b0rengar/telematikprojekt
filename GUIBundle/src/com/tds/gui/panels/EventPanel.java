@@ -40,7 +40,7 @@ public class EventPanel extends JPanel implements ListSelectionListener {
     private void initialize() {
         setLayout(null);
         JSplitPane splitPane = new JSplitPane();
-        splitPane.setBounds(10, 5, 498, 222);
+        splitPane.setBounds(10, 5, 428, 222);
         add(splitPane);
 
         list = new JList<TdsEvent>(listModel);

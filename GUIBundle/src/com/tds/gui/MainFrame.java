@@ -89,6 +89,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
         initialize();
 
+        // add service for road camera
         JPanel panel = new CamPanel(cameraService, 0);
         Dictionary<String, String[]> topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.OBU_EVENT_CAMERA_ROAD });
@@ -97,23 +98,37 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifFrontKamera.setVisible(false);
         ifFrontKamera.setVisible(true);
 
-        JPanel driverpanel = new CamPanel(cameraService, 0);
+        // add service for driver camera
+        JPanel driverPanel = new CamPanel(cameraService, 0);
         topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.EVENT_OBU_CAMERA_DRIVER });
-        context.registerService(EventHandler.class.getName(), driverpanel, topics);
-        ifDriverKamera.getContentPane().add(driverpanel, BorderLayout.CENTER);
+        context.registerService(EventHandler.class.getName(), driverPanel, topics);
+        ifDriverKamera.getContentPane().add(driverPanel, BorderLayout.CENTER);
         ifDriverKamera.setVisible(false);
         ifDriverKamera.setVisible(true);
 
+        // add service for OBD data
         JPanel parameterPanel = new ParameterPanel(obdService);
-
         topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { IOBDService.EVENT_OBD_TOPIC });
         context.registerService(EventHandler.class.getName(), parameterPanel, topics);
-
         ifBetriebsparameter.getContentPane().add(parameterPanel);
         ifBetriebsparameter.setVisible(false);
         ifBetriebsparameter.setVisible(true);
+
+        // add service for GPS data
+        JPanel mapPanel = new MapPanel(gpsService);
+        topics = new Hashtable<>();
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.EVENT_GPS_TOPIC });
+        context.registerService(EventHandler.class.getName(), mapPanel, topics);
+        ifKarte.getContentPane().add(mapPanel);
+
+        JInternalFrame ifBeschleunigungssensor = new JInternalFrame("Beschleunigungssensor");
+        ifBeschleunigungssensor.setBounds(598, 322, 270, 259);
+        frmMainWindow.getContentPane().add(ifBeschleunigungssensor);
+        ifBeschleunigungssensor.setVisible(true);
+        ifKarte.setVisible(false);
+        ifKarte.setVisible(true);
 
 // public MainFrame() {
 //
@@ -248,7 +263,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         frmMainWindow.getContentPane().add(ifFrontKamera);
 
         ifDriverKamera = new JInternalFrame("Fahrer Ansicht");
-        ifDriverKamera.setBounds(1126, 0, 250, 315);
+        ifDriverKamera.setBounds(1138, 0, 250, 315);
         ifDriverKamera.setIconifiable(true);
         ifDriverKamera.setResizable(true);
         ifDriverKamera.setMaximizable(true);
@@ -265,7 +280,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifMeldungen.setIconifiable(true);
         ifMeldungen.setMaximizable(true);
         ifMeldungen.getContentPane().add(new EventPanel());
-        ifMeldungen.setBounds(596, 318, 531, 263);
+        ifMeldungen.setBounds(876, 318, 512, 263);
         frmMainWindow.getContentPane().add(ifMeldungen);
 
         ifKarte = new JInternalFrame("Karte Ansicht");
@@ -328,21 +343,21 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     public Object addingService(ServiceReference<Object> ref) {
 
         Object s = this.context.getService(ref);
-        if (s instanceof ICameraService) {
-            System.out.println("Adding Service CameraService to MainFrame");
-            cameraService = (ICameraService) this.context.getService(ref);
-
-            JPanel panel = new CamPanel(cameraService, 0);
-
-            Dictionary<String, String[]> topics = new Hashtable<>();
-            topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/camera/driver" });
-            context.registerService(EventHandler.class.getName(), panel, topics);
-
-            ifFrontKamera.getContentPane().add(panel, BorderLayout.CENTER);
-            ifFrontKamera.setVisible(false);
-            ifFrontKamera.setVisible(true);
-            return cameraService;
-        }
+// if (s instanceof ICameraService) {
+// System.out.println("Adding Service CameraService to MainFrame");
+// cameraService = (ICameraService) this.context.getService(ref);
+//
+// JPanel panel = new CamPanel(cameraService, 0);
+//
+// Dictionary<String, String[]> topics = new Hashtable<>();
+// topics.put(EventConstants.EVENT_TOPIC, new String[] { "obu/camera/driver" });
+// context.registerService(EventHandler.class.getName(), panel, topics);
+//
+// ifFrontKamera.getContentPane().add(panel, BorderLayout.CENTER);
+// ifFrontKamera.setVisible(false);
+// ifFrontKamera.setVisible(true);
+// return cameraService;
+// }
         if (s instanceof IPersistenceService) {
             System.out.println("Adding Service PersistenceService to MainFrame");
             persistenceService = (IPersistenceService) this.context.getService(ref);
@@ -366,20 +381,20 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             ifKarte.setVisible(true);
 
         }
-        if (s instanceof IOBDService) {
-            System.out.println("Adding Service OBDService_raw to MainFrame");
-            obdService = (IOBDService) this.context.getService(ref);
-
-            JPanel parameterPanel = new ParameterPanel(obdService);
-
-            Dictionary<String, String[]> topics = new Hashtable<>();
-            topics.put(EventConstants.EVENT_TOPIC, new String[] { IOBDService.EVENT_OBD_TOPIC });
-            context.registerService(EventHandler.class.getName(), parameterPanel, topics);
-
-            ifBetriebsparameter.getContentPane().add(parameterPanel);
-            ifBetriebsparameter.setVisible(false);
-            ifBetriebsparameter.setVisible(true);
-        }
+// if (s instanceof IOBDService) {
+// System.out.println("Adding Service OBDService_raw to MainFrame");
+// obdService = (IOBDService) this.context.getService(ref);
+//
+// JPanel parameterPanel = new ParameterPanel(obdService);
+//
+// Dictionary<String, String[]> topics = new Hashtable<>();
+// topics.put(EventConstants.EVENT_TOPIC, new String[] { IOBDService.EVENT_OBD_TOPIC });
+// context.registerService(EventHandler.class.getName(), parameterPanel, topics);
+//
+// ifBetriebsparameter.getContentPane().add(parameterPanel);
+// ifBetriebsparameter.setVisible(false);
+// ifBetriebsparameter.setVisible(true);
+// }
 
         return s;
     }
@@ -400,5 +415,4 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         }
 
     }
-
 }

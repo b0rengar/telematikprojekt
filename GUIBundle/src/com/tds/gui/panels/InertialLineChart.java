@@ -11,29 +11,33 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class OBDLineChart extends JPanel {
+public class InertialLineChart extends JPanel {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5694783209925104916L;
 
     private static int numOfSeconds = 300;
 
-    private ArrayList<Float> yValues;
+    private ArrayList<Float> yValuesX;
+    private ArrayList<Float> yValuesY;
+    private ArrayList<Float> yValuesZ;
 
     private JFreeChart lineChart;
 
     private ChartPanel chartPanel;
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 2667315241762678463L;
-
-    public OBDLineChart() {
-        yValues = new ArrayList<Float>();
+    public InertialLineChart() {
+        yValuesX = new ArrayList<Float>();
+        yValuesY = new ArrayList<Float>();
+        yValuesZ = new ArrayList<Float>();
         lineChart = ChartFactory.createXYLineChart("", // Title
                 "", // x-axis Label
                 "", // y-axis Label
                 getDataset(), // Dataset
                 PlotOrientation.VERTICAL, // Plot Orientation
-                false, // Show Legend
+                true, // Show Legend
                 false, // Use tooltips
                 false // Configure chart to generate URLs?
                 );
@@ -44,24 +48,41 @@ public class OBDLineChart extends JPanel {
         this.add(chartPanel);
     }
 
-    public void addElement(float element) {
+    public void addElement(float elementX, float elementY, float elementZ) {
         // remove oldest element if 5 min. reached --> 300
-        if (yValues.size() > numOfSeconds) {
-            yValues.remove(yValues.size() - 1);
+        if (yValuesX.size() > numOfSeconds) {
+            yValuesX.remove(yValuesX.size() - 1);
+            yValuesY.remove(yValuesY.size() - 1);
+            yValuesZ.remove(yValuesZ.size() - 1);
         }
 
         // add new Element to the end
-        yValues.add(0, element);
+        yValuesX.add(0, elementX);
+        yValuesY.add(0, elementX);
+        yValuesZ.add(0, elementX);
         lineChart.getXYPlot().setDataset(getDataset());
     }
 
     private XYSeriesCollection getDataset() {
-        XYSeries series = new XYSeries("DatasetName");
-        for (int i = 0; i < yValues.size(); i++) {
-            series.add(i, yValues.get(i));
+        XYSeries seriesX = new XYSeries("X-Series");
+        for (int i = 0; i < yValuesX.size(); i++) {
+            seriesX.add(i, yValuesX.get(i));
         }
+
+        XYSeries seriesY = new XYSeries("Y-Series");
+        for (int i = 0; i < yValuesY.size(); i++) {
+            seriesY.add(i, yValuesY.get(i));
+        }
+
+        XYSeries seriesZ = new XYSeries("Z-Series");
+        for (int i = 0; i < yValuesZ.size(); i++) {
+            seriesZ.add(i, yValuesZ.get(i));
+        }
+
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
+        dataset.addSeries(seriesX);
+        dataset.addSeries(seriesY);
+        dataset.addSeries(seriesZ);
         return dataset;
     }
 
@@ -70,6 +91,7 @@ public class OBDLineChart extends JPanel {
     }
 
     public static void setNumOfSeconds(int numOfSeconds) {
-        OBDLineChart.numOfSeconds = numOfSeconds;
+        InertialLineChart.numOfSeconds = numOfSeconds;
     }
+
 }
