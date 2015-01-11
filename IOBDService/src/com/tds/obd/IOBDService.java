@@ -22,6 +22,9 @@ public interface IOBDService {
     public static String EVENT_OBD_DATA_TEMPERATURE_ENGINE = "OBD/data/enginetemperature";
     public static String EVENT_OBD_DATA_TEMPERATURE_INDOOR = "OBD/data/indoortemperature";
     public static String EVENT_OBD_DATA_TEMPERATURE_OUTDOOR = "OBD/data/outdoortemperature";
+    public static String EVENT_OBD_DATA_ENGINE_LOAD = "OBD/data/engineload";
+    public static String EVENT_OBD_DATA_THROTTLE_POSITION = "OBD/data/throttleposition";
+    public static String eVENT_OBD_DATA_FUEL_LEVEL = "OBD/data/fuellevel";
 
     public static String TYPE_SPEED = "010D";
     public static String TYPE_CONSUMPTION = "015E";
@@ -29,6 +32,9 @@ public interface IOBDService {
     public static String TYPE_TEMPERATURE_ENGINE = "0105";
     public static String TYPE_TEMPERATURE_INDOOR = "0146";
     public static String TYPE_TEMPERATURE_OUTDOOR = "010F";
+    public static String TYPE_ENGINE_LOAD = "0104";
+    public static String TYPE_THROTTLE_POSITION = "0111";
+    public static String TYPE_FUEL_LEVEL = "012F";
 
     public static String TYPE_SPEED_RESULT = "410D";
     public static String TYPE_CONSUMPTION_RESULT = "415E";
@@ -36,6 +42,9 @@ public interface IOBDService {
     public static String TYPE_TEMPERATURE_ENGINE_RESULT = "4105";
     public static String TYPE_TEMPERATURE_INDOOR_RESULT = "4146";
     public static String TYPE_TEMPERATURE_OUTDOOR_RESULT = "410F";
+    public static String TYPE_ENGINE_LOAD_RESULT = "4104";
+    public static String TYPE_THROTTLE_POSITION_RESULT = "4111";
+    public static String TYPE_FUEL_LEVEL_RESULT = "412F";
 
     public static String EVENT_OBD_TOPIC = "obdservice/eventsender/OBD";
 

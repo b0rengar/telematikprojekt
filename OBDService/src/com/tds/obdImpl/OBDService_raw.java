@@ -109,19 +109,19 @@ public class OBDService_raw implements IOBDService {
     private static void sendEvent(OBDParameterSet parameterSet) {
         System.out.println("=================================");
         System.out.println("Speed" + parameterSet.getSpeed());
-        System.out.println("RPM" + parameterSet.getEngineRPM());
-        System.out.println("Consum" + parameterSet.getFuelConsumptionRate());
+        System.out.println("EngineRPM" + parameterSet.getEngineRPM());
+        System.out.println("FuelLevel" + parameterSet.getFuelLevel());
         System.out.println("EngineT" + parameterSet.getEngineTemperature());
-        System.out.println("IndoorT" + parameterSet.getCarIndoorTemperature());
-        System.out.println("OutdoorT" + parameterSet.getCarOutdoorTemperature());
+        System.out.println("ThrottlePos" + parameterSet.getThrottlePosition());
+        System.out.println("EngineLoad" + parameterSet.getEngineLoad());
 
         Dictionary<String, String> eventProps = new Hashtable<String, String>();
         eventProps.put(EVENT_OBD_DATA_SPEED, Float.toString(parameterSet.getSpeed()));
         eventProps.put(EVENT_OBD_DATA_RPM, Integer.toString(parameterSet.getEngineRPM()));
-        eventProps.put(EVENT_OBD_DATA_CONSUMPTION, Float.toString(parameterSet.getFuelConsumptionRate()));
+        eventProps.put(eVENT_OBD_DATA_FUEL_LEVEL, Float.toString(parameterSet.getFuelLevel()));
         eventProps.put(EVENT_OBD_DATA_TEMPERATURE_ENGINE, Float.toString(parameterSet.getEngineTemperature()));
-        eventProps.put(EVENT_OBD_DATA_TEMPERATURE_INDOOR, Float.toString(parameterSet.getCarIndoorTemperature()));
-        eventProps.put(EVENT_OBD_DATA_TEMPERATURE_OUTDOOR, Float.toString(parameterSet.getCarOutdoorTemperature()));
+        eventProps.put(EVENT_OBD_DATA_THROTTLE_POSITION, Float.toString(parameterSet.getThrottlePosition()));
+        eventProps.put(EVENT_OBD_DATA_ENGINE_LOAD, Float.toString(parameterSet.getEngineLoad()));
         Event osgiEvent = new Event(EVENT_OBD_TOPIC, eventProps);
 
         // "sendEvent()" synchron "postEvent()" asynchron:
@@ -180,26 +180,26 @@ public class OBDService_raw implements IOBDService {
                             if (tmp.toString().contains(TYPE_RPM_RESULT)) {
                                 parameterSet.setEngineRPM(obdParser.getInt(tmp.toString(), TYPE_RPM_RESULT));
 // serialPort.writeString(IOBDService.TYPE_CONSUMPTION + "\r");
-                                serialPort.writeString(IOBDService.TYPE_TEMPERATURE_ENGINE + "\r");
+                                serialPort.writeString(IOBDService.TYPE_FUEL_LEVEL + "\r");
                             }
                             if (tmp.toString().contains(TYPE_SPEED_RESULT)) {
                                 parameterSet.setSpeed(obdParser.getFloat(tmp.toString(), TYPE_SPEED_RESULT));
                                 serialPort.writeString(IOBDService.TYPE_RPM + "\r");
                             }
-                            if (tmp.toString().contains(TYPE_CONSUMPTION_RESULT)) {
-                                parameterSet.setFuelConsumptionRate(obdParser.getFloat(tmp.toString(), TYPE_CONSUMPTION_RESULT));
+                            if (tmp.toString().contains(TYPE_FUEL_LEVEL_RESULT)) {
+                                parameterSet.setFuelLevel(obdParser.getFloat(tmp.toString(), TYPE_FUEL_LEVEL_RESULT));
                                 serialPort.writeString(IOBDService.TYPE_TEMPERATURE_ENGINE + "\r");
                             }
                             if (tmp.toString().contains(TYPE_TEMPERATURE_ENGINE_RESULT)) {
                                 parameterSet.setEngineTemperature(obdParser.getFloat(tmp.toString(), TYPE_TEMPERATURE_ENGINE_RESULT));
-                                serialPort.writeString(IOBDService.TYPE_TEMPERATURE_INDOOR + "\r");
+                                serialPort.writeString(IOBDService.TYPE_THROTTLE_POSITION + "\r");
                             }
-                            if (tmp.toString().contains(TYPE_TEMPERATURE_INDOOR_RESULT)) {
-                                parameterSet.setCarIndoorTemperature(obdParser.getFloat(tmp.toString(), TYPE_TEMPERATURE_INDOOR_RESULT));
-                                serialPort.writeString(IOBDService.TYPE_TEMPERATURE_OUTDOOR + "\r");
+                            if (tmp.toString().contains(TYPE_THROTTLE_POSITION_RESULT)) {
+                                parameterSet.setThrottlePosition(obdParser.getFloat(tmp.toString(), TYPE_THROTTLE_POSITION_RESULT));
+                                serialPort.writeString(IOBDService.TYPE_ENGINE_LOAD + "\r");
                             }
-                            if (tmp.toString().contains(TYPE_TEMPERATURE_OUTDOOR_RESULT)) {
-                                parameterSet.setCarOutdoorTemperature(obdParser.getFloat(tmp.toString(), TYPE_TEMPERATURE_OUTDOOR_RESULT));
+                            if (tmp.toString().contains(TYPE_ENGINE_LOAD_RESULT)) {
+                                parameterSet.setEngineLoad(obdParser.getFloat(tmp.toString(), TYPE_ENGINE_LOAD_RESULT));
                                 parameterSet.setTimestamp(Calendar.getInstance().getTimeInMillis());
                                 sendEvent(parameterSet);
                                 serialPort.writeString(IOBDService.TYPE_SPEED + "\r");

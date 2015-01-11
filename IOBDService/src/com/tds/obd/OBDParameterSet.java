@@ -13,26 +13,26 @@ public class OBDParameterSet {
     /** The speed of the vehicle. */
     private float speed;
     /** The fuel consumption in liter per hour. */
-    private float fuelConsumptionRate;
+    private float fuelLevel;
     /** The performance of the engine. */
     private int engineRPM;
     /** The temperature of the engine. */
     private float engineTemperature;
     /** The temperature measured inside the vehicle. */
-    private float carIndoorTemperature;
+    private float throttlePosition;
     /** The temperature measured outside the vehicle. */
-    private float carOutdoorTemperature;
+    private float engineLoad;
     /** The timestamp of the last measured value */
     private long timestamp;
 
     /** Initializes an empty parameter set with each value set to 0. */
     public OBDParameterSet() {
         speed = 1;
-        fuelConsumptionRate = 2;
+        fuelLevel = 2;
         engineRPM = 3;
         engineTemperature = 4;
-        carIndoorTemperature = 5;
-        carOutdoorTemperature = 6;
+        throttlePosition = 5;
+        engineLoad = 6;
         timestamp = Calendar.getInstance().getTimeInMillis();
     }
 
@@ -48,11 +48,11 @@ public class OBDParameterSet {
      */
     public OBDParameterSet(float speed, float fuelConsumptionRate, int engineRPM, float engineTemperature, float carIndoorTemperature, float carOutdoorTemperature) {
         this.speed = speed;
-        this.fuelConsumptionRate = fuelConsumptionRate;
+        this.fuelLevel = fuelConsumptionRate;
         this.engineRPM = engineRPM;
         this.engineTemperature = engineTemperature;
-        this.carIndoorTemperature = carIndoorTemperature;
-        this.carOutdoorTemperature = carOutdoorTemperature;
+        this.throttlePosition = carIndoorTemperature;
+        this.engineLoad = carOutdoorTemperature;
         this.timestamp = Calendar.getInstance().getTimeInMillis();
     }
 
@@ -79,8 +79,8 @@ public class OBDParameterSet {
      *
      * @return The value of the fuel consumption parameter.
      */
-    public float getFuelConsumptionRate() {
-        return fuelConsumptionRate;
+    public float getFuelLevel() {
+        return fuelLevel;
     }
 
     /**
@@ -88,8 +88,8 @@ public class OBDParameterSet {
      *
      * @param fuelConsumptionRate The new value for the fuel consumption parameter.
      */
-    public void setFuelConsumptionRate(float fuelConsumptionRate) {
-        this.fuelConsumptionRate = fuelConsumptionRate;
+    public void setFuelLevel(float fuelConsumptionRate) {
+        this.fuelLevel = fuelConsumptionRate;
     }
 
     /**
@@ -133,8 +133,8 @@ public class OBDParameterSet {
      *
      * @return The value of the indoor temperature parameter.
      */
-    public float getCarIndoorTemperature() {
-        return carIndoorTemperature;
+    public float getThrottlePosition() {
+        return throttlePosition;
     }
 
     /**
@@ -142,8 +142,8 @@ public class OBDParameterSet {
      *
      * @param carIndoorTemperature The new value to the indoor temperature parameter.
      */
-    public void setCarIndoorTemperature(float carIndoorTemperature) {
-        this.carIndoorTemperature = carIndoorTemperature;
+    public void setThrottlePosition(float carIndoorTemperature) {
+        this.throttlePosition = carIndoorTemperature;
     }
 
     /**
@@ -151,8 +151,8 @@ public class OBDParameterSet {
      *
      * @return The value of the outdoor temperature parameter.
      */
-    public float getCarOutdoorTemperature() {
-        return carOutdoorTemperature;
+    public float getEngineLoad() {
+        return engineLoad;
     }
 
     /**
@@ -160,15 +160,15 @@ public class OBDParameterSet {
      *
      * @param carOutdoorTemperature The new value to the outdoor temperature parameter.
      */
-    public void setCarOutdoorTemperature(float carOutdoorTemperature) {
+    public void setEngineLoad(float carOutdoorTemperature) {
 
-        this.carOutdoorTemperature = carOutdoorTemperature;
+        this.engineLoad = carOutdoorTemperature;
     }
 
     /**
      * Assigns a new value to the timestamp parameter.
      *
-     * @param carOutdoorTemperature The new value to the outdoor temperature parameter.
+     * @param engineLoad The new value to the outdoor temperature parameter.
      */
     public long getTimestamp() {
         return timestamp;

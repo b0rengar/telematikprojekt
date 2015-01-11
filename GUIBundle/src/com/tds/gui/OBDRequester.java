@@ -44,19 +44,19 @@ public class OBDRequester extends TimerTask {
         set = obdService.getPamrameterSet();
         textFieldGeschwindigkeit.setText(String.format("%.0f", set.getSpeed()));
         textFieldDrehzahl.setText(set.getEngineRPM() + "");
-        textFieldVerbrauch.setText(String.format("%.2f", set.getFuelConsumptionRate()));
+        textFieldVerbrauch.setText(String.format("%.2f", set.getFuelLevel()));
         textFieldMotortemperatur.setText(String.format("%.1f", set.getEngineTemperature()));
-        textFieldInnentemperatur.setText(String.format("%.1f", set.getCarIndoorTemperature()));
-        textFieldAussentemperatur.setText(String.format("%.1f", set.getCarOutdoorTemperature()));
+        textFieldInnentemperatur.setText(String.format("%.1f", set.getThrottlePosition()));
+        textFieldAussentemperatur.setText(String.format("%.1f", set.getEngineLoad()));
         repaintCharts();
     }
 
     private void repaintCharts() {
         panel.getChartGeschwindigkeit().addElement(set.getSpeed());
         panel.getChartDrehzahl().addElement(set.getEngineRPM());
-        panel.getChartVerbrauch().addElement(set.getFuelConsumptionRate());
+        panel.getChartVerbrauch().addElement(set.getFuelLevel());
         panel.getChartMotortemperatur().addElement(set.getEngineTemperature());
-        panel.getChartAussentemperatur().addElement(set.getCarOutdoorTemperature());
-        panel.getChartInnentemperatur().addElement(set.getCarIndoorTemperature());
+        panel.getChartMotorlast().addElement(set.getEngineLoad());
+        panel.getChartGaspedal().addElement(set.getThrottlePosition());
     }
 }

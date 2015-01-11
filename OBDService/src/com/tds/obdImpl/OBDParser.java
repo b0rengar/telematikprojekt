@@ -26,6 +26,15 @@ public class OBDParser {
         if (IOBDService.TYPE_TEMPERATURE_OUTDOOR_RESULT.equals(type)) {
             result = number - 40;
         }
+        if (IOBDService.TYPE_FUEL_LEVEL_RESULT.equals(type)) {
+            result = (number * 100) / 255;
+        }
+        if (IOBDService.TYPE_ENGINE_LOAD_RESULT.equals(type)) {
+            result = (number * 100) / 255;
+        }
+        if (IOBDService.TYPE_THROTTLE_POSITION_RESULT.equals(type)) {
+            result = (number * 100) / 255;
+        }
 
         return result;
     }
