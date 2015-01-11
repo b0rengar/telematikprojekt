@@ -18,6 +18,10 @@ public class InertialPanel extends JPanel implements EventHandler {
 
     private IInertialMeasurementService inertialService;
 
+    private float x = 1;
+    private float y = 2;
+    private float z = 3;
+
     private JTextField textFieldX;
     private JTextField textFieldY;
     private JTextField textFieldZ;
@@ -26,6 +30,12 @@ public class InertialPanel extends JPanel implements EventHandler {
 
     public InertialPanel(IInertialMeasurementService inertialService) {
         this.inertialService = inertialService;
+
+        initialize();
+
+    }
+
+    private void initialize() {
         setLayout(null);
 
         JLabel lblX = new JLabel("X");
@@ -33,6 +43,7 @@ public class InertialPanel extends JPanel implements EventHandler {
         add(lblX);
 
         textFieldX = new JTextField();
+        textFieldX.setEditable(false);
         textFieldX.setBounds(30, 10, 41, 22);
         add(textFieldX);
         textFieldX.setColumns(10);
@@ -42,6 +53,7 @@ public class InertialPanel extends JPanel implements EventHandler {
         add(lblY);
 
         textFieldY = new JTextField();
+        textFieldY.setEditable(false);
         textFieldY.setBounds(110, 10, 41, 22);
         add(textFieldY);
         textFieldY.setColumns(10);
@@ -51,6 +63,7 @@ public class InertialPanel extends JPanel implements EventHandler {
         add(lblZ);
 
         textFieldZ = new JTextField();
+        textFieldZ.setEditable(false);
         textFieldZ.setBounds(190, 10, 41, 22);
         add(textFieldZ);
         textFieldZ.setColumns(10);
@@ -61,7 +74,24 @@ public class InertialPanel extends JPanel implements EventHandler {
     }
 
     @Override
-    public void handleEvent(Event arg0) {
+    public void handleEvent(Event event) {
+        // TODO replace Strings by Strings from IInertialMeasurement Interface
+        x = Float.parseFloat((String) event.getProperty("PROPERTY STRING X"));
+        y = Float.parseFloat((String) event.getProperty("PROPERTY STRING Y"));
+        z = Float.parseFloat((String) event.getProperty("PROPERTY STRING Z"));
 
+        textFieldX.setText(String.format("%.2f", x));
+        textFieldY.setText(String.format("%.2f", y));
+        textFieldZ.setText(String.format("%.2f", z));
+
+        this.getChartInertial().addElement(x, y, z);
+    }
+
+    public InertialLineChart getChartInertial() {
+        return chartInertial;
+    }
+
+    public void setChartInertial(InertialLineChart chartInertial) {
+        this.chartInertial = chartInertial;
     }
 }
