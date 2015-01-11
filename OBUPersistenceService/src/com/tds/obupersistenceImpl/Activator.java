@@ -6,9 +6,9 @@ import java.util.Hashtable;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.Filter;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.tds.gps.IGPSService;
 import com.tds.obupersistence.IOBUPersistenceService;
 
 /**
@@ -33,7 +33,7 @@ public class Activator implements BundleActivator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
@@ -48,15 +48,15 @@ public class Activator implements BundleActivator {
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the persistence layer of the application on the OBU.");
         context.registerService(IOBUPersistenceService.class.getName(), service, params);
 
-// Filter filter = context.createFilter("(" + Constants.OBJECTCLASS + "=com.tds*)");
-        serviceTracker = new ServiceTracker<>(context, IGPSService.class.getName(), service);
+        Filter filter = context.createFilter("(" + Constants.OBJECTCLASS + "=com.tds*)");
+        serviceTracker = new ServiceTracker<>(context, filter, service);
 // serviceTracker = new ServiceTracker<Object, Object>(context, Object.class.getName(), service);
         serviceTracker.open();
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override

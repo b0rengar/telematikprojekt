@@ -69,9 +69,11 @@ public class GPSService implements IGPSService {
         }
     }
 
-    /*
+    /**
+     * Class to handle serialport events and create osgi event if data available
+     *
      * In this class must implement the method serialEvent But we will not report on all events but only those that we put in the mask. In this case the arrival of the data and change the status lines CTS and DSR
-     */
+     **/
     static class SerialPortReader implements SerialPortEventListener {
 
         @Override
@@ -106,6 +108,9 @@ public class GPSService implements IGPSService {
         }
     }
 
+    /**
+     * open serialPort defined in {@link portname}
+     */
     @Override
     public void closeSP() {
         try {
@@ -115,12 +120,18 @@ public class GPSService implements IGPSService {
         }
     }
 
+    /**
+     * nur für debug zwecke
+     */
     @Override
     public float getLat() {
         float lat = 52.745975f;
         return lat;
     }
 
+    /**
+     * nur für debug zwecke
+     */
     @Override
     public float getLon() {
         float lon = 13.238044f;

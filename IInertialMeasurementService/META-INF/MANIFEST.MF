@@ -6,3 +6,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: com.tds.inertial
+Import-Package: org.osgi.service.event

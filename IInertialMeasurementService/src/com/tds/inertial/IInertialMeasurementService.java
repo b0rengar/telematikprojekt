@@ -3,6 +3,8 @@
  */
 package com.tds.inertial;
 
+import org.osgi.service.event.EventAdmin;
+
 /**
  * <b>IInertialMeasurementService <br />
  * com.tds.inertial <br />
@@ -16,5 +18,17 @@ package com.tds.inertial;
  *
  */
 public interface IInertialMeasurementService {
+    public static String EVENT_ACC_DATA_TIMESTAMP = "ACC/Data/ts";
+    public static String EVENT_ACC_DATA_X = "ACC/Data/x";
+    public static String EVENT_ACC_DATA_Y = "ACC/Data/y";
+    public static String EVENT_ACC_DATA_Z = "ACC/Data/z";
+    public static String EVENT_ACC_TOPIC = "ims/ACC";
 
+    void bindEventAdmin(EventAdmin eventAdmin);
+
+    void unbindEventAdmin();
+
+    void openSP();
+
+    void closeSP();
 }

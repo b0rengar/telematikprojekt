@@ -32,6 +32,9 @@ public interface IGPSService {
 
     void openSP();
 
+    /**
+     * open serialPort defined in {@code portname} in {@link com.tds.gpsImpl.GPSService}
+     */
     void closeSP();
 
     float getLat();
