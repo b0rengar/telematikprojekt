@@ -76,9 +76,9 @@ public class InertialPanel extends JPanel implements EventHandler {
     @Override
     public void handleEvent(Event event) {
         // TODO replace Strings by Strings from IInertialMeasurement Interface
-        x = Float.parseFloat((String) event.getProperty("PROPERTY STRING X"));
-        y = Float.parseFloat((String) event.getProperty("PROPERTY STRING Y"));
-        z = Float.parseFloat((String) event.getProperty("PROPERTY STRING Z"));
+        x = Float.parseFloat((String) event.getProperty(IInertialMeasurementService.EVENT_ACC_DATA_X));
+        y = Float.parseFloat((String) event.getProperty(IInertialMeasurementService.EVENT_ACC_DATA_Y));
+        z = Float.parseFloat((String) event.getProperty(IInertialMeasurementService.EVENT_ACC_DATA_Z));
 
         textFieldX.setText(String.format("%.2f", x));
         textFieldY.setText(String.format("%.2f", y));

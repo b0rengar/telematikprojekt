@@ -140,7 +140,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         JPanel inertialPanel = new InertialPanel(inertialService);
         // TODO reset topic String by from from IInertialMeasurementService interface
         topics = new Hashtable<>();
-        topics.put(EventConstants.EVENT_TOPIC, new String[] { "TOPIC STRING FROM INTERFACE" });
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { IInertialMeasurementService.EVENT_ACC_TOPIC });
         context.registerService(EventHandler.class.getName(), inertialPanel, topics);
         ifBeschleunigungssensor.getContentPane().add(inertialPanel);
         ifBeschleunigungssensor.setVisible(false);
@@ -161,8 +161,8 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
 
             // connect
-            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
-// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
+            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
 // for (int i = 0; i < rsr.length; i++) {
