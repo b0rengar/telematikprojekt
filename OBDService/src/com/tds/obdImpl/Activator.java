@@ -26,7 +26,7 @@ public class Activator implements BundleActivator {
 
     private static BundleContext context;
 
-    private IOBDService service;
+    private IOBDService obd;
 
     private Timer t;
 
@@ -42,19 +42,7 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
-        service = new OBDService_raw();
-        service.openSP();
-
-        Dictionary<String, Object> params = new Hashtable<>();
-        params.put(Constants.SERVICE_PID, IOBDService.class.getName());
-        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the OBD2 interface.");
-        params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
-        context.registerService(IOBDService.class.getName(), service, params);
-
-        ServiceReference<EventAdmin> ref = (ServiceReference<EventAdmin>) context.getServiceReference(EventAdmin.class.getName());
-        if (ref != null) {
-            service.bindEventAdmin(context.getService(ref));
-        }
+        initOBD();
 
 // TimerTask tt = new TimerTask() {
 //
@@ -78,6 +66,22 @@ public class Activator implements BundleActivator {
 // t = new Timer();
 // t.scheduleAtFixedRate(tt, 1000, 1000);
 
+    }
+
+    private void initOBD() {
+        obd = new OBDService_raw();
+        obd.openSP();
+
+        Dictionary<String, Object> params = new Hashtable<>();
+        params.put(Constants.SERVICE_PID, IOBDService.class.getName());
+        params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the OBD2 interface.");
+        params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
+        context.registerService(IOBDService.class.getName(), obd, params);
+
+        ServiceReference<EventAdmin> ref = (ServiceReference<EventAdmin>) context.getServiceReference(EventAdmin.class.getName());
+        if (ref != null) {
+            obd.bindEventAdmin(context.getService(ref));
+        }
     }
 
     /*

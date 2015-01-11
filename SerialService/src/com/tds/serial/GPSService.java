@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.tds.gpsImpl;
+package com.tds.serial;
 
 import java.util.Calendar;
 import java.util.Dictionary;

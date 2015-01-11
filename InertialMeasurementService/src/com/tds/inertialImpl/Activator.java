@@ -12,6 +12,7 @@ import org.osgi.service.event.EventAdmin;
 import ch.ethz.iks.r_osgi.RemoteOSGiService;
 
 import com.tds.inertial.IInertialMeasurementService;
+import com.tds.serialImpl.InertialMeasurementService;
 
 /**
  * Class to start and stop the Inertial Measurement Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down. *
@@ -23,7 +24,7 @@ public class Activator implements BundleActivator {
 
     private static BundleContext context;
 
-    private IInertialMeasurementService service;
+    private IInertialMeasurementService inertial;
 
     static BundleContext getContext() {
         return context;
@@ -37,19 +38,23 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
-        service = new InertialMeasurementService();
-        service.openSP();
+        initInertial();
+    }
+
+    private void initInertial() {
+        inertial = new InertialMeasurementService();
+        inertial.openSP();
 
         Dictionary<String, Object> params = new Hashtable<>();
         params.put(Constants.SERVICE_PID, IInertialMeasurementService.class.getName());
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to inertial measurement unit.");
         params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
 
-        context.registerService(IInertialMeasurementService.class.getName(), service, params);
+        context.registerService(IInertialMeasurementService.class.getName(), inertial, params);
 
         ServiceReference<EventAdmin> ref = (ServiceReference<EventAdmin>) context.getServiceReference(EventAdmin.class.getName());
         if (ref != null) {
-            service.bindEventAdmin(context.getService(ref));
+            inertial.bindEventAdmin(context.getService(ref));
         }
     }
 
@@ -60,8 +65,8 @@ public class Activator implements BundleActivator {
      */
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
-        service.closeSP();
-        service.unbindEventAdmin();
+        inertial.closeSP();
+        inertial.unbindEventAdmin();
         Activator.context = null;
     }
 

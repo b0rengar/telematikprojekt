@@ -14,13 +14,14 @@
 
 		<!--<ant antfile="../CameraService/build.xml" dir="../CameraService" />-->
 		<ant antfile="../EventDetectorService/build.xml" dir="../EventDetectorService" />
-		<ant antfile="../GPSService/build.xml" dir="../GPSService" />
+		<!--<ant antfile="../GPSService/build.xml" dir="../GPSService" />-->
 		<ant antfile="../GUIBundle/build.xml" dir="../GUIBundle" />
 		<ant antfile="../ImageProcessingService/build.xml" dir="../ImageProcessingService" />
-		<ant antfile="../InertialMeasurementService/build.xml" dir="../InertialMeasurementService" />
-		<ant antfile="../OBDService/build.xml" dir="../OBDService" />
+		<!--<ant antfile="../InertialMeasurementService/build.xml" dir="../InertialMeasurementService" />-->
+		<!--<ant antfile="../OBDService/build.xml" dir="../OBDService" />-->
 		<ant antfile="../PersistenceService/build.xml" dir="../PersistenceService" />
 		<ant antfile="../OBUPersistenceService/build.xml" dir="../OBUPersistenceService" />
+		<ant antfile="../SerialService/build.xml" dir="../SerialService" />
 		<ant antfile="../WebService/build.xml" dir="../WebService" />
 
 		<ant antfile="../TestService/build.xml" dir="../TestService" />
@@ -54,12 +55,13 @@
 
 			<!--<fileset dir="../CameraService/target" />-->
 			<!--<fileset dir="../EventDetectorService/target" />-->
-			<fileset dir="../GPSService/target" />
+			<!--<fileset dir="../GPSService/target" />-->
 			<fileset dir="../ImageProcessingService/target" />
-			<fileset dir="../InertialMeasurementService/target" />
+			<!--<fileset dir="../InertialMeasurementService/target" />-->
 			<!--<fileset dir="../PersistenceService/target" />-->
-			<fileset dir="../OBDService/target" />
+			<!--<fileset dir="../OBDService/target" />-->
 			<fileset dir="../OBUPersistenceService/target" />
+			<fileset dir="../SerialService/target" />
 			<!--<fileset dir="../WebService/target" />-->
 			<!--<fileset dir="../GUIBundle/target" />-->
 			<!--<fileset dir="../TestService/target" />-->

@@ -14,13 +14,14 @@
 
 		<!--<ant antfile="../CameraService/build.xml" dir="../CameraService" />-->
 		<ant antfile="../EventDetectorService/build.xml" dir="../EventDetectorService" />
-		<ant antfile="../GPSService/build.xml" dir="../GPSService" />
+		<!--<ant antfile="../GPSService/build.xml" dir="../GPSService" />-->
 		<ant antfile="../GUIBundle/build.xml" dir="../GUIBundle" />
 		<ant antfile="../ImageProcessingService/build.xml" dir="../ImageProcessingService" />
-		<ant antfile="../InertialMeasurementService/build.xml" dir="../InertialMeasurementService" />
-		<ant antfile="../OBDService/build.xml" dir="../OBDService" />
+		<!--<ant antfile="../InertialMeasurementService/build.xml" dir="../InertialMeasurementService" />-->
+		<!--<ant antfile="../OBDService/build.xml" dir="../OBDService" />-->
 		<ant antfile="../PersistenceService/build.xml" dir="../PersistenceService" />
 		<ant antfile="../OBUPersistenceService/build.xml" dir="../OBUPersistenceService" />
+		<ant antfile="../SerialService/build.xml" dir="../SerialService" />
 		<ant antfile="../WebService/build.xml" dir="../WebService" />
 
 		<ant antfile="../TestService/build.xml" dir="../TestService" />

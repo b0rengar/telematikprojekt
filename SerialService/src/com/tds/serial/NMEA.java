@@ -1,4 +1,4 @@
-package com.tds.gpsImpl;
+package com.tds.serial;
 
 import java.util.HashMap;
 import java.util.Map;
