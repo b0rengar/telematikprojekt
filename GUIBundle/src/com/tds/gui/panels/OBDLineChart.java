@@ -38,6 +38,7 @@ public class OBDLineChart extends JPanel {
                 false // Configure chart to generate URLs?
                 );
         lineChart.getXYPlot().getDomainAxis().setRange(1, numOfSeconds);
+// lineChart.getXYPlot().getDomainAxis().setVisible(false);
         lineChart.getXYPlot().getDomainAxis().setInverted(true);
         chartPanel = new ChartPanel(lineChart);
         chartPanel.setPreferredSize(new java.awt.Dimension(265, 141));

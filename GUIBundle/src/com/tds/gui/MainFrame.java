@@ -32,10 +32,12 @@ import com.tds.gui.panels.CarEditDialog;
 import com.tds.gui.panels.CarListDialog;
 import com.tds.gui.panels.ClientServerDialog;
 import com.tds.gui.panels.EventPanel;
+import com.tds.gui.panels.InertialPanel;
 import com.tds.gui.panels.MapPanel;
 import com.tds.gui.panels.ParameterPanel;
 import com.tds.gui.panels.PathsDialog;
 import com.tds.gui.panels.UnitsDialog;
+import com.tds.inertial.IInertialMeasurementService;
 import com.tds.obd.IOBDService;
 import com.tds.persistence.IPersistenceService;
 
@@ -47,6 +49,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     private IPersistenceService persistenceService;
     private IOBDService obdService;
     private IGPSService gpsService;
+    private IInertialMeasurementService inertialService;
 
     private JFrame frmMainWindow;
 
@@ -54,6 +57,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     JInternalFrame ifDriverKamera;
     JInternalFrame ifBetriebsparameter;
     JInternalFrame ifKarte;
+    JInternalFrame ifBeschleunigungssensor;
 
     JMenuItem mntmFahrzeugHinzufuegen;
     JMenuItem mntmFahrzeuglisteBearbeiten;
@@ -89,6 +93,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
         initialize();
 
+        addPanelsWithEventHandler();
+
+// public MainFrame() {
+//
+    }
+
+    private void addPanelsWithEventHandler() {
         // add service for road camera
         JPanel panel = new CamPanel(cameraService, 0);
         Dictionary<String, String[]> topics = new Hashtable<>();
@@ -122,16 +133,18 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         topics.put(EventConstants.EVENT_TOPIC, new String[] { IGPSService.EVENT_GPS_TOPIC });
         context.registerService(EventHandler.class.getName(), mapPanel, topics);
         ifKarte.getContentPane().add(mapPanel);
-
-        JInternalFrame ifBeschleunigungssensor = new JInternalFrame("Beschleunigungssensor");
-        ifBeschleunigungssensor.setBounds(598, 322, 270, 259);
-        frmMainWindow.getContentPane().add(ifBeschleunigungssensor);
-        ifBeschleunigungssensor.setVisible(true);
         ifKarte.setVisible(false);
         ifKarte.setVisible(true);
 
-// public MainFrame() {
-//
+        // add service for Inertial Measurement data
+        JPanel inertialPanel = new InertialPanel(inertialService);
+        // TODO reset topic String by from from IInertialMeasurementService interface
+        topics = new Hashtable<>();
+        topics.put(EventConstants.EVENT_TOPIC, new String[] { "TOPIC STRING FROM INTERFACE" });
+        context.registerService(EventHandler.class.getName(), inertialPanel, topics);
+        ifBeschleunigungssensor.getContentPane().add(inertialPanel);
+        ifBeschleunigungssensor.setVisible(false);
+        ifBeschleunigungssensor.setVisible(true);
     }
 
     private void getRemoteOSGiServices() {
@@ -275,6 +288,10 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifBetriebsparameter.getContentPane().setLayout(new BorderLayout(0, 0));
         frmMainWindow.getContentPane().add(ifBetriebsparameter);
 
+        ifBeschleunigungssensor = new JInternalFrame("Beschleunigungssensor");
+        ifBeschleunigungssensor.setBounds(596, 318, 272, 263);
+        frmMainWindow.getContentPane().add(ifBeschleunigungssensor);
+
         JInternalFrame ifMeldungen = new JInternalFrame("Meldungen Ansicht");
         ifMeldungen.setClosable(true);
         ifMeldungen.setIconifiable(true);
@@ -284,12 +301,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         frmMainWindow.getContentPane().add(ifMeldungen);
 
         ifKarte = new JInternalFrame("Karte Ansicht");
-        ifKarte.setBounds(596, 0, 270, 315);
+        ifKarte.setBounds(596, 0, 272, 315);
         frmMainWindow.getContentPane().add(ifKarte);
         ifKarte.setVisible(true);
         ifMeldungen.setVisible(true);
         ifBetriebsparameter.setVisible(true);
         ifFrontKamera.setVisible(true);
+        ifBeschleunigungssensor.setVisible(true);
     }
 
     public JFrame getFrame() {
