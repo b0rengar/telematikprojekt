@@ -44,7 +44,7 @@ public class InertialLineChart extends JPanel {
         lineChart.getXYPlot().getDomainAxis().setRange(1, numOfSeconds);
         lineChart.getXYPlot().getDomainAxis().setInverted(true);
         chartPanel = new ChartPanel(lineChart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(265, 141));
+        chartPanel.setPreferredSize(new java.awt.Dimension(230, 170));
         this.add(chartPanel);
     }
 

@@ -204,6 +204,10 @@ public class OBDService_raw implements IOBDService {
                                 sendEvent(parameterSet);
                                 serialPort.writeString(IOBDService.TYPE_SPEED + "\r");
                             }
+                            if (tmp.toString().contains("NO DATA")) {
+                                wait(1000);
+                                serialPort.writeString(IOBDService.TYPE_SPEED + "\r");
+                            }
                             tmp.setLength(0);
 // tmp.append(response.substring(response.indexOf(">") + 1));
                         } else {
