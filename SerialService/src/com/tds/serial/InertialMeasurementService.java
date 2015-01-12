@@ -16,6 +16,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
 import com.tds.inertial.IInertialMeasurementService;
+import com.tds.serial.network.SerialInputStream;
 
 /**
  * <b>InertialMeasurementService <br />

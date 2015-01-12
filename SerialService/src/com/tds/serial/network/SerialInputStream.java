@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.tds.serial;
+package com.tds.serial.network;
 
 import java.io.IOException;
 import java.io.InputStream;
