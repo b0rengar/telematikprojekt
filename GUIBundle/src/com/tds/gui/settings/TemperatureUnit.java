@@ -1,7 +1,18 @@
 package com.tds.gui.settings;
 
+/**
+ * Collection of different units to measure the temperature of an object.
+ *
+ * @author Christian Bodler
+ *
+ */
 public enum TemperatureUnit {
-	CELSIUS, FAHRENHEIT, KELVIN;
+	/** Unit to temperature in Celsius. */
+	CELSIUS,
+	/** Unit to temperature in Fahrenheit. */
+	FAHRENHEIT,
+	/** Unit to temperature in Kelvin. */
+	KELVIN;
 
 	@Override
 	public String toString() {

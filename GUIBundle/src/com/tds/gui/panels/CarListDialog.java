@@ -10,6 +10,14 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.tds.gui.settings.Car;
+
+/**
+ * A dialog providing a list of {@link Car}s being monitored by the system.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class CarListDialog extends JDialog {
 
     /**

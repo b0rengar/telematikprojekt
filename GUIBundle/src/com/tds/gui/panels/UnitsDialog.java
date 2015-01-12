@@ -16,6 +16,12 @@ import javax.swing.border.EmptyBorder;
 import com.tds.gui.settings.TemperatureUnit;
 import com.tds.gui.settings.VelocityUnit;
 
+/**
+ * A dialog to choose different units to display the collected vehicle data in.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class UnitsDialog extends JDialog {
 
     private final JPanel contentPanel = new JPanel();

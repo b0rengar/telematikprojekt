@@ -15,6 +15,14 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.tds.gui.settings.Car;
+
+/**
+ * A dialog to edit the data of a {@link Car} already being monitored by the system.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class CarEditDialog extends JDialog {
 
 	/**

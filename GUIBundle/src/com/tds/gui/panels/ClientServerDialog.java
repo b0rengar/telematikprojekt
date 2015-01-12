@@ -21,6 +21,12 @@ import javax.swing.table.TableModel;
 import com.tds.gui.settings.Client;
 import com.tds.gui.settings.Settings;
 
+/**
+ * A dialog to add and remove mobile clients to be notified about detected events.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class ClientServerDialog extends JDialog implements ActionListener, TableModelListener {
 
     /**

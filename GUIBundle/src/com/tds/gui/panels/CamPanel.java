@@ -19,11 +19,7 @@ import com.tds.camera.Picture;
 import com.tds.gui.utils.VideoStream;
 
 /**
- * <b>GUIBundle <br />
- * com.tds.gui - CamPanel <br />
- * </b>
- *
- * JPanel to manage the view of cameras.
+ * A panel to display a camera feed in a dialog.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 20.11.2014 23:31:21
@@ -31,23 +27,25 @@ import com.tds.gui.utils.VideoStream;
  */
 public class CamPanel extends JPanel implements EventHandler {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
+    /** Holds a single frame from the camera. */
     private IPicture picture;
+    /** A buffer to create a video stream using single frames. */
     private VideoStream stream;
 
+    /** The number of milliseconds since January 1, 1970, 00:00:00 GMT the feed was started at. */
     private long start;
+    /** The number of milliseconds since January 1, 1970, 00:00:00 GMT at which the last frame was retrieved from the camera. */
     private long last;
+    /** The number of kilobytes saved in the stream. */
     private double size;
 
     /**
-     * Contrsuctor of CamPanel
+     * Creates a new camera panel using the given camera service as source.
      *
      * @param camService hand over any {@link ICameraService} to do active requests
-     * @param camID hand over the id of the camera to display to be able to differ between different ones
+     * @param camID A number to identify the camera by.
      */
     public CamPanel(ICameraService camService, int camID) {
         String streamPath = System.getProperty("tds.streampath");
@@ -130,6 +128,7 @@ public class CamPanel extends JPanel implements EventHandler {
 
     }
 
+    /** Closes the camera feed. */
     public void closeStream() {
         stream.close();
     }
