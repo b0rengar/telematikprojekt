@@ -70,22 +70,6 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 
     ArrayList<CamPanel> camPanels;
 
-// /**
-// * Launch the application.
-// */
-// public static void main(String[] args) {
-// EventQueue.invokeLater(new Runnable() {
-// public void run() {
-// try {
-// MainFrame window = new MainFrame();
-// window.frame.setVisible(true);
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-// }
-// });
-// }
-
     /**
      * Create the application.
      */

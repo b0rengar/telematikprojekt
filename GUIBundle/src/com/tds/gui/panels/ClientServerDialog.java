@@ -41,19 +41,6 @@ public class ClientServerDialog extends JDialog implements ActionListener, Table
     private HashMap<String, Client> selectMap;
     private Object[][] objectMap;
 
-// /**
-// * Launch the application.
-// */
-// public static void main(String[] args) {
-// try {
-// ClientServerDialog dialog = new ClientServerDialog();
-// dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-// dialog.setVisible(true);
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-// }
-
     /**
      * Create the dialog.
      */
