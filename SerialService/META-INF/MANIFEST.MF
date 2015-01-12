@@ -7,6 +7,8 @@ Bundle-Activator: com.tds.serial.Activator
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: ch.ethz.iks.r_osgi,
+ ch.ethz.iks.r_osgi.channels,
+ ch.ethz.iks.r_osgi.messages,
  com.tds.gps,
  com.tds.inertial,
  com.tds.obd,

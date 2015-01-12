@@ -10,10 +10,12 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.event.EventAdmin;
 
 import ch.ethz.iks.r_osgi.RemoteOSGiService;
+import ch.ethz.iks.r_osgi.channels.NetworkChannelFactory;
 
 import com.tds.gps.IGPSService;
 import com.tds.inertial.IInertialMeasurementService;
 import com.tds.obd.IOBDService;
+import com.tds.serial.network.SerialNetworkFactory;
 
 /**
  * Class to start and stop the GPS Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
@@ -44,10 +46,38 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
+<<<<<<< HEAD
 // initGPS();
         initInertial();
         initOBD();
+=======
+>>>>>>> branch 'master' of https://github.com/b0rengar/telematikprojekt.git
 
+        initXBee("/dev/xbee0");
+        try {
+            initGPS();
+        } catch (Exception e) {
+            System.out.println("Could not load GPSService");
+        }
+
+        try {
+            initInertial();
+        } catch (Exception e) {
+            System.out.println("Could not load InertialService");
+        }
+
+        try {
+            initOBD();
+        } catch (Exception e) {
+            System.out.println("Could not load OBDService");
+        }
+
+    }
+
+    private void initXBee(String port) {
+        Dictionary properties = new Hashtable();
+        properties.put(NetworkChannelFactory.PROTOCOL_PROPERTY, SerialNetworkFactory.PROTOCOL);
+        context.registerService(NetworkChannelFactory.class.getName(), new SerialNetworkFactory("/dev/xbee0"), properties);
     }
 
     private void initGPS() {

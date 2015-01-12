@@ -35,6 +35,11 @@ public class OBDService implements IOBDService {
     // settings of the serial port, do not have to be provied on linux machines
     private String portName = "/dev/rfcomm0";
 
+<<<<<<< HEAD
+=======
+    private String portName = "/dev/rfcomm0";
+
+>>>>>>> branch 'master' of https://github.com/b0rengar/telematikprojekt.git
 // private int baudrate = 9600;
 // private int dataBits = SerialPort.DATABITS_8;
 // private int stopBits = SerialPort.STOPBITS_1;
@@ -65,7 +70,11 @@ public class OBDService implements IOBDService {
 
         try {
 
+<<<<<<< HEAD
             System.out.println("OBD Port opened: " + serialPort.openPort());
+=======
+            System.out.println("Port opened: " + serialPort.openPort());
+>>>>>>> branch 'master' of https://github.com/b0rengar/telematikprojekt.git
 // System.out.println("Params setted: " + serialPort.setParams(baudrate, dataBits, stopBits, parity));
             int mask = SerialPort.MASK_RXCHAR;// Prepare mask
             serialPort.setEventsMask(mask);// Set mask

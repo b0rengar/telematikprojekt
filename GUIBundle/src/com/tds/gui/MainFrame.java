@@ -170,10 +170,12 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
 
             // connect
-            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("serial://null:0"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:55555"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
+            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.0.30:9278"));
 
 // for (int i = 0; i < rsr.length; i++) {
 // System.out.println("RSR Connect" + remote.getRemoteService(rsr[i]).getClass().toString());
