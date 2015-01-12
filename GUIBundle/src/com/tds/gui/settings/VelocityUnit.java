@@ -9,7 +9,7 @@ public enum VelocityUnit {
 		case KMH:
 			return "km/h";
 		case MPH:
-			return "mp/h";
+			return "mi/h";
 		}
 		return "no Name";
 	}
