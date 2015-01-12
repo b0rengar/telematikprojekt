@@ -13,14 +13,14 @@ import com.tds.camera.ICameraService;
 import com.tds.imgproc.IImageProcessingService;
 
 /**
- * 
+ *
  * Class to start and stop the Image Processing Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
- * 
+ *
  * This service provides capabilities to process images taken by cameras installed in the system.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:13:29
- * 
+ *
  */
 public class Activator implements BundleActivator {
 
@@ -57,8 +57,8 @@ public class Activator implements BundleActivator {
         params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
         context.registerService(ICameraService.class.getName(), camService, params);
 
-        camService.startCameraEvents(0, ICameraService.EVENT_OBU_CAMERA_DRIVER, 15);
-// camService.startCameraEvents(1, ICameraService.OBU_EVENT_CAMERA_ROAD, 15);
+        camService.startCameraEvents(0, ICameraService.EVENT_OBU_CAMERA_DRIVER, 15, true);
+        camService.startCameraEvents(1, ICameraService.OBU_EVENT_CAMERA_ROAD, 15, false);
 
     }
 

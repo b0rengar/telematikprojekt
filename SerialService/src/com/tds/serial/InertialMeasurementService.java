@@ -23,12 +23,12 @@ import com.tds.serial.network.SerialInputStream;
  * com.tds.inertial <br />
  * InertialMeasurementService <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:20:57
- * 
+ *
  */
 public class InertialMeasurementService implements IInertialMeasurementService, Runnable {
     private static EventAdmin eventAdmin;
@@ -38,7 +38,7 @@ public class InertialMeasurementService implements IInertialMeasurementService, 
 // static String portName = "/dev/ttyUSB1";
     static String portName = "/dev/acc0";
     static long last_event_time = 0;
-    static long event_timer = 100; // ein event aller xxxx ms
+    static long event_timer = 50; // ein event aller xxxx ms
 
     private final static int voltage = 3300; // in mV -> 3.3V
     private static double voltsPerUnit = voltage / 1024.0;

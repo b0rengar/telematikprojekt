@@ -23,7 +23,7 @@ import com.tds.gui.utils.VideoStream;
  * com.tds.gui - CamPanel <br />
  * </b>
  *
- * Description.
+ * JPanel to manage the view of cameras.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 20.11.2014 23:31:21
@@ -43,10 +43,19 @@ public class CamPanel extends JPanel implements EventHandler {
     private long last;
     private double size;
 
+    /**
+     * Contrsuctor of CamPanel
+     *
+     * @param camService hand over any {@link ICameraService} to do active requests
+     * @param camID hand over the id of the camera to display to be able to differ between different ones
+     */
     public CamPanel(ICameraService camService, int camID) {
         stream = new VideoStream("/data/streams/stream_" + camID + "_" + Calendar.getInstance().getTimeInMillis() + ".mp4", 480, 360);
     }
 
+    /**
+     * Override method to draw picture as JPanel
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -63,6 +72,9 @@ public class CamPanel extends JPanel implements EventHandler {
         g.drawImage(img, 0, 0, null);
     }
 
+    /**
+     * OSGI event handler receives an event with an image as property
+     */
     @Override
     public void handleEvent(Event e) {
 // System.out.println("new Cam event");
@@ -75,7 +87,7 @@ public class CamPanel extends JPanel implements EventHandler {
 // for (String prop : e.getPropertyNames()) {
 // System.out.println(prop + " -> " + e.getProperty(prop));
 // }
-
+        // get image from event
         byte[] jpg = (byte[]) e.getProperty("image");
         if (jpg == null) {
             return;
@@ -105,9 +117,11 @@ public class CamPanel extends JPanel implements EventHandler {
             last = current;
         }
 // System.out.println("-------------------------------");
-
+        // create new picture from jpg
         picture = new Picture(jpg);
+        // add picture as new frame to stream
         stream.newFrame(picture.getBufferedImage());
+        // repaint the component to show the new picture
         this.repaint();
 
     }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tds.imgprocImpl;
 
@@ -22,18 +22,18 @@ import org.opencv.highgui.Highgui;
  * com.tds.imgprocImpl <br />
  * Util <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 05.01.2015 15:05:07
- * 
+ *
  */
 public class Util {
 
     /**
      * Converts an OpenCV {@link Mat} into a {@link BufferedImage}
-     * 
+     *
      * @param mat - the input {@link Mat} to be converted
      * @return the {@link BufferedImage} containing the pixels of the input {@link Mat}
      * @throws UnsupportedDataTypeException
@@ -62,6 +62,17 @@ public class Util {
         BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         at.scale(d, d);
+        AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        return scaleOp.filter(before, after);
+    }
+
+    public static BufferedImage flipImage(BufferedImage before) {
+
+        int w = before.getWidth();
+        int h = before.getHeight();
+        BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        AffineTransform at = new AffineTransform();
+        at.rotate(180);
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         return scaleOp.filter(before, after);
     }
