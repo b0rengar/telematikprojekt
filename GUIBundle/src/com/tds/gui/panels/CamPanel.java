@@ -50,7 +50,11 @@ public class CamPanel extends JPanel implements EventHandler {
      * @param camID hand over the id of the camera to display to be able to differ between different ones
      */
     public CamPanel(ICameraService camService, int camID) {
-        stream = new VideoStream("/data/streams/stream_" + camID + "_" + Calendar.getInstance().getTimeInMillis() + ".mp4", 480, 360);
+        String streamPath = System.getProperty("tds.streampath");
+        if (streamPath == null) {
+            streamPath = "/data/streams/";
+        }
+        stream = new VideoStream(String.format("%s%sstream_%d_%d.mp4", streamPath, streamPath.endsWith("/") ? "" : "/", camID, Calendar.getInstance().getTimeInMillis()), 480, 360);
     }
 
     /**
