@@ -223,6 +223,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         mnDatei.add(mntmSpeichernUnter);
 
         mntmBeenden = new JMenuItem("Beenden");
+        mntmBeenden.addActionListener(actionListener);
         mnDatei.add(mntmBeenden);
 
         JMenu mnBearbeiten = new JMenu("Bearbeiten");
