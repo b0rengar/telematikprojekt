@@ -25,19 +25,6 @@ public class PathsDialog extends JDialog implements ActionListener{
 	private JButton btnOpenTempPath;
 	private JButton btnOpenMsgPath;
 
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		try {
-//			PathsDialog dialog = new PathsDialog();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	/**
 	 * Create the dialog.
 	 */
@@ -112,7 +99,13 @@ public class PathsDialog extends JDialog implements ActionListener{
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						dispose();
+					}
+				});
 				buttonPane.add(cancelButton);
 			}
 		}

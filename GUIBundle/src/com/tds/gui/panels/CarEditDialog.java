@@ -2,6 +2,8 @@ package com.tds.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,6 +15,14 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.tds.gui.settings.Car;
+
+/**
+ * A dialog to edit the data of a {@link Car} already being monitored by the system.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class CarEditDialog extends JDialog {
 
 	/**
@@ -27,19 +37,6 @@ public class CarEditDialog extends JDialog {
 	private JTextField textFieldFahrgestellnr;
 	private JTextField textFieldIpaddress;
 	private JTextField textFieldIpport;
-
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		try {
-//			CarEditDialog dialog = new CarEditDialog();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true); 
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.
@@ -72,7 +69,7 @@ public class CarEditDialog extends JDialog {
 		lblFahrgestellnr.setBounds(12, 129, 120, 16);
 		contentPanel.add(lblFahrgestellnr);
 		
-		JLabel lblIpaddresseport = new JLabel("IP-Addresse:Port:");
+		JLabel lblIpaddresseport = new JLabel("IP-Adresse:Port:");
 		lblIpaddresseport.setBounds(12, 158, 120, 16);
 		contentPanel.add(lblIpaddresseport);
 		
@@ -133,7 +130,13 @@ public class CarEditDialog extends JDialog {
 				JButton cancelButton = new JButton("Abbrechen");
 				buttonPane.add(cancelButton);
 				cancelButton.setHorizontalAlignment(SwingConstants.LEFT);
-				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						dispose();
+					}
+				});
 			}
 		}
 	}

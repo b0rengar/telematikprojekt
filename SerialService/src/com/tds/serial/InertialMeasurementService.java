@@ -37,8 +37,8 @@ public class InertialMeasurementService implements IInertialMeasurementService, 
     // TODO ref-by-id
 // static String portName = "/dev/ttyUSB1";
     static String portName = "/dev/acc0";
-    static long last_event_time = 0;
-    static long event_timer = 100; // ein event aller xxxx ms
+    static long counter = 0;
+    static long treshold = 20; // ein event aller xxxx ms
 
     private final static int voltage = 3300; // in mV -> 3.3V
     private static double voltsPerUnit = voltage / 1024.0;
@@ -96,6 +96,7 @@ public class InertialMeasurementService implements IInertialMeasurementService, 
             String tmp;
             try {
                 tmp = inputStream.readLine();
+                counter++;
 
                 String[] tokens = tmp.split(" ");
 // System.out.println(tmp + " => " + Arrays.asList(tokens));
@@ -106,20 +107,19 @@ public class InertialMeasurementService implements IInertialMeasurementService, 
                 long ts = Calendar.getInstance().getTimeInMillis();
                 // System.out.println(ts + " ACC Event x:" + x + " y:" + y + " z: " + z);
 
-                if (last_event_time < ts) {
-                    if ((ts - last_event_time) >= event_timer) {
-                        Dictionary<String, String> eventProps = new Hashtable<String, String>();
-                        eventProps.put(EVENT_ACC_DATA_TIMESTAMP, Long.toString(ts));
-                        eventProps.put(EVENT_ACC_DATA_X, Double.toString(x));
-                        eventProps.put(EVENT_ACC_DATA_Y, Double.toString(y));
-                        eventProps.put(EVENT_ACC_DATA_Z, Double.toString(z));
-                        Event osgiEvent = new Event(EVENT_ACC_TOPIC, eventProps);
-                        // "sendEvent()" synchron "postEvent()" asynchron:
-                        eventAdmin.sendEvent(osgiEvent);
-                        System.out.println("new acc event");
-                        last_event_time = ts;
-                    }
+                if (counter >= treshold) {
+                    Dictionary<String, String> eventProps = new Hashtable<String, String>();
+                    eventProps.put(EVENT_ACC_DATA_TIMESTAMP, Long.toString(ts));
+                    eventProps.put(EVENT_ACC_DATA_X, Double.toString(x));
+                    eventProps.put(EVENT_ACC_DATA_Y, Double.toString(y));
+                    eventProps.put(EVENT_ACC_DATA_Z, Double.toString(z));
+                    Event osgiEvent = new Event(EVENT_ACC_TOPIC, eventProps);
+                    // "sendEvent()" synchron "postEvent()" asynchron:
+                    eventAdmin.sendEvent(osgiEvent);
+                    System.out.println("new acc event");
+                    counter = 0;
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

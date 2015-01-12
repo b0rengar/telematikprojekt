@@ -4,6 +4,12 @@ import javax.swing.DefaultListModel;
 
 import com.tds.persistence.TdsEvent;
 
+/**
+ * Model to store {@link TdsEvent}s in a list view.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class EventListModel extends DefaultListModel<TdsEvent> {
 
     /**

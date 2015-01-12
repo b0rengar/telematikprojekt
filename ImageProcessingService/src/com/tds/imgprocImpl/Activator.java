@@ -68,8 +68,8 @@ public class Activator implements BundleActivator {
         params.put(RemoteOSGiService.R_OSGi_REGISTRATION, Boolean.TRUE);
         context.registerService(ICameraService.class.getName(), camService, params);
 
-        camService.startCameraEvents(0, ICameraService.EVENT_OBU_CAMERA_DRIVER, 15);
-        // camService.startCameraEvents(1, ICameraService.OBU_EVENT_CAMERA_ROAD, 15);
+        camService.startCameraEvents(0, ICameraService.EVENT_OBU_CAMERA_DRIVER, 15, true);
+        camService.startCameraEvents(1, ICameraService.OBU_EVENT_CAMERA_ROAD, 15, false);
 
     }
 

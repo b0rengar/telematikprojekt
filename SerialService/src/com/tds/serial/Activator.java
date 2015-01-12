@@ -19,12 +19,12 @@ import com.tds.serial.network.SerialNetworkFactory;
 
 /**
  * Class to start and stop the GPS Service. This class is responsible for any setup that needs to be done before the service can operate as well as any clean up before the service is shut down.
- * 
+ *
  * This service provides access to the GPS coordinates of the On-Board Unit.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:33:18
- * 
+ *
  */
 public class Activator implements BundleActivator {
 
@@ -46,6 +46,9 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
+// initGPS();
+        initInertial();
+        initOBD();
 
         initXBee("/dev/xbee0");
         try {

@@ -95,9 +95,9 @@ public class CameraService implements ICameraService {
     }
 
     @Override
-    public void startCameraEvents(int camID, String topic, int fps) {
+    public void startCameraEvents(int camID, String topic, int fps, boolean rotate) {
 
-        TimerTask tt = new com.tds.imgprocImpl.CamPublisher(this.context, this, camID, topic, fps);
+        TimerTask tt = new com.tds.imgprocImpl.CamPublisher(this.context, this, camID, topic, fps, rotate);
         System.out.println("start timer");
         Timer t = timers.get(camID);
 

@@ -19,11 +19,7 @@ import com.tds.camera.Picture;
 import com.tds.gui.utils.VideoStream;
 
 /**
- * <b>GUIBundle <br />
- * com.tds.gui - CamPanel <br />
- * </b>
- *
- * Description.
+ * A panel to display a camera feed in a dialog.
  *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 20.11.2014 23:31:21
@@ -31,22 +27,37 @@ import com.tds.gui.utils.VideoStream;
  */
 public class CamPanel extends JPanel implements EventHandler {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
+    /** Holds a single frame from the camera. */
     private IPicture picture;
+    /** A buffer to create a video stream using single frames. */
     private VideoStream stream;
 
+    /** The number of milliseconds since January 1, 1970, 00:00:00 GMT the feed was started at. */
     private long start;
+    /** The number of milliseconds since January 1, 1970, 00:00:00 GMT at which the last frame was retrieved from the camera. */
     private long last;
+    /** The number of kilobytes saved in the stream. */
     private double size;
 
+    /**
+     * Creates a new camera panel using the given camera service as source.
+     *
+     * @param camService hand over any {@link ICameraService} to do active requests
+     * @param camID A number to identify the camera by.
+     */
     public CamPanel(ICameraService camService, int camID) {
-        stream = new VideoStream("/data/streams/stream_" + camID + "_" + Calendar.getInstance().getTimeInMillis() + ".mp4", 480, 360);
+        String streamPath = System.getProperty("tds.streampath");
+        if (streamPath == null) {
+            streamPath = "/data/streams/";
+        }
+        stream = new VideoStream(String.format("%s%sstream_%d_%d.mp4", streamPath, streamPath.endsWith("/") ? "" : "/", camID, Calendar.getInstance().getTimeInMillis()), 480, 360);
     }
 
+    /**
+     * Override method to draw picture as JPanel
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -63,6 +74,9 @@ public class CamPanel extends JPanel implements EventHandler {
         g.drawImage(img, 0, 0, null);
     }
 
+    /**
+     * OSGI event handler receives an event with an image as property
+     */
     @Override
     public void handleEvent(Event e) {
 // System.out.println("new Cam event");
@@ -75,7 +89,7 @@ public class CamPanel extends JPanel implements EventHandler {
 // for (String prop : e.getPropertyNames()) {
 // System.out.println(prop + " -> " + e.getProperty(prop));
 // }
-
+        // get image from event
         byte[] jpg = (byte[]) e.getProperty("image");
         if (jpg == null) {
             return;
@@ -105,13 +119,16 @@ public class CamPanel extends JPanel implements EventHandler {
             last = current;
         }
 // System.out.println("-------------------------------");
-
+        // create new picture from jpg
         picture = new Picture(jpg);
+        // add picture as new frame to stream
         stream.newFrame(picture.getBufferedImage());
+        // repaint the component to show the new picture
         this.repaint();
 
     }
 
+    /** Closes the camera feed. */
     public void closeStream() {
         stream.close();
     }

@@ -12,6 +12,12 @@ import javax.swing.event.ListSelectionListener;
 
 import com.tds.persistence.TdsEvent;
 
+/**
+ * A panel to be added to a dialog to list events detected by the system.
+ *
+ * @author Christian Bodler
+ *
+ */
 public class EventPanel extends JPanel implements ListSelectionListener {
 
     /**

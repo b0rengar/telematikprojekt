@@ -15,16 +15,24 @@ import org.osgi.service.event.EventAdmin;
 import com.tds.obd.IOBDService;
 import com.tds.obd.OBDParameterSet;
 
+/**
+ *
+ * Service to provide ODB data
+ *
+ * @author chris
+ *
+ */
 public class OBDService implements IOBDService {
     private static EventAdmin eventAdmin;
     private static OBDParser obdParser = new OBDParser();
-
+    // parameter set to hold data of last request
     private static OBDParameterSet parameterSet = new OBDParameterSet();
 
     // Serial Port Settings
     private static SerialPort serialPort;
 
     private static StringBuilder tmp = new StringBuilder();
+    // settings of the serial port, do not have to be provied on linux machines
 
     private String portName = "/dev/rfcomm0";
 
@@ -33,22 +41,32 @@ public class OBDService implements IOBDService {
 // private int stopBits = SerialPort.STOPBITS_1;
 // private int parity = SerialPort.PARITY_NONE;
 
+    /**
+     * get {@link EventAdmin} to fire events
+     */
     @Override
     public void bindEventAdmin(EventAdmin eventAdmin) {
         OBDService.eventAdmin = eventAdmin;
     }
 
+    /**
+     * unbind the {@link EventAdmin}
+     */
     @Override
     public void unbindEventAdmin() {
         OBDService.eventAdmin = null;
     }
 
+    /**
+     * open the {@link SerialPort} to be able to request data
+     */
     @Override
     public void openSP() {
         serialPort = new SerialPort(portName);
 
         try {
 
+            System.out.println("OBD Port opened: " + serialPort.openPort());
             System.out.println("Port opened: " + serialPort.openPort());
 // System.out.println("Params setted: " + serialPort.setParams(baudrate, dataBits, stopBits, parity));
             int mask = SerialPort.MASK_RXCHAR;// Prepare mask
@@ -66,17 +84,25 @@ public class OBDService implements IOBDService {
         }
     }
 
+    /**
+     * initialze the connection to the OBD dongle
+     *
+     * @throws Exception
+     */
     private synchronized void initializeODB2() throws Exception {
+        // turn off line feeds
         serialPort.writeString("AT L0" + "\r");
         wait(1000);
+        // turn off echo
         serialPort.writeString("AT E0" + "\r");
         // get version information of ELM
         System.out.println("1");
         wait(1000);
+        // get information about device
         serialPort.writeString("AT I" + "\r");
-        // no spaces
         System.out.println("2");
         wait(1000);
+        // return results without spaces
         serialPort.writeString("AT S0" + "\r");
         // set protocol as auto
         System.out.println("3");
@@ -86,25 +112,14 @@ public class OBDService implements IOBDService {
 
     }
 
+    /**
+     * run OBDRequest infinite loop
+     *
+     * @throws Exception
+     */
     private void runOBDRequests() throws Exception {
-// while (true) {
-// System.out.println("new while");
-        // get speed
+        // start loop by getting the speed
         serialPort.writeString(IOBDService.TYPE_SPEED + "\r");
-// // get fuel consumption
-// serialPort.writeString(IOBDService.TYPE_CONSUMPTION + "\r");
-// // RPM
-// serialPort.writeString(IOBDService.TYPE_RPM + "\r");
-// // engine temperature
-// serialPort.writeString(IOBDService.TYPE_TEMPERATURE_ENGINE + "\r");
-// // indoor temperature
-// serialPort.writeString(IOBDService.TYPE_TEMPERATURE_INDOOR + "\r");
-// // outdoor temperature
-        System.out.println("4");
-// serialPort.writeString(IOBDService.TYPE_TEMPERATURE_OUTDOOR + "\r");
-        System.out.println("5");
-// wait(1000);
-// }
     }
 
     private static void sendEvent(OBDParameterSet parameterSet) {
@@ -116,6 +131,7 @@ public class OBDService implements IOBDService {
         System.out.println("ThrottlePos" + parameterSet.getThrottlePosition());
         System.out.println("EngineLoad" + parameterSet.getEngineLoad());
 
+        // send OBBParameterSet with Event and corresponding properties
         Dictionary<String, String> eventProps = new Hashtable<String, String>();
         eventProps.put(EVENT_OBD_DATA_TIMESTAMP, Long.toString(parameterSet.getTimestamp()));
         eventProps.put(EVENT_OBD_DATA_SPEED, Float.toString(parameterSet.getSpeed()));
@@ -173,11 +189,11 @@ public class OBDService implements IOBDService {
             if (event.isRXCHAR()) {// If data is available
                 if (event.getEventValue() > 0) {
                     try {
-                        String response = serialPort.readString();
-                        response.replaceAll("\r", "");
+                        String response = serialPort.readString(); // read string
+                        response.replaceAll("\r", "");  // and replace returns
 // System.out.println("response = " + response);
                         if (response.contains(">")) {
-                            tmp.append(response.substring(0, response.indexOf(">")));
+                            tmp.append(response.substring(0, response.indexOf(">"))); //
                             System.out.println("Result = " + tmp);
                             if (tmp.toString().contains(TYPE_RPM_RESULT)) {
                                 parameterSet.setEngineRPM(obdParser.getInt(tmp.toString(), TYPE_RPM_RESULT));
