@@ -61,7 +61,7 @@ public class CarEditDialog extends JDialog {
 		lblFahrgestellnr.setBounds(12, 129, 120, 16);
 		contentPanel.add(lblFahrgestellnr);
 		
-		JLabel lblIpaddresseport = new JLabel("IP-Addresse:Port:");
+		JLabel lblIpaddresseport = new JLabel("IP-Adresse:Port:");
 		lblIpaddresseport.setBounds(12, 158, 120, 16);
 		contentPanel.add(lblIpaddresseport);
 		
