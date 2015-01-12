@@ -18,7 +18,7 @@ public class InertialLineChart extends JPanel {
      */
     private static final long serialVersionUID = 5694783209925104916L;
 
-    private static int numOfSeconds = 300;
+    private static int numOfSeconds = 60;
 
     private ArrayList<Float> yValuesX;
     private ArrayList<Float> yValuesY;
@@ -59,8 +59,8 @@ public class InertialLineChart extends JPanel {
 
         // add new Element to the end
         yValuesX.add(0, elementX);
-        yValuesY.add(0, elementX);
-        yValuesZ.add(0, elementX);
+        yValuesY.add(0, elementY);
+        yValuesZ.add(0, elementZ);
         lineChart.getXYPlot().setDataset(getDataset());
     }
 

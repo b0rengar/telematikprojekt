@@ -5,6 +5,7 @@ package com.tds.gui.panels;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import org.osgi.service.event.EventHandler;
 import com.tds.camera.ICameraService;
 import com.tds.camera.IPicture;
 import com.tds.camera.Picture;
+import com.tds.gui.utils.VideoStream;
 
 /**
  * <b>GUIBundle <br />
@@ -35,12 +37,14 @@ public class CamPanel extends JPanel implements EventHandler {
     private static final long serialVersionUID = 1L;
 
     private IPicture picture;
+    private VideoStream stream;
 
     private long start;
     private long last;
     private double size;
 
     public CamPanel(ICameraService camService, int camID) {
+        stream = new VideoStream("/data/streams/stream_" + camID + "_" + Calendar.getInstance().getTimeInMillis() + ".mp4", 480, 360);
     }
 
     @Override
@@ -61,6 +65,7 @@ public class CamPanel extends JPanel implements EventHandler {
 
     @Override
     public void handleEvent(Event e) {
+// System.out.println("new Cam event");
 
 // properties.put("camID", camID);
 // properties.put("interval", interval);
@@ -102,8 +107,13 @@ public class CamPanel extends JPanel implements EventHandler {
 // System.out.println("-------------------------------");
 
         picture = new Picture(jpg);
+        stream.newFrame(picture.getBufferedImage());
         this.repaint();
 
+    }
+
+    public void closeStream() {
+        stream.close();
     }
 
 }

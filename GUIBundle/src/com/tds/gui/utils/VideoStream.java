@@ -25,7 +25,7 @@ public class VideoStream {
      * @param width Auflösung x
      * @param height Auflösung y
      */
-    VideoStream(String outputFilename, int width, int height) {
+    public VideoStream(String outputFilename, int width, int height) {
 // this.outputFilename = outputFilename;
 
         // make a IMediaWriter to write the file.

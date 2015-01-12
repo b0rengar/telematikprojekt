@@ -3,6 +3,7 @@ package com.tds.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -59,11 +60,15 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     JInternalFrame ifKarte;
     JInternalFrame ifBeschleunigungssensor;
 
+    JMenuItem mntmSpeichern;
     JMenuItem mntmFahrzeugHinzufuegen;
     JMenuItem mntmFahrzeuglisteBearbeiten;
     JMenuItem mntmClientserver;
     JMenuItem mntmEinheiten;
     JMenuItem mntmSpeicherpfade;
+    private JMenuItem mntmBeenden;
+
+    ArrayList<CamPanel> camPanels;
 
 // /**
 // * Launch the application.
@@ -89,19 +94,15 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
 // super("(T)elemetrie (D)aten (S)ystem");
         this.context = context;
 
+        camPanels = new ArrayList<CamPanel>();
+
         getRemoteOSGiServices();
 
         initialize();
-
-        addPanelsWithEventHandler();
-
-// public MainFrame() {
-//
-    }
-
-    private void addPanelsWithEventHandler() {
+        System.out.println("Add Service Camera Road");
         // add service for road camera
-        JPanel panel = new CamPanel(cameraService, 0);
+        CamPanel panel = new CamPanel(cameraService, 0);
+        camPanels.add(panel);
         Dictionary<String, String[]> topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.OBU_EVENT_CAMERA_ROAD });
         context.registerService(EventHandler.class.getName(), panel, topics);
@@ -109,8 +110,10 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifFrontKamera.setVisible(false);
         ifFrontKamera.setVisible(true);
 
+        System.out.println("Add Service Camera Driver");
         // add service for driver camera
-        JPanel driverPanel = new CamPanel(cameraService, 0);
+        CamPanel driverPanel = new CamPanel(cameraService, 1);
+        camPanels.add(driverPanel);
         topics = new Hashtable<>();
         topics.put(EventConstants.EVENT_TOPIC, new String[] { ICameraService.EVENT_OBU_CAMERA_DRIVER });
         context.registerService(EventHandler.class.getName(), driverPanel, topics);
@@ -118,6 +121,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifDriverKamera.setVisible(false);
         ifDriverKamera.setVisible(true);
 
+        System.out.println("Add Service OBD");
         // add service for OBD data
         JPanel parameterPanel = new ParameterPanel(obdService);
         topics = new Hashtable<>();
@@ -127,6 +131,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifBetriebsparameter.setVisible(false);
         ifBetriebsparameter.setVisible(true);
 
+        System.out.println("Add Service GPS");
         // add service for GPS data
         JPanel mapPanel = new MapPanel(gpsService);
         topics = new Hashtable<>();
@@ -136,6 +141,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifKarte.setVisible(false);
         ifKarte.setVisible(true);
 
+        System.out.println("Add Service Inertial");
         // add service for Inertial Measurement data
         JPanel inertialPanel = new InertialPanel(inertialService);
         // TODO reset topic String by from from IInertialMeasurementService interface
@@ -145,10 +151,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         ifBeschleunigungssensor.getContentPane().add(inertialPanel);
         ifBeschleunigungssensor.setVisible(false);
         ifBeschleunigungssensor.setVisible(true);
+
+// public MainFrame() {
+//
     }
 
     private void getRemoteOSGiServices() {
-        System.out.println("Connecting to OBU at MainFrame");
+// System.out.println("Connecting to OBU at MainFrame");
 
         try {
 
@@ -157,13 +166,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
             if (sref == null) {
                 throw new BundleException("No R-OSGi found");
             }
-
+            System.out.println("Connecting to OBU ...");
             RemoteOSGiService remote = (RemoteOSGiService) context.getService(sref);
 
             // connect
-// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
+            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://192.168.2.117:9278"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://tds.changeip.org:9278"));
-            RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:55555"));
+// RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:55555"));
 // RemoteServiceReference[] rsr = remote.connect(new URI("r-osgi://localhost:9278"));
 
 // for (int i = 0; i < rsr.length; i++) {
@@ -205,13 +214,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         JMenuItem mntmOeffnen = new JMenuItem("\u00D6ffnen");
         mnDatei.add(mntmOeffnen);
 
-        JMenuItem mntmSpeichern = new JMenuItem("Speichern");
+        mntmSpeichern = new JMenuItem("Speichern");
         mnDatei.add(mntmSpeichern);
 
         JMenuItem mntmSpeichernUnter = new JMenuItem("Speichern unter");
         mnDatei.add(mntmSpeichernUnter);
 
-        JMenuItem mntmBeenden = new JMenuItem("Beenden");
+        mntmBeenden = new JMenuItem("Beenden");
         mnDatei.add(mntmBeenden);
 
         JMenu mnBearbeiten = new JMenu("Bearbeiten");
@@ -319,6 +328,10 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         this.frmMainWindow = frame;
     }
 
+    public ArrayList<CamPanel> getCamPanels() {
+        return camPanels;
+    }
+
     private class MainFrameActionListener implements ActionListener {
 
         @Override
@@ -354,8 +367,13 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
                 dialog.setVisible(true);
             }
 
-        }
+            // Closes the main window using the 'Datei' menu's 'Beenden' button.
+            if (e.getSource().equals(mntmBeenden)) {
+                frmMainWindow.dispose();
+                System.exit(0);
+            }
 
+        }
     }
 
     @Override

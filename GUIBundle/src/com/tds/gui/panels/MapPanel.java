@@ -56,10 +56,11 @@ public class MapPanel extends JPanel implements EventHandler {
 
     @Override
     public void handleEvent(Event event) {
+// System.out.println("new GPS event");
         if (!DEBUG) {
-            System.out.println("NEW EVENT AT MAPS PANEL");
-            System.out.println("lat = " + event.getProperty(IGPSService.EVENT_GPS_DATA_LAT));
-            System.out.println("lon = " + event.getProperty(IGPSService.EVENT_GPS_DATA_LONG));
+// System.out.println("NEW EVENT AT MAPS PANEL");
+// System.out.println("lat = " + event.getProperty(IGPSService.EVENT_GPS_DATA_LAT));
+// System.out.println("lon = " + event.getProperty(IGPSService.EVENT_GPS_DATA_LONG));
             currentPosition = new Coordinates(Float.parseFloat((String) event.getProperty(IGPSService.EVENT_GPS_DATA_LAT)), Float.parseFloat((String) event.getProperty(IGPSService.EVENT_GPS_DATA_LONG)));
             System.out.println("Position: " + currentPosition.getLat() + ";" + currentPosition.getLon());
             if (lastPositions.size() == maxNumOfLastPositions) {
