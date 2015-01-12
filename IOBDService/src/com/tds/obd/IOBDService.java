@@ -3,19 +3,20 @@ package com.tds.obd;
 import org.osgi.service.event.EventAdmin;
 
 /**
- * 
+ *
  * <b>IOBDService <br />
  * com.tds.obd <br />
  * IOBDService <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 20:05:55
- * 
+ *
  */
 public interface IOBDService {
+    public static String EVENT_OBD_DATA_TIMESTAMP = "OBD/data/ts";
     public static String EVENT_OBD_DATA_SPEED = "OBD/data/speed";
     public static String EVENT_OBD_DATA_CONSUMPTION = "OBD/data/consumption";
     public static String EVENT_OBD_DATA_RPM = "OBD/data/rpm";

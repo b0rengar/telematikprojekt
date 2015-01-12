@@ -116,6 +116,7 @@ public class OBDService implements IOBDService {
         System.out.println("EngineLoad" + parameterSet.getEngineLoad());
 
         Dictionary<String, String> eventProps = new Hashtable<String, String>();
+        eventProps.put(EVENT_OBD_DATA_TIMESTAMP, Long.toString(parameterSet.getTimestamp()));
         eventProps.put(EVENT_OBD_DATA_SPEED, Float.toString(parameterSet.getSpeed()));
         eventProps.put(EVENT_OBD_DATA_RPM, Integer.toString(parameterSet.getEngineRPM()));
         eventProps.put(eVENT_OBD_DATA_FUEL_LEVEL, Float.toString(parameterSet.getFuelLevel()));
