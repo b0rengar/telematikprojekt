@@ -64,6 +64,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     JMenuItem mntmClientserver;
     JMenuItem mntmEinheiten;
     JMenuItem mntmSpeicherpfade;
+    private JMenuItem mntmBeenden;
 
 // /**
 // * Launch the application.
@@ -211,7 +212,7 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
         JMenuItem mntmSpeichernUnter = new JMenuItem("Speichern unter");
         mnDatei.add(mntmSpeichernUnter);
 
-        JMenuItem mntmBeenden = new JMenuItem("Beenden");
+        mntmBeenden = new JMenuItem("Beenden");
         mnDatei.add(mntmBeenden);
 
         JMenu mnBearbeiten = new JMenu("Bearbeiten");
@@ -352,6 +353,12 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
                 PathsDialog dialog = new PathsDialog();
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setVisible(true);
+            }
+
+            // Closes the main window using the 'Datei' menu's 'Beenden' button.
+            if (e.getSource().equals(mntmBeenden)) {
+                frmMainWindow.dispose();
+                System.exit(0);
             }
 
         }
