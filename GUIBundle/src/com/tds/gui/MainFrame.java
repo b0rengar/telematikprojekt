@@ -67,8 +67,11 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
     JMenuItem mntmEinheiten;
     JMenuItem mntmSpeicherpfade;
     private JMenuItem mntmBeenden;
+<<<<<<< HEAD
 
     ArrayList<CamPanel> camPanels;
+=======
+>>>>>>> branch 'master' of https://github.com/b0rengar/telematikprojekt.git
 
 // /**
 // * Launch the application.
@@ -372,6 +375,11 @@ public class MainFrame implements ServiceTrackerCustomizer<Object, Object> {
                 frmMainWindow.dispose();
                 System.exit(0);
             }
+<<<<<<< HEAD
+=======
+
+        }
+>>>>>>> branch 'master' of https://github.com/b0rengar/telematikprojekt.git
 
         }
     }

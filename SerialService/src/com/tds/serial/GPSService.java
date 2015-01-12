@@ -16,6 +16,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
 import com.tds.gps.IGPSService;
+import com.tds.serial.network.SerialInputStream;
 
 /**
  * Concrete class implementing {@link IGPSService} to provides access to the GPS coordinates of the On-Board Unit.
