@@ -37,7 +37,10 @@ import com.tds.imgproc.IImageProcessingService;
  * ImageProcessingService <br />
  * </b>
  * 
- * Description.
+ * This class implements IImageProcessingService. It's used to detect certain
+ * event, like sleepdetection, from images of the cameras. Because the image
+ * analyses is quite complex for the CPU the functions are rather slow (4-10 fps
+ * depending on the system).
  * 
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:11:42
@@ -53,6 +56,20 @@ public class ImageProcessingService implements IImageProcessingService {
 	    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);	
 	}
 
+
+	/**
+	 * 
+	 * This function uses 2 haarcascade.xml files to detect if the driver might
+	 * fall asleep. The first haarcascade.xml is used to detect all eyes in the
+	 * cameras field of view. The second one is used to detect all open eyes in
+	 * this area. When there is atleast 1 eye detected and alteast 1 of them are
+	 * open everything is fine (detectSleep=false). When atleast 1 eye is
+	 * detected but non is detected as opened (doesnt need to be completly shut)
+	 * for a certain time (here 2 seconds) the driver is considered to migth be
+	 * sleepy. It also create the file SleepDetected.jpg when this event
+	 * happens.
+	 * 
+	 * */
 	@Override
 	public boolean detectSleep(BufferedImage image) {
 		
@@ -124,8 +141,12 @@ public class ImageProcessingService implements IImageProcessingService {
 		return sleeping;
 	}
 
-	// TODO
-	// bekomme n bufferedImage umwandeln zu Mat, rueckgabe als jpeg
+	/**
+	 * This functionen uses OpenCV SURF to detect any given object in the
+	 * cameras field of view.
+	 * 
+	 * 
+	 * */
 	@Override
 	public void detectObject(BufferedImage input, BufferedImage compare) {
 
@@ -210,6 +231,15 @@ public class ImageProcessingService implements IImageProcessingService {
 		Highgui.imwrite(filename, img_matches);
 	}
 
+	/**
+	 * This functionen uses the haarcascade_upperbody.xml to detect human
+	 * bodies. The haarcascade_fullbody.xml might be better but while testing
+	 * the fullbody.xml didn't detect any bodies at all. When there is atleast 1
+	 * human detected int the cameras field of view this pictures gets saved as
+	 * HumanDetect.jpg and this human gets marked in the picture with an
+	 * rectangle.
+	 * 
+	 * */
 	@Override
 	public boolean detectHuman(BufferedImage image) {
 
