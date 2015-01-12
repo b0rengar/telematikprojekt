@@ -2,6 +2,8 @@ package com.tds.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -93,7 +95,13 @@ public class UnitsDialog extends JDialog {
             }
             {
                 JButton cancelButton = new JButton("Cancel");
-                cancelButton.setActionCommand("Cancel");
+                cancelButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setVisible(false);
+                        dispose();
+                    }
+                });
                 buttonPane.add(cancelButton);
             }
         }

@@ -112,7 +112,13 @@ public class PathsDialog extends JDialog implements ActionListener{
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						dispose();
+					}
+				});
 				buttonPane.add(cancelButton);
 			}
 		}

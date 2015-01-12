@@ -2,6 +2,8 @@ package com.tds.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -133,7 +135,13 @@ public class CarEditDialog extends JDialog {
 				JButton cancelButton = new JButton("Abbrechen");
 				buttonPane.add(cancelButton);
 				cancelButton.setHorizontalAlignment(SwingConstants.LEFT);
-				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						dispose();
+					}
+				});
 			}
 		}
 	}
