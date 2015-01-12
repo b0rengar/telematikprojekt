@@ -26,11 +26,12 @@ public class OBDService implements IOBDService {
 
     private static StringBuilder tmp = new StringBuilder();
 
-    private String portName = "COM4";
-    private int baudrate = 9600;
-    private int dataBits = SerialPort.DATABITS_8;
-    private int stopBits = SerialPort.STOPBITS_1;
-    private int parity = SerialPort.PARITY_NONE;
+    private String portName = "/dev/rfcomm0";
+
+// private int baudrate = 9600;
+// private int dataBits = SerialPort.DATABITS_8;
+// private int stopBits = SerialPort.STOPBITS_1;
+// private int parity = SerialPort.PARITY_NONE;
 
     @Override
     public void bindEventAdmin(EventAdmin eventAdmin) {
@@ -49,7 +50,7 @@ public class OBDService implements IOBDService {
         try {
 
             System.out.println("Port opened: " + serialPort.openPort());
-            System.out.println("Params setted: " + serialPort.setParams(baudrate, dataBits, stopBits, parity));
+// System.out.println("Params setted: " + serialPort.setParams(baudrate, dataBits, stopBits, parity));
             int mask = SerialPort.MASK_RXCHAR;// Prepare mask
             serialPort.setEventsMask(mask);// Set mask
             serialPort.addEventListener(new ODBSerialPortReader());
