@@ -48,6 +48,8 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
     private final BundleContext context;
     private IPersistenceService persistenceService;
 
+    // private final List<TdsEvent> tdsTest = new ArrayList<TdsEvent>();
+
     public WebService(BundleContext context) {
         this.context = context;
     }
@@ -111,23 +113,31 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
      * @return BufferedImage
      * @throws IOException
      */
-    private BufferedImage getBuffImageFromTdsEvent(long startDate) throws IOException {
+    private BufferedImage getBuffImageFromTdsEvent(long startDate) {
         BufferedImage img = null;
-        List<TdsEvent> events = null;
+        List<TdsEvent> events = new ArrayList<TdsEvent>();
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(startDate);
 
         try {
             events = persistenceService.getTdsEventsFromDB();
+            // TestData
+            // events = tdsTest;
         } catch (Exception e) {
             System.out.println("getBuffImageFromTdsEvent: " + e);
         }
-
+        System.out.println(events);
         for (TdsEvent temp : events) {
             Calendar tmpDate = Calendar.getInstance();
             tmpDate.setTimeInMillis(temp.getTimestamp());
-            if (tmpDate.getTimeInMillis() > date.getTimeInMillis()) {
-                img = ImageIO.read(new File(temp.getFilename()));
+            // System.out.println(tmpDate.getTimeInMillis() + "     " + date.getTimeInMillis());
+            if (tmpDate.getTimeInMillis() == date.getTimeInMillis()) {
+                try {
+                    System.out.println(temp.getFilename());
+                    img = ImageIO.read(new File(temp.getFilename()));
+                } catch (IOException e) {
+                    System.out.println("getBuffImageFromTdsEvent: " + e);
+                }
             }
         }
         return img;
@@ -142,12 +152,20 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(startDate);
 
-        List<TdsEvent> events = null;
+        List<TdsEvent> events = new ArrayList<TdsEvent>();
         try {
             events = persistenceService.getTdsEventsFromDB();
         } catch (Exception e) {
             System.out.println("getEventsFromMongoDB: " + e);
         }
+        // TestData
+// TdsEvent t1 = new TdsEvent(4, System.currentTimeMillis() - 20000, "", "C:\\Desert.jpg");
+// TdsEvent t2 = new TdsEvent(2, System.currentTimeMillis() - 40000, "", "C:\\Jellyfish.jpg");
+// TdsEvent t3 = new TdsEvent(1, System.currentTimeMillis() - 5000, "", "C:\\Lighthouse.jpg");
+// events.add(t1);
+// events.add(t2);
+// events.add(t3);
+// tdsTest = events;
         // System.out.println(persistenceService.getTdsEventsFromDB());
         ArrayList<TdsEvent> neededEvents = new ArrayList<TdsEvent>();
         // loop through all events, to get events in time range
@@ -163,9 +181,10 @@ public class WebService extends HttpServlet implements IWebService, ServiceTrack
         Collections.sort(neededEvents, new Comparator<TdsEvent>() {
             @Override
             public int compare(TdsEvent event1, TdsEvent event2) {
-                return Long.valueOf(event1.getTimestamp()).compareTo(Long.valueOf(event2.getTimestamp()));
+                return Long.valueOf(event2.getTimestamp()).compareTo(Long.valueOf(event1.getTimestamp()));
             }
         });
+        // System.out.println(neededEvents);
         return neededEvents;
     }
 
