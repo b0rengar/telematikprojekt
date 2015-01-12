@@ -19,6 +19,7 @@
 			<zipgroupfileset dir="libs" includes="**/*.jar" />
 			<fileset dir="native" includes="**/*.so" />
 			<fileset dir="native" includes="**/*.dll" />
+			<fileset dir="haarcascade" includes="**/*.xml" />
 		</jar>
 	</target>
 

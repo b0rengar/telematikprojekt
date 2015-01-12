@@ -7,6 +7,7 @@ Bundle-Activator: com.tds.obupersistenceImpl.Activator
 Bundle-Vendor: TM13
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.tds.gps,
+ com.tds.inertial,
  com.tds.obd,
  com.tds.obupersistence,
  org.osgi.framework;version="1.3.0",

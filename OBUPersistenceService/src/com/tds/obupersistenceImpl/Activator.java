@@ -6,8 +6,6 @@ import java.util.Hashtable;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
-import org.osgi.framework.Filter;
-import org.osgi.util.tracker.ServiceTracker;
 
 import com.tds.obupersistence.IOBUPersistenceService;
 
@@ -25,7 +23,9 @@ public class Activator implements BundleActivator {
 
     private static BundleContext context;
     private OBUPersistenceService service;
-    private ServiceTracker<Object, Object> serviceTracker;
+
+// private OBUPersistenceService service;
+// private ServiceTracker<Object, Object> serviceTracker;
 
     static BundleContext getContext() {
         return context;
@@ -48,10 +48,10 @@ public class Activator implements BundleActivator {
         params.put(Constants.SERVICE_DESCRIPTION, "Provides access to the persistence layer of the application on the OBU.");
         context.registerService(IOBUPersistenceService.class.getName(), service, params);
 
-        Filter filter = context.createFilter("(" + Constants.OBJECTCLASS + "=com.tds*)");
-        serviceTracker = new ServiceTracker<>(context, filter, service);
+// Filter filter = context.createFilter("(" + Constants.OBJECTCLASS + "=com.tds*)");
+// serviceTracker = new ServiceTracker<>(context, filter, service);
 // serviceTracker = new ServiceTracker<Object, Object>(context, Object.class.getName(), service);
-        serviceTracker.open();
+// serviceTracker.open();
     }
 
     /*
@@ -62,8 +62,6 @@ public class Activator implements BundleActivator {
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
         Activator.context = null;
-        serviceTracker.close();
-        serviceTracker = null;
     }
 
 }

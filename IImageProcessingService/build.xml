@@ -2,7 +2,10 @@
 
 	<path id="classpath">
 		<fileset dir="."/>
+		<fileset dir="../Server/felix/bundle" />
 		<fileset file="../Server/felix/bin/felix.jar" />
+	 	<fileset dir="../IImageProcessingService/target" includes="**/*.jar"/>
+		<fileset dir="../ICameraService/target" includes="**/*.jar"/>
 	</path>
 	
 	<target name="build" depends="clean">

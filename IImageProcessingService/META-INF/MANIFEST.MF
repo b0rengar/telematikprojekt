@@ -8,3 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  opencv-2.4.9.jar
 Export-Package: com.tds.imgproc
+Import-Package: com.tds.imgproc,
+ org.osgi.service.event
+Require-Bundle: ICameraService
