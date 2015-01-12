@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -50,11 +51,16 @@ public class UnitsDialog extends JDialog {
 
         JRadioButton rdbtnKmh = new JRadioButton(VelocityUnit.KMH.toString());
         rdbtnKmh.setBounds(22, 38, 127, 25);
+        rdbtnKmh.setSelected(true);
         contentPanel.add(rdbtnKmh);
 
         JRadioButton rdbtnMph = new JRadioButton(VelocityUnit.MPH.toString());
         rdbtnMph.setBounds(153, 38, 127, 25);
         contentPanel.add(rdbtnMph);
+
+        ButtonGroup bgSpeed = new ButtonGroup();
+        bgSpeed.add(rdbtnKmh);
+        bgSpeed.add(rdbtnMph);
 
         JLabel lblTemperatur = new JLabel("Temperatur:");
         lblTemperatur.setBounds(12, 72, 140, 16);
@@ -62,6 +68,7 @@ public class UnitsDialog extends JDialog {
 
         JRadioButton rdbtnC = new JRadioButton(TemperatureUnit.CELSIUS.toString());
         rdbtnC.setBounds(22, 97, 127, 25);
+        rdbtnC.setSelected(true);
         contentPanel.add(rdbtnC);
 
         JRadioButton rdbtnf = new JRadioButton(TemperatureUnit.FAHRENHEIT.toString());
@@ -72,17 +79,28 @@ public class UnitsDialog extends JDialog {
         rdbtnk.setBounds(284, 97, 127, 25);
         contentPanel.add(rdbtnk);
 
+        ButtonGroup bgTemps = new ButtonGroup();
+        bgTemps.add(rdbtnC);
+        bgTemps.add(rdbtnf);
+        bgTemps.add(rdbtnk);
+
         JLabel lblDruck = new JLabel("Druck:");
         lblDruck.setBounds(12, 131, 140, 16);
         contentPanel.add(lblDruck);
 
         JRadioButton rdbtnPa = new JRadioButton("Pa");
         rdbtnPa.setBounds(22, 156, 127, 25);
+        rdbtnPa.setSelected(true);
         contentPanel.add(rdbtnPa);
 
         JRadioButton rdbtnLb = new JRadioButton("lb");
         rdbtnLb.setBounds(153, 156, 127, 25);
         contentPanel.add(rdbtnLb);
+
+        ButtonGroup bgPressure = new ButtonGroup();
+        bgPressure.add(rdbtnPa);
+        bgPressure.add(rdbtnLb);
+
         {
             JPanel buttonPane = new JPanel();
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
