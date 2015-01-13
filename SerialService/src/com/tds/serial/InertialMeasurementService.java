@@ -23,12 +23,12 @@ import com.tds.serial.network.SerialInputStream;
  * com.tds.inertial <br />
  * InertialMeasurementService <br />
  * </b>
- * 
+ *
  * Description.
- * 
+ *
  * @author Phillip Kopprasch<phillip.kopprasch@gmail.com>
  * @created 12.11.2014 21:20:57
- * 
+ *
  */
 public class InertialMeasurementService implements IInertialMeasurementService, Runnable {
     private static EventAdmin eventAdmin;
@@ -116,7 +116,7 @@ public class InertialMeasurementService implements IInertialMeasurementService, 
                     Event osgiEvent = new Event(EVENT_ACC_TOPIC, eventProps);
                     // "sendEvent()" synchron "postEvent()" asynchron:
                     eventAdmin.sendEvent(osgiEvent);
-                    System.out.println("new acc event");
+// System.out.println("new acc event");
                     counter = 0;
                 }
 

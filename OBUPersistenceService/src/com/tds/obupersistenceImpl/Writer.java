@@ -49,14 +49,16 @@ public class Writer implements EventHandler, IOBUPersistenceService {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void handleEvent(Event event) {
-        System.out.println("OBUOersistense: " + event.getTopic());
+// System.out.println("OBUOersistense: " + event.getTopic());
         if (event.getTopic() == IGPSService.EVENT_GPS_TOPIC) {
             Object lat = event.getProperty(IGPSService.EVENT_GPS_DATA_LAT);
             Object lng = event.getProperty(IGPSService.EVENT_GPS_DATA_LONG);
             Object ts = event.getProperty(IGPSService.EVENT_GPS_DATA_TIMESTAMP);
-
             StringBuilder gps_string = new StringBuilder(ts.toString());
             gps_string.append(";");
             gps_string.append(lat.toString());
@@ -83,8 +85,6 @@ public class Writer implements EventHandler, IOBUPersistenceService {
         }
         if (event.getTopic() == IOBDService.EVENT_OBD_TOPIC) {
             try {
-
-                // TODO timestamp
                 Object ts = event.getProperty(IOBDService.EVENT_OBD_DATA_TIMESTAMP);
                 String speed = (String) event.getProperty(IOBDService.EVENT_OBD_DATA_SPEED);
                 String rpm = (String) event.getProperty(IOBDService.EVENT_OBD_DATA_RPM);
@@ -93,7 +93,6 @@ public class Writer implements EventHandler, IOBUPersistenceService {
                 String throttle_position = (String) event.getProperty(IOBDService.EVENT_OBD_DATA_THROTTLE_POSITION);
                 String engine_load = (String) event.getProperty(IOBDService.EVENT_OBD_DATA_ENGINE_LOAD);
 
-                // TODO timestamp
                 StringBuilder data_string = new StringBuilder(ts.toString());
                 data_string.append(";");
                 data_string.append(speed);
@@ -126,7 +125,9 @@ public class Writer implements EventHandler, IOBUPersistenceService {
     private void write(FileWriter writer, File file, String data) {
         try {
             if (file.exists()) {
+                System.out.println("write: " + data);
                 writer.append(data);
+                writer.flush();
             } else {
                 writer.write(data);
             }
