@@ -253,11 +253,8 @@ public class ImageProcessingService implements IImageProcessingService {
                 Core.rectangle(mRgba, new Point(dik.x, dik.y), new Point(dik.x + dik.width, dik.y + dik.height), new Scalar(255, 0, 255));
             }
             human = true;
-
-            // TODO EVENT
-            createEvent(p, TYPE.HUMAN);
-            String filename = "HumanDetected.jpg";
-            Highgui.imwrite(filename, mRgba);
+// String filename = "HumanDetected.jpg";
+// Highgui.imwrite(filename, mRgba);
         } else {
             human = false;
         }
@@ -278,6 +275,10 @@ public class ImageProcessingService implements IImageProcessingService {
         ImageProcessingService.eventAdmin = null;
     }
 
+    /**
+     * Thread to detect Sleep without interrupt other processes or services
+     * 
+     */
     public class FaceThread extends Thread {
         boolean run = true;
 
@@ -301,6 +302,12 @@ public class ImageProcessingService implements IImageProcessingService {
         }
     }
 
+    /**
+     * Thread to detect humans without interrupt other processes or services
+     * 
+     * creates
+     */
+
     public class HumanThread extends Thread {
         boolean run = true;
 
@@ -314,7 +321,9 @@ public class ImageProcessingService implements IImageProcessingService {
                     IPicture p = camService.getRemoteCamImage(1);
 // System.out.println("try to detect human");
 
-                    detectHuman(p);
+                    if (detectHuman(p)) {
+
+                    }
                 } catch (Exception e) {
                     System.err.println("failed to get image for humanDetect");
                     // TODO: handle exception
