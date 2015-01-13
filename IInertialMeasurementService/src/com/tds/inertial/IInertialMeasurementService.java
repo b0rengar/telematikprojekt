@@ -24,8 +24,16 @@ public interface IInertialMeasurementService {
     public static String EVENT_ACC_DATA_Z = "ACC/Data/z";
     public static String EVENT_ACC_TOPIC = "ims/ACC";
 
+    /**
+     * bind OSGi EventAdmin
+     *
+     * @param eventAdmin
+     */
     void bindEventAdmin(EventAdmin eventAdmin);
 
+    /**
+     * delete OSGi EventAdmin
+     */
     void unbindEventAdmin();
 
     void openSP();
